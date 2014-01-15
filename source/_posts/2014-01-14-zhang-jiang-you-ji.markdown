@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "张江游记"
+title: "一个神奇的LinkedHashMap"
 date: 2014-01-14 23:05:25 +0800
 comments: true
 categories: 
