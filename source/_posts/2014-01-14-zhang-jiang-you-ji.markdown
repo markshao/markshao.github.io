@@ -3,7 +3,7 @@ layout: post
 title: "一个神奇的LinkedHashMap"
 date: 2014-01-14 23:05:25 +0800
 comments: true
-categories: 
+categories: java
 ---
 
 今天和James在一个关于<big>LinkedHashMap</big>的问题上产生了一些分歧，我查了一下JDK1.7的文档，首先这个LinkedHashMap肯定是存在的，不过我当时的理解也有一些偏差。所以在这里自己再次梳理一下。
