@@ -25,6 +25,6 @@ Pagrant想法的出现源于那次参加了Pivotal团队的分享。在听完了
 * 使用Python开源测试框架[Nose](https://nose.readthedocs.org/en/latest/)作为引擎，支持Nose 所有特性
 * 原生支持Linux Container，让测试虚拟化变得更加轻量化
 
-目前Pagrant的最新版本已经可以基本支持以上的一些特性了，但是我正在完善vmprovider的第三方插件体系的支持。如果您有兴趣我的项目，也非常欢迎来我们的[项目页面](https://github.com/markshao/pagrant)提交您的一些建议和代码.
+目前Pagrant的最新版本已经可以基本支持以上的一些特性了，在这里要特别感谢晓波的大力支持。我们正在完善vmprovider的第三方插件体系的支持。如果您有兴趣我们的项目，也非常欢迎来我们的[项目页面](https://github.com/markshao/pagrant)提交您的一些建议和代码.
 
 广告贴一枚
