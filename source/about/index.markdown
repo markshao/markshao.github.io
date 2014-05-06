@@ -40,3 +40,10 @@ previous_employer.put("department","infrastructure team");
 previous_employer.put("period","2009/09 - 2011/09");
 
 ```
+
+``` xml
+
+<contact_information>
+	<email>37647536@qq.com</email>
+</contact_information>
+```
