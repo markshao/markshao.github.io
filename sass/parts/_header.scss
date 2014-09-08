@@ -3,50 +3,32 @@ $header-height: 30px;
 #header{
 	height: $header-height;
 	padding: 30px 0;
-	margin-bottom: 100px;
-	
+	border-bottom: 1px solid $color-gray04;
 	line-height: $header-height;
 	@media screen and (max-width: 1040px){
-		margin-bottom: 50px;
 		height: auto;
 		position: relative;
 		padding-bottom: 10px;
-	}
-	@media screen and (max-width: 600px){
-	margin-bottom:40px;
 	}
 	a{
 		color: $color-gray01;
 		@include transition(color 0.3s);
 		&:hover{
 			color: $color-main;
-			border-bottom:none;
 		}
 	}
 	h1{
-		margin-top:15px;
-		text-align:center;
-		font-weight: bold;
-		font-size: 48px;
-		@media screen and (max-width: 1040px){
-			float: none;
-		}
-		}
-	h4{
-		margin-top:10px;
-		text-align:center;
-		font-weight: 100;
-		font-size: 32px;
+		float: left;
+		font-weight: 300;
+		font-size: 30px;
 		@media screen and (max-width: 1040px){
 			float: none;
 		}
 	}
 }
 #main-nav{
-	margin-bottom: 0px;
-	float: center;
-	text-align:center;
-	margin-top: 15px;
+	float: left;
+	margin-left: 30px;
 	@media screen and (max-width: 1040px){
 		float: none;
 		margin-left: 0;
@@ -69,7 +51,6 @@ $header-height: 30px;
 			&:hover{
 				>a{
 					color: $color-main;
-					border-bottom:none;
 				}
 			}
 			>a{
@@ -394,7 +375,7 @@ $header-height: 30px;
 				&:hover{
 					border: 1px solid darken(rgb(190,64,55), 10%);
 				}
-			}
+      }
 			&.delicious{
 				background: image-url('social/delicious.png') center no-repeat rgb(50,113,203);
 				border: 1px solid rgb(50,113,203);
@@ -403,10 +384,17 @@ $header-height: 30px;
 				}
 			}
 			&.rss{
-				background: image-url('social/rss.png') center no-repeat #EF7522;
-				border: 1px solid #EF7522;
+				background: image-url('social/rss.png') center no-repeat #ef7522;
+				border: 1px solid #ef7522;
 				&:hover{
-					border: 1px solid darken(#EF7522, 10%);
+					border: 1px solid darken(#ef7522, 10%);
+				}
+			}
+      &.instagram{
+				background: image-url('social/instagram.png') center no-repeat rgb(64,110,149);
+				border: 1px solid rgb(64,110,149);
+				&:hover{
+					border: 1px solid darken(rgb(64,110,149), 10%);
 				}
 			}
 		}
