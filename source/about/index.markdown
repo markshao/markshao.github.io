@@ -28,10 +28,16 @@ me = {
  */
 
 HashMap current_employer = new HashMap();
+current_employer.put("company","Splunk");
+current_employer.put("job title","Software Engineer");
+current_employer.put("department","Core");
+current_employer.put("period","2014/5/26 - now");
+
+HashMap current_employer = new HashMap();
 current_employer.put("company","EMC");
 current_employer.put("job title","Senior Software Engineer");
 current_employer.put("department","IIG");
-current_employer.put("period","2011/09 - now");
+current_employer.put("period","2011/09 - 2014/5.25");
 
 HashMap previous_employer = new HashMap();
 previous_employer.put("company","tudou");
