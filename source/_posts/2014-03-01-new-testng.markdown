@@ -9,7 +9,7 @@ categories:
 ### 现状分析
 
 [TestNG](http://testng.org)是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍如何使用TestNG的分布式了，详情请见[TestNG Distribute](http://beust.com/weblog2/archives/000362.html)。但是如果你拿最新的Testng6.8.7的版本来配置分布式的实现，肯定会遇到一堆的问题，所以结论就是目前的分布式是有Bug存在的。
-
+<!-- more -->
 ### 问题在哪里
 
 既然有问题，我们就开始尝试从源码的角度来查找问题了。TestNG的源码目前托管在[GitHub](https://github.com/cbeust/testng)上,下载下来以后，只要把其中的ivy.jar复制到ant的lib目录下，然后修改一下build.properties的"yaml.jar=snakeyaml-1.6.jar"到"yaml.jar=snakeyaml-1.12.jar"，然后直接ant build就可以编译一个定制化的TestNG了。TestNG和分布式相关的一系列相关code在remote的包里面。经过阅读，我们发现了一些问题。

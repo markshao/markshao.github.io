@@ -12,6 +12,7 @@ categories: python
 
 在setup.py的文件中，有一个关键字叫`entry_point`,这个就是我们用来实现插件的关键,这里放一个LabManager插件的setup.py的内容来看一下如何来实现一个插件的描述
 
+<!-- more -->
 
 ``` python
 

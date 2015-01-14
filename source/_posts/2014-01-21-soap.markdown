@@ -13,7 +13,7 @@ categories: virtualization
 SOAP是不局限于HTTP协议的，我们可以用任何被Internet所接纳的方式来作为其传输协议。只是由于我们HTTP用的实在是太多了，所以让我们以为SOAP只是在HTTP上的一层封装而已。
 
 SOAP的请求规范如下
-
+<!-- more -->
 ``` xml
 <soapenv:Envelope
     xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"

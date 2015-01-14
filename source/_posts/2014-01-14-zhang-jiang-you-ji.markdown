@@ -11,7 +11,7 @@ categories: java
 LinkedHashMap是一个HashMap实现的加强版本，用来维持插入的key的顺序。先来看看LinkedHashMap是如何来保证插入顺序的。
 
 LinkedHashMap中使用的是双端链表来实现顺序，LinkedHashMap的Entry是它改写了HashMap的Entry的实现，增加了Header,Footer用来指向头和尾
-
+<!-- more -->
 ``` java
  private static class Entry<K,V> extends HashMap.Entry<K,V> {
         // These fields comprise the doubly linked list used for iteration.
