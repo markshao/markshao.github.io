@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "about me" 
+title: "关于本人" 
 date: 2014-01-14 00:25
 comments: true
 sharing: true
@@ -14,7 +14,7 @@ footer: true
 # last updated: all the time
 
 me = {
-    "name" : "邵育亮",
+    "name" : "Mark Shao",
     "gender": "male",
     "address": "Shanghai, China",
     "interests" : ["basketball","football","pingpong","snooker"]
@@ -22,34 +22,21 @@ me = {
 
 ```
 
-``` java
+``` python
 /**
  * Work Experience
  */
 
-HashMap current_employer = new HashMap();
-current_employer.put("company","Splunk");
-current_employer.put("job title","Software Engineer");
-current_employer.put("department","Core");
-current_employer.put("period","2014/5/26 - now");
-
-HashMap current_employer = new HashMap();
-current_employer.put("company","EMC");
-current_employer.put("job title","Senior Software Engineer");
-current_employer.put("department","IIG");
-current_employer.put("period","2011/09 - 2014/5.25");
-
-HashMap previous_employer = new HashMap();
-previous_employer.put("company","tudou");
-previous_employer.put("job title","SDET");
-previous_employer.put("department","infrastructure team");
-previous_employer.put("period","2009/09 - 2011/09");
-
+work_experience = {
+    "Now" : {
+        "Compandy": "小红书",
+        "Title": "Manager of Quality Engineering"
+    }
+}
 ```
 
 ``` xml
-
 <contact_information>
-	<email>37647536@qq.com</email>
+	<wechat>37647536</wechat>
 </contact_information>
 ```

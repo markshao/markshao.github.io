@@ -1,0 +1,3 @@
+[submodule ".themes/whitelake"]
+	path = .themes/whitelake
+	url = https://github.com/gehaxelt/CSS-WhiteLake.git
