@@ -92,5 +92,5 @@ google_analytics_tracking_id: UA-20132666-1
 facebook_like: false
 
 # duoshuo comments
-duoshuo_comments: false
+duoshuo_comments: true
 duoshuo_short_name: markshao
