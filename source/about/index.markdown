@@ -29,7 +29,7 @@ me = {
 
 work_experience = {
     "Now" : {
-        "Compandy": "小红书",
+        "Compandy": "依图科技",
         "Title": "Manager of Quality Engineering"
     }
 }
