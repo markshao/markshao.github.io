@@ -1,5 +1,5 @@
 GEM
-  remote: https://ruby.taobao.org/
+  remote: https://gems.ruby-china.com/
   specs:
     RedCloth (4.2.9)
     chunky_png (1.2.5)
@@ -68,4 +68,4 @@ DEPENDENCIES
   stringex (~> 1.4.0)
 
 BUNDLED WITH
-   1.12.5
+   1.16.6
