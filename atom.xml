@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>小法@兵工厂</title>
+  
+  <subtitle>记录工作生活中的点滴思考</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://markshao.github.io/"/>
+  <updated>2019-02-28T15:42:07.008Z</updated>
+  <id>http://markshao.github.io/</id>
+  
+  <author>
+    <name>书记</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>浅谈Testng测试框架的分布式实现</title>
+    <link href="http://markshao.github.io/2014/03/01/new-testng/"/>
+    <id>http://markshao.github.io/2014/03/01/new-testng/</id>
+    <published>2014-03-01T14:23:57.000Z</published>
+    <updated>2019-02-28T15:42:07.008Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;现状分析&quot;&gt;&lt;a href=&quot;#现状分析&quot; class=&quot;headerlink&quot; title=&quot;现状分析&quot;&gt;&lt;/a&gt;现状分析&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;http://testng.org&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG&lt;/a&gt;是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍如何使用TestNG的分布式了，详情请见&lt;a href=&quot;http://beust.com/weblog2/archives/000362.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG Distribute&lt;/a&gt;。但是如果你拿最新的Testng6.8.7的版本来配置分布式的实现，肯定会遇到一堆的问题，所以结论就是目前的分布式是有Bug存在的。&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2013年终小结</title>
+    <link href="http://markshao.github.io/2014/01/27/2013-conlusion/"/>
+    <id>http://markshao.github.io/2014/01/27/2013-conlusion/</id>
+    <published>2014-01-27T07:54:15.000Z</published>
+    <updated>2019-02-28T15:58:46.827Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;再过几天就要过春节了，办公室也已经没什么人了，显得有点冷冷清清的。闲着也没什么事情干，就写一下过去一年的小结吧，只是一个简单的流水帐，好歹以后老了可以回顾回顾，否则很多东西都不记得了以后，哈哈.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="others" scheme="http://markshao.github.io/categories/others/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>第一篇POST纪念</title>
+    <link href="http://markshao.github.io/2014/01/13/first-post/"/>
+    <id>http://markshao.github.io/2014/01/13/first-post/</id>
+    <published>2014-01-13T14:15:00.000Z</published>
+    <updated>2019-02-28T16:00:46.253Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;今天是2014/1/13日，正式在GITHUB上托管我的Blog，从此记录下我生活工作的点点滴滴。&lt;/p&gt;
+
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
