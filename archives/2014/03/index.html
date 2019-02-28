@@ -2009,7 +2009,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #0ad447;
+  background: #47d4ff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2378,14 +2378,6 @@ pre .javascript .function {
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   color: #ccc;
-}
-.gt-header a,
-.gt-comments a,
-.gt-popup a {
-  border-bottom: none;
-}
-.gt-container .gt-popup .gt-action.is--active:before {
-  top: 0.7em;
 }
 .page-archive .archive-page-counter {
   position: relative;
@@ -3573,6 +3565,17 @@ hr {
 
   
   
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+
 
 
 
@@ -3612,6 +3615,25 @@ hr {
 
 
 <script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'w0t9aXGQs14nHgvoj3BsuKaw-gzGzoHsz',
+    appKey: 'KPQqimAyUYPM0wSBJySvAW7F',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+;
+
     // Popup Window;
     var isfetched = false;
     var isXml = true;
