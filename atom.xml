@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-02-28T15:42:07.008Z</updated>
+  <updated>2019-02-28T16:56:41.768Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -21,13 +21,15 @@
     <link href="http://markshao.github.io/2014/03/01/new-testng/"/>
     <id>http://markshao.github.io/2014/03/01/new-testng/</id>
     <published>2014-03-01T14:23:57.000Z</published>
-    <updated>2019-02-28T15:42:07.008Z</updated>
+    <updated>2019-02-28T16:56:41.768Z</updated>
     
     <summary type="html">
     
       &lt;h3 id=&quot;现状分析&quot;&gt;&lt;a href=&quot;#现状分析&quot; class=&quot;headerlink&quot; title=&quot;现状分析&quot;&gt;&lt;/a&gt;现状分析&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;http://testng.org&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG&lt;/a&gt;是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍如何使用TestNG的分布式了，详情请见&lt;a href=&quot;http://beust.com/weblog2/archives/000362.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG Distribute&lt;/a&gt;。但是如果你拿最新的Testng6.8.7的版本来配置分布式的实现，肯定会遇到一堆的问题，所以结论就是目前的分布式是有Bug存在的。&lt;br&gt;
     
     </summary>
+    
+      <category term="test framework" scheme="http://markshao.github.io/categories/test-framework/"/>
     
     
   </entry>
@@ -37,7 +39,7 @@
     <link href="http://markshao.github.io/2014/01/27/2013-conlusion/"/>
     <id>http://markshao.github.io/2014/01/27/2013-conlusion/</id>
     <published>2014-01-27T07:54:15.000Z</published>
-    <updated>2019-02-28T15:58:46.827Z</updated>
+    <updated>2019-02-28T16:56:30.995Z</updated>
     
     <summary type="html">
     
@@ -45,7 +47,7 @@
     
     </summary>
     
-      <category term="others" scheme="http://markshao.github.io/categories/others/"/>
+      <category term="life" scheme="http://markshao.github.io/categories/life/"/>
     
     
   </entry>
@@ -55,7 +57,7 @@
     <link href="http://markshao.github.io/2014/01/13/first-post/"/>
     <id>http://markshao.github.io/2014/01/13/first-post/</id>
     <published>2014-01-13T14:15:00.000Z</published>
-    <updated>2019-02-28T16:00:46.253Z</updated>
+    <updated>2019-02-28T16:56:24.124Z</updated>
     
     <summary type="html">
     
@@ -69,6 +71,8 @@
       
     
     </summary>
+    
+      <category term="others" scheme="http://markshao.github.io/categories/others/"/>
     
     
   </entry>

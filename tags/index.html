@@ -73,17 +73,14 @@
 
 
 
-<meta name="description" content="现状分析TestNG是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍">
-<meta property="og:type" content="article">
-<meta property="og:title" content="浅谈Testng测试框架的分布式实现">
-<meta property="og:url" content="http://markshao.github.io/2014/03/01/new-testng/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="tags">
+<meta property="og:url" content="http://markshao.github.io/tags/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
-<meta property="og:description" content="现状分析TestNG是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-28T16:56:41.768Z">
+<meta property="og:updated_time" content="2019-02-28T16:58:54.774Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈Testng测试框架的分布式实现">
-<meta name="twitter:description" content="现状分析TestNG是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍">
+<meta name="twitter:title" content="tags">
 
 
 
@@ -113,13 +110,13 @@
 
 
 
-  <link rel="canonical" href="http://markshao.github.io/2014/03/01/new-testng/">
+  <link rel="canonical" href="http://markshao.github.io/tags/">
 
 
 
 
 
-  <title>浅谈Testng测试框架的分布式实现 | 小法@兵工厂</title>
+  <title>tags | 小法@兵工厂</title>
   
 
 
@@ -2919,194 +2916,40 @@ embed {
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2014/03/01/new-testng/">
-
-    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="书记">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小法@兵工厂">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">浅谈Testng测试框架的分布式实现</h1>
-        
+	<h1 class="post-title" itemprop="name headline">tags</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-03-01T22:23:57+08:00">
-                2014-03-01
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/test-framework/" itemprop="url" rel="index">
-                    <span itemprop="name">test framework</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2014/03/01/new-testng/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2014/03/01/new-testng/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <h3 id="现状分析"><a href="#现状分析" class="headerlink" title="现状分析"></a>现状分析</h3><p><a href="http://testng.org" target="_blank" rel="noopener">TestNG</a>是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍如何使用TestNG的分布式了，详情请见<a href="http://beust.com/weblog2/archives/000362.html" target="_blank" rel="noopener">TestNG Distribute</a>。但是如果你拿最新的Testng6.8.7的版本来配置分布式的实现，肯定会遇到一堆的问题，所以结论就是目前的分布式是有Bug存在的。<br><a id="more"></a></p>
-<h3 id="问题在哪里"><a href="#问题在哪里" class="headerlink" title="问题在哪里"></a>问题在哪里</h3><p>既然有问题，我们就开始尝试从源码的角度来查找问题了。TestNG的源码目前托管在<a href="https://github.com/cbeust/testng" target="_blank" rel="noopener">GitHub</a>上,下载下来以后，只要把其中的ivy.jar复制到ant的lib目录下，然后修改一下build.properties的”yaml.jar=snakeyaml-1.6.jar”到”yaml.jar=snakeyaml-1.12.jar”，然后直接ant build就可以编译一个定制化的TestNG了。TestNG和分布式相关的一系列相关code在remote的包里面。经过阅读，我们发现了一些问题。</p>
-<ol>
-<li>org.testng.remote.RemoteSuiteWorker</li>
-</ol>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RemoteSuiteWorker</span> <span class="keyword">extends</span> <span class="title">RemoteWorker</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>{</span><br><span class="line">  <span class="keyword">private</span> XmlSuite m_suite;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">RemoteSuiteWorker</span><span class="params">(XmlSuite suite, SlavePool slavePool, RemoteResultListener listener)</span> </span>{</span><br><span class="line">    <span class="keyword">super</span>(listener, slavePool);</span><br><span class="line">    m_suite = suite;</span><br><span class="line">  }</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">try</span> {</span><br><span class="line">      SuiteRunner result = sendSuite(getSlavePool().getSlave(), m_suite);</span><br><span class="line">      m_listener.onResult(result);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">catch</span> (Exception e) {</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<p>每一个RemoteSuiteWorker是一个线程，每一个Thread对应一个Slave机器，然后通过Socket通信把一个Xmluite对象发送到Slave端进行执行。TestNG通过一个SlavePool来管理所有的链接，但是我们在这里就能看到一个问题，这个连接池的实现缺少了一个把Socket连接返回到SlavePool的操作，所以说一旦case执行的数量超过了Slave的机器的数量，那么后面一旦SlavePool枯竭了，那么整个分布式执行就会Block在了SlavePool这里了。对了，SlavePool是一个阻塞的双端队列的实现。</p>
-<ol start="2">
-<li>org.testng.remote.adapter.DefaultMasterAdapter</li>
-</ol>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">awaitTermination</span><span class="params">(<span class="keyword">long</span> timeout)</span> <span class="keyword">throws</span> InterruptedException</span></span><br><span class="line"><span class="function">	</span>{</span><br><span class="line">		ThreadUtil.execute(m_workers, <span class="number">1</span>, <span class="number">10</span> * <span class="number">1000L</span>, <span class="keyword">false</span>);</span><br><span class="line">	}</span><br></pre></td></tr></tbody></table></figure>
-<p>当Master进程把所有的测试用例分发到一个队列以后，就需要把这个队列放到一个多线程里面去执行，上面这个方法就是需要去执行所有线程的入口，我们来看一下ThreadUtil.execute的具体实现</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Parallel execution of the &lt;code&gt;tasks&lt;/code&gt;. The startup is synchronized so this method</span></span><br><span class="line"><span class="comment"> * emulates a load test.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> tasks the list of tasks to be run</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> threadPoolSize the size of the parallel threads to be used to execute the tasks</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> timeout a maximum timeout to wait for tasks finalization</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> triggerAtOnce &lt;tt&gt;true&lt;/tt&gt; if the parallel execution of tasks should be trigger at once</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(List&lt;? extends Runnable&gt; tasks, <span class="keyword">int</span> threadPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">long</span> timeout, <span class="keyword">boolean</span> triggerAtOnce)</span> </span>{</span><br><span class="line">  <span class="keyword">final</span> CountDownLatch startGate= <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">final</span> CountDownLatch endGate= <span class="keyword">new</span> CountDownLatch(tasks.size());</span><br><span class="line"></span><br><span class="line">  Utils.log(<span class="string">"ThreadUtil"</span>, <span class="number">2</span>, <span class="string">"Starting executor timeOut:"</span> + timeout + <span class="string">"ms"</span></span><br><span class="line">      + <span class="string">" workers:"</span> + tasks.size() + <span class="string">" threadPoolSize:"</span> + threadPoolSize);</span><br><span class="line">  ExecutorService pooledExecutor = <span class="comment">// Executors.newFixedThreadPool(threadPoolSize);</span></span><br><span class="line">      <span class="keyword">new</span> ThreadPoolExecutor(threadPoolSize, threadPoolSize,</span><br><span class="line">      timeout, TimeUnit.MILLISECONDS,</span><br><span class="line">      <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(),</span><br><span class="line">      <span class="keyword">new</span> ThreadFactory() {</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>{</span><br><span class="line">          Thread result = <span class="keyword">new</span> Thread(r);</span><br><span class="line">          result.setName(THREAD_NAME);</span><br><span class="line">          <span class="keyword">return</span> result;</span><br><span class="line">        }</span><br><span class="line">      });</span><br><span class="line"></span><br><span class="line">  List&lt;Callable&lt;Object&gt;&gt; callables = Lists.newArrayList();</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">final</span> Runnable task : tasks) {</span><br><span class="line">    callables.add(<span class="keyword">new</span> Callable&lt;Object&gt;() {</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>{</span><br><span class="line">        task.run();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">      }</span><br><span class="line"></span><br><span class="line">    });</span><br><span class="line">  }</span><br><span class="line">  <span class="keyword">try</span> {</span><br><span class="line">    <span class="keyword">if</span> (timeout != <span class="number">0</span>) {</span><br><span class="line">      pooledExecutor.invokeAll(callables, timeout, TimeUnit.MILLISECONDS);</span><br><span class="line">    } <span class="keyword">else</span> {</span><br><span class="line">      pooledExecutor.invokeAll(callables);</span><br><span class="line">    }</span><br><span class="line">  } <span class="keyword">catch</span> (InterruptedException handled) {</span><br><span class="line">    handled.printStackTrace();</span><br><span class="line">    Thread.currentThread().interrupt();</span><br><span class="line">  } <span class="keyword">finally</span> {</span><br><span class="line">    pooledExecutor.shutdown();</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<p>问题就出现了，ThreadUtil.execute(m_workers, 1, 10 * 1000L, false);的调用中设定了线程池的大小为1，而且maxpoolsize = corepoolsize = 1 ,这个问题严重了，所谓的多线程其实是个单线程，这样永远只有一个机器可以执行任务。其实我们只要这样修改就好了</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">awaitTermination</span><span class="params">(<span class="keyword">long</span> timeout)</span> <span class="keyword">throws</span> InterruptedException</span></span><br><span class="line"><span class="function">	</span>{</span><br><span class="line">		ThreadUtil.execute(m_workers, m_hosts.length(), <span class="number">10</span> * <span class="number">1000L</span>, <span class="keyword">false</span>);</span><br><span class="line">	}</span><br></pre></td></tr></tbody></table></figure>
-<p>把线程池的大小修改成slave的机器的数量就，这样就解决了线程池的问题。其次，invokeAll这个方法是非阻塞的，这个会导致Master进程会退出，所以的子线程会被丢失，这样的结果一旦子线程完成当前任务，尝试再次连接我们的master服务就会发生问题，从而发生雪崩效应，导致整个分布式集群的crash，看一下下面的slave进程连接master的代码就知道了，这个是个死循环啊！！！<br></p><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">waitForSuites</span><span class="params">()</span> </span>{</span><br><span class="line">		<span class="keyword">try</span> {</span><br><span class="line">			<span class="keyword">while</span> (<span class="keyword">true</span>) {</span><br><span class="line">				<span class="comment">//TODO set timeout</span></span><br><span class="line">				XmlSuite s = m_slaveAdpter.getSuite(Long.MAX_VALUE);</span><br><span class="line">				<span class="keyword">if</span>( s== <span class="keyword">null</span>) {</span><br><span class="line">          <span class="keyword">continue</span>;</span><br><span class="line">        }</span><br><span class="line">				log(<span class="string">"Processing "</span> + s.getName());</span><br><span class="line">				List&lt;XmlSuite&gt; suites = Lists.newArrayList();</span><br><span class="line">				suites.add(s);</span><br><span class="line">				m_testng.setXmlSuites(suites);</span><br><span class="line">				List&lt;ISuite&gt; suiteRunners = m_testng.runSuitesLocally();</span><br><span class="line">				ISuite sr = suiteRunners.get(<span class="number">0</span>);</span><br><span class="line">				log(<span class="string">"Done processing "</span> + s.getName());</span><br><span class="line">				m_slaveAdpter.returnResult(sr);</span><br><span class="line">			}</span><br><span class="line">		}</span><br><span class="line">		<span class="keyword">catch</span>(Exception ex) {</span><br><span class="line">			ex.printStackTrace(System.out);</span><br><span class="line">		}</span><br><span class="line">	}</span><br></pre></td></tr></tbody></table></figure><p></p>
-<p>那么怎么办呢，我们知道master其实是把所有的runnable转换成了callable了，那么我们只要遍列所有的callable对象，尝试获取一下结果就好了，因为这里会block我们的master进程，知道最后的退出。</p>
-<ol start="3">
-<li>序列化问题(有待解决)</li>
-</ol>
-<p>sokcet通信里面一个问题是序列化，TestNG的序列化这块非常多的问题，所有的Slave在完成任务以后，会把一个SuiteRunner的对象返回回来，这个SuiteRunner对象可是非常的复杂，深度嵌套而且隐患无数，我们先来看一下下面的代码</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SuiteRunner</span> <span class="keyword">implements</span> <span class="title">ISuite</span>, <span class="title">Serializable</span>, <span class="title">IInvokedMethodListener</span> </span>{</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* generated */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">5284208932089503131L</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_OUTPUT_DIR = <span class="string">"test-output"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> Map&lt;String, ISuiteResult&gt; m_suiteResults = Collections.synchronizedMap(Maps.&lt;String, ISuiteResult&gt;newLinkedHashMap());</span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> List&lt;TestRunner&gt; m_testRunners = Lists.newArrayList();</span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> List&lt;ISuiteListener&gt; m_listeners = Lists.newArrayList();</span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> TestListenerAdapter m_textReporter = <span class="keyword">new</span> TestListenerAdapter();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> String m_outputDir; <span class="comment">// DEFAULT_OUTPUT_DIR;</span></span><br><span class="line">  <span class="keyword">private</span> XmlSuite m_suite;</span><br><span class="line">  <span class="keyword">private</span> Injector m_parentInjector;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> List&lt;ITestListener&gt; m_testListeners = Lists.newArrayList();</span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> ITestRunnerFactory m_tmpRunnerFactory;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> ITestRunnerFactory m_runnerFactory;</span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> <span class="keyword">boolean</span> m_useDefaultListeners = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// The remote host where this suite was run, or null if run locally</span></span><br><span class="line">  <span class="keyword">private</span> String m_host;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// The configuration</span></span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> IConfiguration m_configuration;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> ITestObjectFactory m_objectFactory;</span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> Boolean m_skipFailedInvocationCounts = Boolean.FALSE;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">transient</span> <span class="keyword">private</span> IMethodInterceptor m_methodInterceptor;</span><br><span class="line">  <span class="keyword">private</span> List&lt;IInvokedMethodListener&gt; m_invokedMethodListeners;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** The list of all the methods invoked during this run */</span></span><br><span class="line">  <span class="keyword">private</span> List&lt;IInvokedMethod&gt; m_invokedMethods =</span><br><span class="line">      Collections.synchronizedList(Lists.&lt;IInvokedMethod&gt;newArrayList());</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> List&lt;ITestNGMethod&gt; m_allTestMethods = Lists.newArrayList();</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<p>这个问题复杂了，我们要么重写整个返回结构，否则我们很可能由于使用的DataProvider的参数不能序列化而导致通信的失败。目前我们采用的方式是完全不返回SuiteRunner ，只是返回一个简单的枚举OK,FAIL,然后通过每个Slave把结果输出到一个共享目录，最终再整合。</p>
-<p>今天只是简单的把之前研究TestNG的结果分享在这里，如果你有兴趣觉得我写的东西对你有用，请和我一起祈祷上苍，保佑我奶奶身体健康，长命百岁！！！</p>
-<p>谢谢。</p>
-
+      <div class="post-body">
+        
+        
+          <div class="tag-cloud">
+            <div class="tag-cloud-title">
+                暂无标签
+            </div>
+            <div class="tag-cloud-tags">
+              
+            </div>
+          </div>
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2014/01/27/2013-conlusion/" rel="next" title="2013年终小结">
-                <i class="fa fa-chevron-left"></i> 2013年终小结
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -3146,17 +2989,8 @@ embed {
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -3214,22 +3048,6 @@ embed {
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#现状分析"><span class="nav-number">1.</span> <span class="nav-text">现状分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题在哪里"><span class="nav-number">2.</span> <span class="nav-text">问题在哪里</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
