@@ -1,7 +1,7 @@
 <!DOCTYPE html><html class="theme-next mist use-motion" lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -12,8 +12,7 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+
 
 
 
@@ -31,14 +30,6 @@
 
 
   
-  
-  
-
-
-
-
-
-
 
 
 
@@ -60,44 +51,20 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
 
 
-
-
-
-  <link rel="alternate" href="/atom.xml" title="小法@兵工厂" type="application/atom+xml">
-
-
-
-
-
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://markshao.github.io/tags/index.html">
-<meta property="og:site_name" content="小法@兵工厂">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-28T16:58:54.774Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    version: '5.1.4',
-    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
+    version: '7.0.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
     algolia: {
       applicationID: '',
       apiKey: '',
@@ -109,12 +76,36 @@
 </script>
 
 
+  
+
+
+
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="tags">
+<meta property="og:url" content="http://markshao.github.io/tags/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-28T16:58:54.774Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tags">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="小法@兵工厂" type="application/atom+xml">
+
+
+
 
   <link rel="canonical" href="http://markshao.github.io/tags/">
 
 
 
-
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
 
   <title>tags | 小法@兵工厂</title>
   
@@ -126,7 +117,11 @@
 
 
 
-<script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');loadCss('https://aimingoo.github.io/gitmint/style/default.css');</script><style>/* normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+
+
+
+  <style>/* normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif; /* 1 */
   -ms-text-size-adjust: 100%; /* 2 */
@@ -329,7 +324,7 @@ body {
     padding-right: 0 !important;
   }
 }
-@media (min-width: 1600px) {
+@media (min-width: 1200px) {
   body {
     font-size: 16px;
   }
@@ -346,6 +341,7 @@ h6 {
   line-height: 1.5;
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
+h1,
 h2,
 h3,
 h4,
@@ -356,62 +352,103 @@ h6 {
 h1 {
   font-size: 24px;
 }
+h1 code {
+  font-size: 24px;
+}
 @media (max-width: 767px) {
   h1 {
+    font-size: 20px;
+  }
+  h1 code {
     font-size: 20px;
   }
 }
 h2 {
   font-size: 22px;
 }
+h2 code {
+  font-size: 22px;
+}
 @media (max-width: 767px) {
   h2 {
+    font-size: 18px;
+  }
+  h2 code {
     font-size: 18px;
   }
 }
 h3 {
   font-size: 20px;
 }
+h3 code {
+  font-size: 20px;
+}
 @media (max-width: 767px) {
   h3 {
+    font-size: 16px;
+  }
+  h3 code {
     font-size: 16px;
   }
 }
 h4 {
   font-size: 18px;
 }
+h4 code {
+  font-size: 18px;
+}
 @media (max-width: 767px) {
   h4 {
+    font-size: 14px;
+  }
+  h4 code {
     font-size: 14px;
   }
 }
 h5 {
   font-size: 16px;
 }
+h5 code {
+  font-size: 16px;
+}
 @media (max-width: 767px) {
   h5 {
+    font-size: 12px;
+  }
+  h5 code {
     font-size: 12px;
   }
 }
 h6 {
   font-size: 14px;
 }
+h6 code {
+  font-size: 14px;
+}
 @media (max-width: 767px) {
   h6 {
+    font-size: 10px;
+  }
+  h6 code {
     font-size: 10px;
   }
 }
 p {
   margin: 0 0 20px 0;
 }
-a {
+a,
+span.exturl {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  background-color: transparent;
   color: #555;
   text-decoration: none;
   outline: none;
   border-bottom: 1px solid #999;
-  word-wrap: break-word;
+  cursor: pointer;
 }
-a:hover {
+a:hover,
+span.exturl:hover {
   color: #222;
   border-bottom-color: #222;
 }
@@ -526,15 +563,16 @@ kbd {
 .use-motion .motion-element {
   opacity: 0;
 }
-table {
+.table-container {
   margin: 20px 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid #ddd;
   font-size: 14px;
-  table-layout: fixed;
-  word-wrap: break-all;
 }
 table>tbody>tr:nth-of-type(odd) {
   background-color: #f9f9f9;
@@ -552,8 +590,8 @@ td {
 }
 th,
 td {
+  border: 1px solid #ddd;
   border-bottom: 3px solid #ddd;
-  border-right: 1px solid #eee;
 }
 th {
   padding-bottom: 10px;
@@ -568,24 +606,30 @@ body {
 }
 .container {
   position: relative;
-  min-height: 100%;
 }
 .header-inner {
   margin: 0 auto;
   padding: 100px 0 70px;
   width: 700px;
 }
+@media (min-width: 1200px) {
+  .container .header-inner {
+    width: 800px;
+  }
+}
 @media (min-width: 1600px) {
   .container .header-inner {
     width: 900px;
   }
 }
-.main {
-  padding-bottom: 150px;
-}
 .main-inner {
   margin: 0 auto;
   width: 700px;
+}
+@media (min-width: 1200px) {
+  .container .main-inner {
+    width: 800px;
+  }
 }
 @media (min-width: 1600px) {
   .container .main-inner {
@@ -593,16 +637,17 @@ body {
   }
 }
 .footer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  min-height: 50px;
+  padding: 20px 0;
 }
 .footer-inner {
   box-sizing: border-box;
-  margin: 20px auto;
+  margin: 0px auto;
   width: 700px;
+}
+@media (min-width: 1200px) {
+  .container .footer-inner {
+    width: 800px;
+  }
 }
 @media (min-width: 1600px) {
   .container .footer-inner {
@@ -614,9 +659,9 @@ pre,
   overflow: auto;
   margin: 20px 0;
   padding: 0;
-  font-size: 13px;
-  color: #c5c8c6;
-  background: #1d1f21;
+  font-size: 14px;
+  color: #4d4d4c;
+  background: #f7f7f7;
   line-height: 1.6;
 }
 pre,
@@ -624,19 +669,20 @@ code {
   font-family: consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace;
 }
 code {
-  padding: 2px 4px;
+  overflow-wrap: break-word;
   word-wrap: break-word;
+  padding: 2px 4px;
   color: #555;
   background: #eee;
   border-radius: 3px;
-  font-size: 13px;
+  font-size: 14px;
 }
 pre {
   padding: 10px;
 }
 pre code {
   padding: 0;
-  color: #c5c8c6;
+  color: #4d4d4c;
   background: none;
   text-shadow: none;
 }
@@ -659,9 +705,13 @@ pre code {
 }
 .highlight figcaption {
   font-size: 1em;
-  color: #c5c8c6;
+  color: #4d4d4c;
   line-height: 1em;
   margin-bottom: 1em;
+  margin: 0em;
+  padding: 0.5em;
+  background: #eee;
+  border-bottom: 1px solid #e9e9e9;
 }
 .highlight figcaption:before,
 .highlight figcaption:after {
@@ -673,23 +723,23 @@ pre code {
 }
 .highlight figcaption a {
   float: right;
-  color: #c5c8c6;
+  color: #4d4d4c;
 }
 .highlight figcaption a:hover {
-  border-bottom-color: #c5c8c6;
+  border-bottom-color: #4d4d4c;
 }
 .highlight .gutter pre {
   padding-left: 10px;
   padding-right: 10px;
-  color: #888f96;
+  color: #869194;
   text-align: right;
-  background-color: #000;
+  background-color: #eff2f3;
 }
 .highlight .code pre {
   width: 100%;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #1d1f21;
+  background-color: #f7f7f7;
 }
 .highlight .line {
   height: 20px;
@@ -707,20 +757,21 @@ pre code {
   border: none;
 }
 pre .deletion {
-  background: #008000;
+  background: #fdd;
 }
 pre .addition {
-  background: #800000;
+  background: #dfd;
 }
 pre .meta {
-  color: #b294bb;
+  color: #8959a8;
 }
 pre .comment {
-  color: #969896;
+  color: #8e908c;
 }
 pre .variable,
 pre .attribute,
 pre .tag,
+pre .name,
 pre .regexp,
 pre .ruby .constant,
 pre .xml .tag .title,
@@ -730,33 +781,34 @@ pre .html .doctype,
 pre .css .id,
 pre .css .class,
 pre .css .pseudo {
-  color: #c66;
+  color: #c82829;
 }
 pre .number,
 pre .preprocessor,
 pre .built_in,
+pre .builtin-name,
 pre .literal,
 pre .params,
 pre .constant,
 pre .command {
-  color: #de935f;
+  color: #f5871f;
 }
 pre .ruby .class .title,
 pre .css .rules .attribute,
 pre .string,
+pre .symbol,
 pre .value,
 pre .inheritance,
 pre .header,
 pre .ruby .symbol,
 pre .xml .cdata,
 pre .special,
-pre .number,
 pre .formula {
-  color: #b5bd68;
+  color: #718c00;
 }
 pre .title,
 pre .css .hexcolor {
-  color: #8abeb7;
+  color: #3e999f;
 }
 pre .function,
 pre .python .decorator,
@@ -766,24 +818,14 @@ pre .ruby .title .keyword,
 pre .perl .sub,
 pre .javascript .title,
 pre .coffeescript .title {
-  color: #81a2be;
+  color: #4271ae;
 }
 pre .keyword,
 pre .javascript .function {
-  color: #b294bb;
+  color: #8959a8;
 }
-.full-image.full-image.full-image.full-image {
+.posts-expand .post-body img.full-image {
   border: none;
-  max-width: 100%;
-  width: auto;
-  margin: 20px auto 25px;
-}
-@media (min-width: 992px) {
-  .full-image.full-image.full-image.full-image {
-    max-width: none;
-    width: 110%;
-    margin: 25px -5%;
-  }
 }
 .blockquote-center,
 .page-home .post-type-quote blockquote,
@@ -882,7 +924,7 @@ pre .javascript .function {
 .post-body .note h4,
 .post-body .note h5,
 .post-body .note h6 {
-  margin-top: 3px;
+  margin-top: 0;
   margin-bottom: 0;
   border-bottom: initial;
   padding-top: 0 !important;
@@ -903,16 +945,6 @@ pre .javascript .function {
 .post-body .note blockquote:last-child {
   margin-bottom: 0;
 }
-.post-body .note:not(.no-icon) {
-  padding-left: 45px;
-}
-.post-body .note:not(.no-icon):before {
-  position: absolute;
-  font-family: 'FontAwesome';
-  font-size: larger;
-  top: 13px;
-  left: 15px;
-}
 .post-body .note.default {
   border-left-color: #777;
 }
@@ -921,10 +953,6 @@ pre .javascript .function {
 .post-body .note.default h4,
 .post-body .note.default h5,
 .post-body .note.default h6 {
-  color: #777;
-}
-.post-body .note.default:not(.no-icon):before {
-  content: "\f0a9";
   color: #777;
 }
 .post-body .note.primary {
@@ -937,10 +965,6 @@ pre .javascript .function {
 .post-body .note.primary h6 {
   color: #6f42c1;
 }
-.post-body .note.primary:not(.no-icon):before {
-  content: "\f055";
-  color: #6f42c1;
-}
 .post-body .note.info {
   border-left-color: #428bca;
 }
@@ -949,10 +973,6 @@ pre .javascript .function {
 .post-body .note.info h4,
 .post-body .note.info h5,
 .post-body .note.info h6 {
-  color: #428bca;
-}
-.post-body .note.info:not(.no-icon):before {
-  content: "\f05a";
   color: #428bca;
 }
 .post-body .note.success {
@@ -965,10 +985,6 @@ pre .javascript .function {
 .post-body .note.success h6 {
   color: #5cb85c;
 }
-.post-body .note.success:not(.no-icon):before {
-  content: "\f058";
-  color: #5cb85c;
-}
 .post-body .note.warning {
   border-left-color: #f0ad4e;
 }
@@ -979,10 +995,6 @@ pre .javascript .function {
 .post-body .note.warning h6 {
   color: #f0ad4e;
 }
-.post-body .note.warning:not(.no-icon):before {
-  content: "\f06a";
-  color: #f0ad4e;
-}
 .post-body .note.danger {
   border-left-color: #d9534f;
 }
@@ -991,10 +1003,6 @@ pre .javascript .function {
 .post-body .note.danger h4,
 .post-body .note.danger h5,
 .post-body .note.danger h6 {
-  color: #d9534f;
-}
-.post-body .note.danger:not(.no-icon):before {
-  content: "\f056";
   color: #d9534f;
 }
 .post-body .label {
@@ -1218,6 +1226,9 @@ pre .javascript .function {
   display: inline-block;
   margin: 10px;
 }
+.tag-cloud a:hover {
+  color: #222 !important;
+}
 .back-to-top {
   box-sizing: border-box;
   position: fixed;
@@ -1305,7 +1316,8 @@ pre .javascript .function {
 }
 .use-motion .logo,
 .use-motion .site-title,
-.use-motion .site-subtitle {
+.use-motion .site-subtitle,
+.use-motion .custom-logo-image {
   opacity: 0;
   position: relative;
   top: -10px;
@@ -1361,7 +1373,8 @@ pre .javascript .function {
     margin-top: 10px;
   }
 }
-.menu .menu-item a {
+.menu .menu-item a,
+.menu .menu-item span.exturl {
   display: block;
   font-size: 13px;
   line-height: inherit;
@@ -1371,7 +1384,8 @@ pre .javascript .function {
   transition-timing-function: ease-in-out;
   transition-delay: 0s;
 }
-.menu .menu-item a:hover {
+.menu .menu-item a:hover,
+.menu .menu-item span.exturl:hover {
   border-bottom-color: #222;
 }
 .menu .menu-item .fa {
@@ -1381,12 +1395,13 @@ pre .javascript .function {
   opacity: 0;
 }
 .post-body {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
-@media (max-width: 767px) {
-  .post-body {
-    word-break: break-word;
-  }
+.post-body .exturl .fa {
+  font-size: 14px;
+  margin-left: 4px;
 }
 .post-body .fancybox img {
   display: block !important;
@@ -1484,17 +1499,14 @@ pre .javascript .function {
 .posts-expand .post-body h6:hover .header-anchor {
   visibility: visible;
 }
-.posts-expand .post-body ul li {
+.posts-expand .post-body ul > li {
   list-style: circle;
 }
 .posts-expand .post-body img {
   box-sizing: border-box;
-  margin: auto;
+  margin: 0 auto 25px;
   padding: 3px;
   border: 1px solid #ddd;
-}
-.posts-expand .post-body .fancybox img {
-  margin: 0 auto 25px;
 }
 @media (max-width: 767px) {
   .posts-collapse {
@@ -1604,7 +1616,8 @@ pre .javascript .function {
   margin-left: 3px;
   opacity: 0.6;
 }
-.posts-collapse .post-title a {
+.posts-collapse .post-title a,
+.posts-collapse .post-title span.exturl {
   color: #666;
   border-bottom: none;
 }
@@ -1615,8 +1628,9 @@ pre .javascript .function {
   display: none;
 }
 .posts-expand .post-title {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
   text-align: center;
-  word-break: break-word;
   font-weight: 400;
 }
 .posts-expand .post-title-link {
@@ -1654,7 +1668,8 @@ pre .javascript .function {
   transform: scaleX(1);
 }
 .posts-expand .post-title-link .fa {
-  font-size: 16px;
+  font-size: 20px;
+  margin-left: 5px;
 }
 .posts-expand .post-meta {
   margin: 3px 0 60px 0;
@@ -1674,6 +1689,10 @@ pre .javascript .function {
 .posts-expand .post-meta .post-description {
   font-size: 14px;
   margin-top: 2px;
+}
+.posts-expand .post-meta time {
+  border-bottom: 1px dashed #999;
+  cursor: help;
 }
 .post-meta-divider {
   margin: 0 0.5em;
@@ -1698,11 +1717,6 @@ pre .javascript .function {
 }
 @media (max-width: 767px) {
   .post-meta-item-text {
-    display: none;
-  }
-}
-@media (max-width: 767px) {
-  .posts-expand .post-comments-count {
     display: none;
   }
 }
@@ -1750,23 +1764,20 @@ pre .javascript .function {
   top: 2px;
 }
 .post-nav-item .fa {
-  position: absolute;
-  top: 8px;
-  left: 0;
   font-size: 12px;
+  margin-right: 5px;
 }
 .post-nav-next a {
-  padding-left: 15px;
+  padding-left: 5px;
 }
 .post-nav-prev {
   text-align: right;
 }
 .post-nav-prev a {
-  padding-right: 15px;
+  padding-right: 5px;
 }
 .post-nav-prev .fa {
-  right: 0;
-  left: auto;
+  margin-left: 5px;
 }
 .posts-expand .post-eof {
   display: block;
@@ -1831,11 +1842,13 @@ pre .javascript .function {
   background: #222;
   -webkit-transform: translateZ(0);
 }
-.sidebar a {
+.sidebar a,
+.sidebar .exturl {
   color: #999;
   border-bottom-color: #555;
 }
-.sidebar a:hover {
+.sidebar a:hover,
+.sidebar .exturl:hover {
   color: #eee;
 }
 @media (min-width: 768px) and (max-width: 991px) {
@@ -1860,6 +1873,20 @@ pre .javascript .function {
 .site-overview {
   overflow-y: auto;
   overflow-x: hidden;
+}
+.cc-license {
+  margin-top: 10px;
+  text-align: center;
+}
+.cc-license .cc-opacity {
+  opacity: 0.7;
+  border-bottom: none;
+}
+.cc-license .cc-opacity:hover {
+  opacity: 0.9;
+}
+.cc-license img {
+  display: inline-block;
 }
 .sidebar-toggle {
   position: fixed;
@@ -1903,6 +1930,7 @@ pre .javascript .function {
   max-width: 96px;
   height: auto;
   border: 2px solid #333;
+  opacity: 1;
 }
 .site-author-name {
   margin: 5px 0 0;
@@ -1968,7 +1996,8 @@ pre .javascript .function {
 .links-of-author {
   margin-top: 20px;
 }
-.links-of-author a {
+.links-of-author a,
+.links-of-author .exturl {
   display: inline-block;
   vertical-align: middle;
   margin-right: 10px;
@@ -1976,7 +2005,8 @@ pre .javascript .function {
   border-bottom-color: #555;
   font-size: 13px;
 }
-.links-of-author a:before {
+.links-of-author a:before,
+.links-of-author .exturl:before {
   display: inline-block;
   vertical-align: middle;
   margin-right: 3px;
@@ -1984,7 +2014,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #1b83f4;
+  background: #e8e0ff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2002,7 +2032,8 @@ pre .javascript .function {
 .links-of-blogroll-item {
   padding: 2px 10px;
 }
-.links-of-blogroll-item a {
+.links-of-blogroll-item a,
+.links-of-blogroll-item span.exturl {
   max-width: 280px;
   box-sizing: border-box;
   display: inline-block;
@@ -2078,7 +2109,6 @@ pre .javascript .function {
 .post-toc .nav-item {
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: justify;
   white-space: nowrap;
   line-height: 1.8;
 }
@@ -2117,258 +2147,131 @@ pre .javascript .function {
 .with-love {
   display: inline-block;
   margin: 0 5px;
+  color: #808080;
 }
 .powered-by,
 .theme-info {
   display: inline-block;
 }
-.cc-license {
-  margin-top: 10px;
-  text-align: center;
+@-moz-keyframes iconAnimate {
+  0%, 100% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  10%, 30% {
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  20%, 40%, 60%, 80% {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  50%, 70% {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
 }
-.cc-license .cc-opacity {
-  opacity: 0.7;
-  border-bottom: none;
+@-webkit-keyframes iconAnimate {
+  0%, 100% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  10%, 30% {
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  20%, 40%, 60%, 80% {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  50%, 70% {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
 }
-.cc-license .cc-opacity:hover {
-  opacity: 0.9;
+@-o-keyframes iconAnimate {
+  0%, 100% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  10%, 30% {
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  20%, 40%, 60%, 80% {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  50%, 70% {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
 }
-.cc-license img {
-  display: inline-block;
-}
-.theme-next #ds-thread #ds-reset {
-  color: #555;
-}
-.theme-next #ds-thread #ds-reset .ds-replybox {
-  margin-bottom: 30px;
-}
-.theme-next #ds-thread #ds-reset .ds-replybox .ds-avatar,
-.theme-next #ds-reset .ds-avatar img {
-  box-shadow: none;
-}
-.theme-next #ds-thread #ds-reset .ds-textarea-wrapper {
-  border-color: #c7d4e1;
-  background: none;
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
-}
-.theme-next #ds-thread #ds-reset .ds-textarea-wrapper textarea {
-  height: 60px;
-}
-.theme-next #ds-reset .ds-rounded-top {
-  border-radius: 0;
-}
-.theme-next #ds-thread #ds-reset .ds-post-toolbar {
-  box-sizing: border-box;
-  border: 1px solid #c7d4e1;
-  background: #f6f8fa;
-}
-.theme-next #ds-thread #ds-reset .ds-post-options {
-  height: 40px;
-  border: none;
-  background: none;
-}
-.theme-next #ds-thread #ds-reset .ds-toolbar-buttons {
-  top: 11px;
-}
-.theme-next #ds-thread #ds-reset .ds-sync {
-  top: 5px;
-}
-.theme-next #ds-thread #ds-reset .ds-post-button {
-  top: 4px;
-  right: 5px;
-  width: 90px;
-  height: 30px;
-  border: 1px solid #c5ced7;
-  border-radius: 3px;
-  background-image: linear-gradient(#fbfbfc, #f5f7f9);
-  color: #60676d;
-}
-.theme-next #ds-thread #ds-reset .ds-post-button:hover {
-  background-position: 0 -30px;
-  color: #60676d;
-}
-.theme-next #ds-thread #ds-reset .ds-comments-info {
-  padding: 10px 0;
-}
-.theme-next #ds-thread #ds-reset .ds-sort {
-  display: none;
-}
-.theme-next #ds-thread #ds-reset li.ds-tab a.ds-current {
-  border: none;
-  background: #f6f8fa;
-  color: #60676d;
-}
-.theme-next #ds-thread #ds-reset li.ds-tab a.ds-current:hover {
-  background-color: #e9f0f7;
-  color: #60676d;
-}
-.theme-next #ds-thread #ds-reset li.ds-tab a {
-  border-radius: 2px;
-  padding: 5px;
-}
-.theme-next #ds-thread #ds-reset .ds-login-buttons p {
-  color: #999;
-  line-height: 36px;
-}
-.theme-next #ds-thread #ds-reset .ds-login-buttons .ds-service-list li {
-  height: 28px;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list a {
-  background: none;
-  padding: 5px;
-  border: 1px solid;
-  border-radius: 3px;
-  text-align: center;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list a:hover {
-  color: #fff;
-  background: #666;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-weibo {
-  color: #fc9b00;
-  border-color: #fc9b00;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-weibo:hover {
-  background: #fc9b00;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-qq {
-  color: #60a3ec;
-  border-color: #60a3ec;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-qq:hover {
-  background: #60a3ec;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-renren {
-  color: #2e7ac4;
-  border-color: #2e7ac4;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-renren:hover {
-  background: #2e7ac4;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-douban {
-  color: #37994c;
-  border-color: #37994c;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-douban:hover {
-  background: #37994c;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-kaixin {
-  color: #fef20d;
-  border-color: #fef20d;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-kaixin:hover {
-  background: #fef20d;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-netease {
-  color: #f00;
-  border-color: #f00;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-netease:hover {
-  background: #f00;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-sohu {
-  color: #ffcb05;
-  border-color: #ffcb05;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-sohu:hover {
-  background: #ffcb05;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-baidu {
-  color: #2831e0;
-  border-color: #2831e0;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-baidu:hover {
-  background: #2831e0;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-google {
-  color: #166bec;
-  border-color: #166bec;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-google:hover {
-  background: #166bec;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-weixin {
-  color: #00ce0d;
-  border-color: #00ce0d;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-weixin:hover {
-  background: #00ce0d;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-more-services {
-  border: none;
-}
-.theme-next #ds-thread #ds-reset .ds-service-list .ds-more-services:hover {
-  background: none;
-}
-.theme-next #ds-reset .duoshuo-ua-admin {
-  display: inline-block;
-  color: #f00;
-}
-.theme-next #ds-reset .duoshuo-ua-platform,
-.theme-next #ds-reset .duoshuo-ua-browser {
-  color: #ccc;
-}
-.theme-next #ds-reset .duoshuo-ua-platform .fa,
-.theme-next #ds-reset .duoshuo-ua-browser .fa {
-  display: inline-block;
-  margin-right: 3px;
-}
-.theme-next #ds-reset .duoshuo-ua-separator {
-  display: inline-block;
-  margin-left: 5px;
-}
-.theme-next .this_ua {
-  background-color: #ccc !important;
-  border-radius: 4px;
-  padding: 0 5px !important;
-  margin: 1px 1px !important;
-  border: 1px solid #bbb !important;
-  color: #fff;
-  display: inline-block !important;
-}
-.theme-next .this_ua.admin {
-  background-color: #d9534f !important;
-  border-color: #d9534f !important;
-}
-.theme-next .this_ua.platform.iOS,
-.theme-next .this_ua.platform.Mac,
-.theme-next .this_ua.platform.Windows {
-  background-color: #39b3d7 !important;
-  border-color: #46b8da !important;
-}
-.theme-next .this_ua.platform.Linux {
-  background-color: #3a3a3a !important;
-  border-color: #1f1f1f !important;
-}
-.theme-next .this_ua.platform.Android {
-  background-color: #00c47d !important;
-  border-color: #01b171 !important;
-}
-.theme-next .this_ua.browser.Mobile,
-.theme-next .this_ua.browser.Chrome {
-  background-color: #5cb85c !important;
-  border-color: #4cae4c !important;
-}
-.theme-next .this_ua.browser.Firefox {
-  background-color: #f0ad4e !important;
-  border-color: #eea236 !important;
-}
-.theme-next .this_ua.browser.Maxthon,
-.theme-next .this_ua.browser.IE {
-  background-color: #428bca !important;
-  border-color: #357ebd !important;
-}
-.theme-next .this_ua.browser.baidu,
-.theme-next .this_ua.browser.UCBrowser,
-.theme-next .this_ua.browser.Opera {
-  background-color: #d9534f !important;
-  border-color: #d43f3a !important;
-}
-.theme-next .this_ua.browser.Android,
-.theme-next .this_ua.browser.QQBrowser {
-  background-color: #78ace9 !important;
-  border-color: #4cae4c !important;
+@keyframes iconAnimate {
+  0%, 100% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+  10%, 30% {
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  20%, 40%, 60%, 80% {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  50%, 70% {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+  }
 }
 #gitment-display-button {
   display: inline-block;
@@ -2382,32 +2285,6 @@ pre .javascript .function {
 #gitment-display-button:hover {
   color: #fff;
   background: #0a9caf;
-}
-.post-spread {
-  margin-top: 20px;
-  text-align: center;
-}
-.jiathis_style {
-  display: inline-block;
-}
-.jiathis_style a {
-  border: none;
-}
-.fa {
-  font-family: FontAwesome !important;
-}
-.post-spread {
-  margin-top: 20px;
-  text-align: center;
-}
-.bdshare-slide-button-box a {
-  border: none;
-}
-.bdsharebuttonbox {
-  display: inline-block;
-}
-.bdsharebuttonbox a {
-  border: none;
 }
 .local-search-pop-overlay {
   position: fixed;
@@ -2520,23 +2397,6 @@ pre .javascript .function {
   transform: translate(-50%, -50%);
   color: #ccc;
 }
-.site-uv,
-.site-pv,
-.page-pv {
-  display: inline-block;
-}
-.site-uv .busuanzi-value,
-.site-pv .busuanzi-value,
-.page-pv .busuanzi-value {
-  margin: 0 5px;
-}
-.site-uv {
-  margin-right: 10px;
-}
-.site-uv::after {
-  content: "|";
-  padding-left: 10px;
-}
 .page-archive .archive-page-counter {
   position: relative;
   top: 3px;
@@ -2558,6 +2418,10 @@ pre .javascript .function {
   background: #555;
   border: 1px solid #fff;
   border-radius: 50%;
+}
+.page-archive .fa-external-link {
+  font-size: 15px;
+  margin-left: 5px;
 }
 .category-all-page .category-all-title {
   text-align: center;
@@ -2655,9 +2519,10 @@ pre .javascript .function {
 }
 #schedule ul#event-list li.event-past {
   background: #fcfcfc;
+  padding: 15px 0 15px 10px;
 }
 #schedule ul#event-list li.event-past > * {
-  opacity: 0.6;
+  opacity: 0.9;
 }
 #schedule ul#event-list li.event-past h2.event-summary {
   color: #bbb;
@@ -2680,6 +2545,23 @@ pre .javascript .function {
   animation: dot-flash 1s alternate infinite ease-in-out;
 }
 #schedule ul#event-list li.event-now * {
+  color: #fff !important;
+}
+#schedule ul#event-list li.event-future {
+  background: #222;
+  color: #fff;
+  padding: 15px 0 15px 10px;
+}
+#schedule ul#event-list li.event-future h2.event-summary:before {
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+  color: #fff;
+  animation: dot-flash 1s alternate infinite ease-in-out;
+}
+#schedule ul#event-list li.event-future * {
   color: #fff !important;
 }
 @-moz-keyframes dot-flash {
@@ -2760,16 +2642,23 @@ pre .javascript .function {
 .page-post-detail .comments {
   overflow: hidden;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 20px 0 10px;
+ul.breadcrumb {
+  list-style: none;
+  margin: 1em 0;
+  padding: 0 2em;
+  text-align: center;
+  font-size: 12px;
 }
-p {
-  margin: 0 0 25px 0;
+ul.breadcrumb li {
+  display: inline;
+}
+ul.breadcrumb li+li:before {
+  padding: 0.5em;
+  font-weight: normal;
+  content: "/\00a0";
+}
+ul.breadcrumb li+li:last-child {
+  font-weight: bold;
 }
 a {
   border-bottom-color: #ccc;
@@ -2872,8 +2761,12 @@ hr {
   position: static;
   float: right;
 }
+.menu-item-active a,
+.menu .menu-item a:hover,
+.menu .menu-item span.exturl:hover {
+  background: #e1e1e1;
+}
 .menu {
-  float: right;
   margin: 8px 0 0 0;
 }
 @media (max-width: 767px) {
@@ -2893,20 +2786,43 @@ hr {
     display: block;
   }
 }
-.menu .menu-item a {
+.menu .menu-item .badge {
+  display: inline-block;
+  padding: 1px 4px;
+  margin-left: 5px;
+  font-weight: 700;
+  line-height: 1;
+  color: #555;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #fff;
+  border-radius: 10px;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+}
+@media (max-width: 767px) {
+  .menu .menu-item .badge {
+    float: right;
+    margin: 0.35em 0 0 0;
+  }
+}
+.menu .menu-item a,
+.menu .menu-item span.exturl {
   padding: 0 10px;
-  background: none;
   border: none;
   border-radius: 2px;
   transition-property: background;
 }
 @media (max-width: 767px) {
-  .menu .menu-item a {
+  .menu .menu-item a,
+  .menu .menu-item span.exturl {
     text-align: left;
   }
 }
-.menu .menu-item a:hover {
-  background: #e1e1e1;
+@media (hover: none) {
+  .menu .menu-item a:hover,
+  .menu .menu-item span.exturl:hover {
+    background: none;
+  }
 }
 .menu a::before {
   display: none;
@@ -2960,7 +2876,7 @@ hr {
     font-size: 22px;
   }
 }
-@media (min-width: 1600px) {
+@media (min-width: 1200px) {
   .posts-expand .post-title {
     font-size: 26px;
   }
@@ -2970,7 +2886,7 @@ hr {
 }
 @media (max-width: 767px) {
   .posts-expand .post-body {
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 .posts-expand .post-body img {
@@ -3007,7 +2923,7 @@ hr {
     font-size: 12px;
   }
 }
-@media (min-width: 1600px) {
+@media (min-width: 1200px) {
   .post-button a {
     font-size: 16px;
   }
@@ -3079,7 +2995,32 @@ hr {
     text-align: center;
   }
 }
-</style><noscript><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css"></noscript></head>
+</style><noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('https://staticfile.qnssl.com/font-awesome/4.2.0/css/font-awesome.css');loadCss('https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css');</script><noscript><link rel="stylesheet" href="https://staticfile.qnssl.com/font-awesome/4.2.0/css/font-awesome.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"></noscript></head>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -3093,7 +3034,7 @@ hr {
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
@@ -3103,13 +3044,16 @@ hr {
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+    
       
         <p class="site-subtitle">记录工作生活中的点滴思考</p>
       
+    
+    
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button aria-label="Toggle navigation bar">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -3117,55 +3061,138 @@ hr {
   </div>
 </div>
 
-<nav class="site-nav">
-  
 
+
+<nav class="site-nav">
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-            首页
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-            关于
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-            标签
-          </a>
-        </li>
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
       
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-            分类
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-            归档
-          </a>
-        </li>
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
       
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags menu-item-active">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">0</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">3</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">3</span></a>
+
+  </li>
 
       
+      
     </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
   
 
   
@@ -3173,12 +3200,20 @@ hr {
 
 
 
- </div>
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
           <div id="content" class="content">
             
 
@@ -3189,9 +3224,17 @@ hr {
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
+<h1 class="post-title" itemprop="name headline">tags
+
+</h1>
+
+<div class="post-meta">
+  
+  
 
 
+
+</div>
 
 </header>
 
@@ -3203,7 +3246,9 @@ hr {
         
           <div class="tag-cloud">
             <div class="tag-cloud-title">
-                暂无标签
+              
+              
+              No tags
             </div>
             <div class="tag-cloud-tags">
               
@@ -3216,6 +3261,10 @@ hr {
       
     </div>
     
+
+
+
+    
     
     
   </div>
@@ -3224,13 +3273,11 @@ hr {
           </div>
           
 
-
-          
-
   
     <div class="comments" id="comments">
       
-        <div id="gitment-container"></div>
+        <div onclick="showGitment()" id="gitment-display-button">Show comments from Gitment</div>
+        <div id="gitment-container" style="display: none"></div>
       
     </div>
 
@@ -3251,14 +3298,13 @@ hr {
   </div>
 
   <aside id="sidebar" class="sidebar">
-    
     <div class="sidebar-inner">
 
       
 
       
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -3266,33 +3312,41 @@ hr {
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
+          
+            <nav class="site-state motion-element">
               
-                <a href="/archives/">
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
               
-                  <span class="site-state-item-count">3</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
 
-            
               
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
               
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
 
-            
-
-          </nav>
+              
+            </nav>
+          
 
           
             <div class="feed-link motion-element">
@@ -3305,32 +3359,44 @@ hr {
 
           
             <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/markshao" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="mailto:marksyl1986@gmail.com" target="_blank" title="E-Mail">
-                      
-                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  </span>
-                
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/markshao" title="GitHub → https://github.com/markshao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:marksyl1986@gmail.com" title="E-Mail → mailto:marksyl1986@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
             </div>
           
 
           
-          
 
           
           
 
+          
+            
+          
           
 
         </div>
-      </section>
+      </div>
 
       
 
@@ -3338,6 +3404,7 @@ hr {
 
     </div>
   </aside>
+  
 
 
         
@@ -3346,23 +3413,19 @@ hr {
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">© <span itemprop="copyrightYear">2019</span>
-  <span class="with-love">
+        <div class="copyright">© <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">书记</span>
 
   
+
+  
 </div>
 
 
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_value_site_pv">
-  本站访客数:<span id="busuanzi_value_site_pv"></span>
-</span>
-</div>
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -3370,12 +3433,13 @@ hr {
 
 
 
-  <div class="theme-info">主题 — <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
 
 
 
 
         
+
 
 
 
@@ -3396,11 +3460,14 @@ hr {
 
     
 
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -3414,7 +3481,6 @@ hr {
 
 
 
-  
 
 
 
@@ -3427,35 +3493,19 @@ hr {
 
 
 
-  
-  
-    
-  
+
+
+
+
 
   
-  
-    
-  
+  <script src="https://staticfile.qnssl.com/jquery/2.1.3/jquery.min.js"></script>
 
   
-  
-    
-  
+  <script src="https://staticfile.qnssl.com/velocity/1.2.1/velocity.min.js"></script>
 
   
-  
-    
-  
-
-  
-  
-    
-  
-
-  
-  
-    
-  
+  <script src="https://staticfile.qnssl.com/velocity/1.2.1/velocity.ui.min.js"></script>
 
 
   
@@ -3470,6 +3520,12 @@ hr {
   
   
 
+
+  
+
+
+
+
   
   
 
@@ -3482,53 +3538,29 @@ hr {
   
 
 
-
+  
   
 
 
   
-
-
-
-
-	
-
-
-
-
+    <!-- LOCAL: You can save these files to your site and update links -->
 
   
+  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitmint.browser.js"></script>
 
 
-
-
-
-  
-
-
-
-
-
-
-
-<!-- LOCAL: You can save these files to your site and update links -->
-    
-        
-        
-        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
-    
 <!-- END LOCAL -->
 
-    
+<style>
+#gitment-container a {
+  border-bottom: none;
+}
 
-    
-      
-    
-
-
-
+</style>
 
 
+
+  
 
 
   
@@ -3536,6 +3568,13 @@ hr {
 
 
 
+  
+
+  
+
+  
+
+  
 
   
 
@@ -3544,6 +3583,9 @@ hr {
   
 
   
+
+  
+
   
 
   
@@ -3555,25 +3597,30 @@ hr {
 
 
 <script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
-      function renderGitment(){
-        var gitment = new Gitmint({
-            id: window.location.pathname, 
-            owner: 'markshao',
-            repo: 'markshao.github.io',
-            
-            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
-            
-            oauth: {
-            
-            
-                client_secret: 'a2d9940cd76fa0f83f3a7c5d475d97486603783e',
-            
-                client_id: '012335b48ba2c0f115f7'
-            }});
-        gitment.render('gitment-container');
+  function renderGitment() {
+    var gitment = new Gitmint({
+      id: window.location.pathname,
+      owner: 'markshao',
+      repo: 'markshao.github.io',
+      
+        lang: '' || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+      
+      oauth: {
+      
+      
+        client_secret: 'a603520bcbb27d0584582cc5db11902607161339',
+      
+        client_id: 'ed890b9aa2b14bd3c48f'
       }
+    });
+    gitment.render('gitment-container');
+  }
 
-      
+  
+    function showGitment() {
+      document.getElementById('gitment-display-button').style.display = 'none';
+      document.getElementById('gitment-container').style.display = 'block';
       renderGitment();
-      
-      </script></body></html>
+    }
+  
+</script></body></html>
