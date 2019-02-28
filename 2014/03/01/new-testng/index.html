@@ -2013,7 +2013,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #eeff52;
+  background: #0ad447;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2272,19 +2272,6 @@ pre .javascript .function {
     transform: scale(1.1);
   }
 }
-#gitment-display-button {
-  display: inline-block;
-  padding: 0 15px;
-  color: #0a9caf;
-  cursor: pointer;
-  font-size: 14px;
-  border: 1px solid #0a9caf;
-  border-radius: 4px;
-}
-#gitment-display-button:hover {
-  color: #fff;
-  background: #0a9caf;
-}
 .local-search-pop-overlay {
   position: fixed;
   width: 100%;
@@ -2395,6 +2382,14 @@ pre .javascript .function {
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   color: #ccc;
+}
+.gt-header a,
+.gt-comments a,
+.gt-popup a {
+  border-bottom: none;
+}
+.gt-container .gt-popup .gt-action.is--active:before {
+  top: 0.7em;
 }
 .page-archive .archive-page-counter {
   position: relative;
@@ -3019,7 +3014,7 @@ hr {
   </style>
 </noscript>
 
-<script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css');loadCss('https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css');</script><noscript><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"></noscript></head>
+<script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css');loadCss('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css');</script><noscript><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css"></noscript></head>
 
 <body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
 
@@ -3327,19 +3322,6 @@ hr {
           
             
             
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2014/03/01/new-testng/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2014/03/01/new-testng/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -3450,11 +3432,7 @@ hr {
           
 
   
-    <div class="comments" id="comments">
-      
-        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
-        <div id="gitment-container" style="display: none"></div>
-      
+    <div class="comments" id="gitalk-container">
     </div>
 
   
@@ -3758,20 +3736,17 @@ hr {
 
 
   
-    <!-- LOCAL: You can save these files to your site and update links -->
+    
 
-  
-  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitmint.browser.js"></script>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 
 
-<!-- END LOCAL -->
 
-<style>
-#gitment-container a {
-  border-bottom: none;
-}
 
-</style>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
 
 
 
@@ -3814,32 +3789,16 @@ hr {
 
 
 <script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
-  function renderGitment() {
-    var gitment = new Gitmint({
-      id: window.location.pathname,
-      owner: 'markshao',
-      repo: 'markshao.github.io',
-      
-        lang: '' || navigator.language || navigator.systemLanguage || navigator.userLanguage,
-      
-      oauth: {
-      
-      
-        client_secret: 'a603520bcbb27d0584582cc5db11902607161339',
-      
-        client_id: 'ed890b9aa2b14bd3c48f'
-      }
-    });
-    gitment.render('gitment-container');
-  }
-
-  
-    function showGitment() {
-      document.getElementById('gitment-display-button').style.display = 'none';
-      document.getElementById('gitment-container').style.display = 'block';
-      renderGitment();
-    }
-  
+  var gitalk = new Gitalk({
+    clientID: 'c5ee26703192191519bc',
+    clientSecret: 'c2d3f9540c26caabc755bbc14668f90a2ca62f0d',
+    repo: 'markshao.github.io',
+    owner: 'markshao',
+    admin: ['markshao'],
+    id: md5(location.pathname),
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
 ;
 
     // Popup Window;
