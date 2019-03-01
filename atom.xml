@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-02-28T16:56:41.768Z</updated>
+  <updated>2019-03-01T15:43:22.494Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://markshao.github.io/2014/03/01/new-testng/"/>
     <id>http://markshao.github.io/2014/03/01/new-testng/</id>
     <published>2014-03-01T14:23:57.000Z</published>
-    <updated>2019-02-28T16:56:41.768Z</updated>
+    <updated>2019-03-01T15:43:22.494Z</updated>
     
     <summary type="html">
     
@@ -29,7 +29,7 @@
     
     </summary>
     
-      <category term="test framework" scheme="http://markshao.github.io/categories/test-framework/"/>
+      <category term="测试框架" scheme="http://markshao.github.io/categories/%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/"/>
     
     
   </entry>
@@ -39,7 +39,7 @@
     <link href="http://markshao.github.io/2014/01/27/2013-conlusion/"/>
     <id>http://markshao.github.io/2014/01/27/2013-conlusion/</id>
     <published>2014-01-27T07:54:15.000Z</published>
-    <updated>2019-02-28T16:56:30.995Z</updated>
+    <updated>2019-03-01T15:43:21.302Z</updated>
     
     <summary type="html">
     
@@ -47,7 +47,7 @@
     
     </summary>
     
-      <category term="life" scheme="http://markshao.github.io/categories/life/"/>
+      <category term="工作感想" scheme="http://markshao.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%83%B3/"/>
     
     
   </entry>
@@ -57,7 +57,7 @@
     <link href="http://markshao.github.io/2014/01/13/first-post/"/>
     <id>http://markshao.github.io/2014/01/13/first-post/</id>
     <published>2014-01-13T14:15:00.000Z</published>
-    <updated>2019-02-28T16:56:24.124Z</updated>
+    <updated>2019-03-01T15:43:18.909Z</updated>
     
     <summary type="html">
     
@@ -72,7 +72,7 @@
     
     </summary>
     
-      <category term="others" scheme="http://markshao.github.io/categories/others/"/>
+      <category term="工作感想" scheme="http://markshao.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%83%B3/"/>
     
     
   </entry>
