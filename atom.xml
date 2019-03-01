@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-01T15:43:22.494Z</updated>
+  <updated>2019-03-01T17:55:06.941Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -17,6 +17,30 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>2018 总结 [质量篇]</title>
+    <link href="http://markshao.github.io/2019/03/01/2018-conclusion/"/>
+    <id>http://markshao.github.io/2019/03/01/2018-conclusion/</id>
+    <published>2019-03-01T15:52:24.000Z</published>
+    <updated>2019-03-01T17:55:06.941Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;上一次写博客已经不知道是多久之前的事情了，开通 &lt;code&gt;Github Page&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="工作感想" scheme="http://markshao.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%83%B3/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>浅谈Testng测试框架的分布式实现</title>
     <link href="http://markshao.github.io/2014/03/01/new-testng/"/>
     <id>http://markshao.github.io/2014/03/01/new-testng/</id>
@@ -25,7 +49,7 @@
     
     <summary type="html">
     
-      &lt;h3 id=&quot;现状分析&quot;&gt;&lt;a href=&quot;#现状分析&quot; class=&quot;headerlink&quot; title=&quot;现状分析&quot;&gt;&lt;/a&gt;现状分析&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;http://testng.org&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG&lt;/a&gt;是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍如何使用TestNG的分布式了，详情请见&lt;a href=&quot;http://beust.com/weblog2/archives/000362.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG Distribute&lt;/a&gt;。但是如果你拿最新的Testng6.8.7的版本来配置分布式的实现，肯定会遇到一堆的问题，所以结论就是目前的分布式是有Bug存在的。&lt;br&gt;
+      &lt;h3 id=&quot;现状分析&quot;&gt;&lt;a href=&quot;#现状分析&quot; class=&quot;headerlink&quot; title=&quot;现状分析&quot;&gt;&lt;/a&gt;现状分析&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;http://testng.org&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG&lt;/a&gt;是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍如何使用TestNG的分布式了，详情请见&lt;a href=&quot;http://beust.com/weblog2/archives/000362.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG Distribute&lt;/a&gt;。但是如果你拿最新的Testng6.8.7的版本来配置分布式的实现，肯定会遇到一堆的问题，所以结论就是目前的分布式是有Bug存在的。&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
