@@ -82,13 +82,14 @@
 
 
   <meta name="description" content="上一次写博客已经不知道是多久之前的事情了，开通 Github Page 刚开始更多是出于对于新事物尝鲜，对于坚持写作这个事情反而没有怎么重视。工作这几年，特别是在依图的这2年越来越感受到思考的深度是多么的重要，而其中写作正好是一个非常好的静下来去思考，去复盘的一个手段。趁着这段时间在北京出差在酒店空着没事儿，把之前基于octopress 的 blog 迁移到了 hexo , 希望从2019年开始，">
+<meta name="keywords" content="Nebula">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2018 总结 [质量篇]">
 <meta property="og:url" content="http://markshao.github.io/2019/03/01/2018-conclusion/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
 <meta property="og:description" content="上一次写博客已经不知道是多久之前的事情了，开通 Github Page 刚开始更多是出于对于新事物尝鲜，对于坚持写作这个事情反而没有怎么重视。工作这几年，特别是在依图的这2年越来越感受到思考的深度是多么的重要，而其中写作正好是一个非常好的静下来去思考，去复盘的一个手段。趁着这段时间在北京出差在酒店空着没事儿，把之前基于octopress 的 blog 迁移到了 hexo , 希望从2019年开始，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-01T17:55:06.941Z">
+<meta property="og:updated_time" content="2019-03-01T18:00:06.465Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018 总结 [质量篇]">
 <meta name="twitter:description" content="上一次写博客已经不知道是多久之前的事情了，开通 Github Page 刚开始更多是出于对于新事物尝鲜，对于坚持写作这个事情反而没有怎么重视。工作这几年，特别是在依图的这2年越来越感受到思考的深度是多么的重要，而其中写作正好是一个非常好的静下来去思考，去复盘的一个手段。趁着这段时间在北京出差在酒店空着没事儿，把之前基于octopress 的 blog 迁移到了 hexo , 希望从2019年开始，">
@@ -2023,7 +2024,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #7e2ea8;
+  background: #8b987e;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3117,7 +3118,7 @@ hr {
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">0</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">1</span></a>
 
   </li>
         
@@ -3296,7 +3297,7 @@ hr {
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-02 01:55:06" itemprop="dateModified" datetime="2019-03-02T01:55:06+08:00">2019-03-02</time>
+                <time title="修改时间：2019-03-02 02:00:06" itemprop="dateModified" datetime="2019-03-02T02:00:06+08:00">2019-03-02</time>
               
             
           </span>
@@ -3378,7 +3379,7 @@ hr {
 <p><code>Atom Integration</code> 开发出来后，支持了原子多个版本的性能测试，后来还被他们改造成了一个HTTP Result API 的压力测试框架。这段经历弥足珍贵，让我有机会从头设计一个性能测试框架，对于线程的调度治理，并发模型的控制有了更加深刻的认识</p>
 <h4 id="Kan-Kan"><a href="#Kan-Kan" class="headerlink" title="Kan Kan"></a>Kan Kan</h4><p>吃狗粮是我们重要的质量文化，但是<code>人像原子</code>作为一个服务器的产品是没有界面的，没法吃狗粮。我花了一个星期的时间做了一个叫<code>KanKan</code>的前端应用，其实这一个星期中的大部分是在学习前端的技术，主要是<code>Web Socket</code> 相关的内容。因为之前在<code>人像大平台</code>和前端聊希望他们引入<code>Web Socket</code>技术来提高<code>drawer</code>的效果被他们以复杂拒绝后，我就一直希望在原子这里可以i 尝试一下<code>Web Socket</code>技术，现在<code>KanKan</code>在富麟他们的改造下（增加了更多监控metraic），已经成为一个重要的稳定性测试工具，关键还挺好玩的</p>
 <h4 id="Nebula"><a href="#Nebula" class="headerlink" title="Nebula"></a>Nebula</h4><p>下半年开始转型产品经理后，也花了一部分时间承担了测试团队横向工作方面的一些事情，最主要的就是CI 2.0的架构设计，也就是<code>Nebula</code> 项目。 目的是希望这个项目可以作为整个团队的横向工作，让大家纵向工作之余的时间可以投入到这个它的开发中去，并且最终可以帮助到纵向的测试工作，提高整体的研发效率.</p>
-<p><code>Nebula</code>的整体设计的核心思想就是<code>TaaS - Test as a Service</code> ，希望把测试也作为一个特殊的服务放到整个被测试服务的链路中来。当然它所聚焦的问题就是我们面前80%的测试团队在做的事情，集成测试和性能测试，主要针对的是各种服务，其中HTTP 为主，有一些是RPC 或者是自己的私有协议。希望通过一些工具把这些测试过程中问题统一解决掉，包括被测试服务的部署，接口测试，性能测试等，并结合Docker Kubernetse， Jenkins ，ELK等开源工具，把整个工具链系统化，平台化，服务化。后面有时间也会写一些列文站过来介绍 Nebula 中一些核心组件的设计思想，先放一个脱敏过的 PPT在这里，欢迎有兴趣的同学给我留言讨论</p>
+<p><code>Nebula</code>的整体设计的核心思想就是<code>TaaS - Test as a Service</code> ，希望把测试也作为一个特殊的服务放到整个被测试服务的链路中来。当然它所聚焦的问题就是我们面前80%的测试团队在做的事情，集成测试和性能测试，主要针对的是各种服务，其中HTTP 为主，有一些是RPC 或者是自己的私有协议。希望通过一些工具把这些测试过程中问题统一解决掉，包括被测试服务的部署，接口测试，性能测试等，并结合Docker Kubernetse， Jenkins ，ELK等开源工具，把整个工具链系统化，平台化，服务化。后面有时间也会写一系列文站过来介绍 Nebula 中一些核心组件的设计思想，先放一个脱敏过的 PPT在这里，欢迎有兴趣的同学给我留言讨论</p>
 
 
 <iframe src="https://myslide.cn/html_player/10962" width="562.5" height="388.25" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="margin-bottom:5px; max-width: 100%;" allowfullscreen=""></iframe>	
@@ -3403,6 +3404,12 @@ hr {
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nebula/" rel="tag"># Nebula</a>
+          
+        </div>
       
 
       
@@ -3517,6 +3524,19 @@ hr {
                 </div>
               
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
               
             </nav>
           
