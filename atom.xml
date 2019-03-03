@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-03T16:07:42.191Z</updated>
+  <updated>2019-03-03T16:13:22.977Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/"/>
     <id>http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/</id>
     <published>2019-03-03T14:33:23.000Z</published>
-    <updated>2019-03-03T16:07:42.191Z</updated>
+    <updated>2019-03-03T16:13:22.977Z</updated>
     
     <summary type="html">
     
@@ -31,8 +31,7 @@
         
           &lt;h3 id=&quot;准备环境&quot;&gt;&lt;a href=&quot;#准备环境&quot; class=&quot;headerlink&quot; title=&quot;准备环境&quot;&gt;&lt;/a&gt;准备环境&lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;操作系统 MacOS Mojave&lt;/li&gt;
-&lt;li&gt;JDK 1.8&lt;/li&gt;
-&lt;li&gt;Git
+&lt;li&gt;JDK
         
       
     
