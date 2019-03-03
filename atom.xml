@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-01T18:00:06.465Z</updated>
+  <updated>2019-03-03T16:07:42.191Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JMeter 源码解读 - 配置开发环境</title>
+    <link href="http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/"/>
+    <id>http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/</id>
+    <published>2019-03-03T14:33:23.000Z</published>
+    <updated>2019-03-03T16:07:42.191Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;准备环境&quot;&gt;&lt;a href=&quot;#准备环境&quot; class=&quot;headerlink&quot; title=&quot;准备环境&quot;&gt;&lt;/a&gt;准备环境&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;操作系统 MacOS Mojave&lt;/li&gt;
+&lt;li&gt;JDK 1.8&lt;/li&gt;
+&lt;li&gt;Git
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>2018 总结 [质量篇]</title>
