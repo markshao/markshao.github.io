@@ -2019,7 +2019,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #2da721;
+  background: #ffff45;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3362,45 +3362,28 @@ hr {
       
         
           
-            <h3 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h3><ol>
-<li>操作系统 MacOS Mojave</li>
-<li>JDK 1.8</li>
-<li>Git (mac）</li>
-<li><a href="https://ant.apache.org/" target="_blank" rel="noopener">Apache Ant </a> (Mac 的化可以用 <code>brew install ant</code> 的方式来安装)， 版本用最新的就好了</li>
-<li><a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener">Intellij</a> 个人认为最好的Java IDE, 下载一个最新的版本就好了</li>
-</ol>
-<h3 id="clone代码到本地目录下"><a href="#clone代码到本地目录下" class="headerlink" title="clone代码到本地目录下"></a>clone代码到本地目录下</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; git <span class="built_in">clone</span> git@github.com:apache/jmeter.git</span><br></pre></td></tr></tbody></table></figure>
-<p>###进入到<code>jmeter</code>目录，下载第三方依赖 Jar</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; ant download_jars</span><br></pre></td></tr></tbody></table></figure>
-<p>等<code>download_jars</code>任务完成后，确认一下<code>lib</code>目录下已经有了需要的依赖Jar 文件了</p>
-<p>###用 Intellij 直接打开 JMeter</p>
-<p>如果之前安装<code>intellij</code> 时已经把<code>idea</code>添加到了command line的可以，可以在<code>Jmeter</code>目录下直接通过命令行打开        </p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; idea .</span><br></pre></td></tr></tbody></table></figure>
-<p>###配置 IDE </p>
-<p>添加 Jar 到 classpath ，点击右上角的蓝色按钮，选择<code>Project Settings -&gt; Library</code>,选择<code>+</code> ，并选择<code>Java</code>, 然后选择<code>lib</code>后点击确认, 这样就把之前<code>download_jars</code>下载到<code>lib</code>中的所有jar添加到了classpath 中</p>
-<p><img src="/2019/03/03/jmeter-source-code-initenviroment/Jietu20190303-225136.jpg" alt="设置classpath"></p>
-<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p><code>Jmeter</code> 的 <code>Main</code>函数入口在<code>org.apache.jmeter.NewDriver</code>这个class，在完成 classpath 设置后就可以直接运行，但是会报很多Runtime的Exception，我们需要再做一些设置</p>
-<ol>
-<li><p>设置 <code>jmeter.properties</code>. 如果是用<code>ant</code>打包的话会把相关的resource 都打到Jar包内，但是如果通过源码来运行的话，需要显示指定一下<code>jmeter.properties</code> 否则会报错，提示找不到配置文件。方法就是修改运行的配置，增加一个命令行参数，手动设置<code>jmeter.propreties</code>, 在这里我用的是绝对路径</p>
-<p><img src="/2019/03/03/jmeter-source-code-initenviroment/Jietu20190303-233230.jpg" alt="配置jmeter.properties"></p>
-</li>
-</ol>
-<ol start="2">
-<li><p>修改一下<code>jmeter.properties</code>, 把第37行注释打开就好，否则系统界面会是一堆乱码的界面，这里我选择的方式是改成英文就好了</p>
-<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">language=en</span><br></pre></td></tr></tbody></table></figure>
-</li>
-</ol>
-<ol start="3">
-<li>最后改动一下<code>org.apache.jmeter.NewDriver</code>中第83行代码，设置一下当前<code>jmeter</code>目录的绝对路径 (之前想用System Property来设置，好像没什么小姑哦，就直接改源代码好了)</li>
-</ol>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (tok.countTokens() == <span class="number">1</span></span><br><span class="line">                || (tok.countTokens()  == <span class="number">2</span> <span class="comment">// Java on Mac OS can add a second entry to the initial classpath</span></span><br><span class="line">                    &amp;&amp; OS_NAME_LC.startsWith(<span class="string">"mac os x"</span>)<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                   )</span><br><span class="line">           ) {</span><br><span class="line">            File jar = <span class="keyword">new</span> File(tok.nextToken());</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                tmpDir = jar.getCanonicalFile().getParentFile().getParent();</span><br><span class="line">            } <span class="keyword">catch</span> (IOException e) {</span><br><span class="line">                tmpDir = <span class="keyword">null</span>;</span><br><span class="line">            }</span><br><span class="line">        } <span class="keyword">else</span> {<span class="comment">// e.g. started from IDE with full classpath</span></span><br><span class="line">            tmpDir = System.getProperty(<span class="string">"jmeter.home"</span>,<span class="string">"/Users/ylshao/code/github/jmeter"</span>);<span class="comment">// Allow override $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line">            <span class="keyword">if</span> (tmpDir.length() == <span class="number">0</span>) {</span><br><span class="line">                File userDir = <span class="keyword">new</span> File(System.getProperty(<span class="string">"user.dir"</span>));<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                tmpDir = userDir.getAbsoluteFile().getParent();</span><br><span class="line">            }</span><br><span class="line">        }</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h3><p>好了，现在启动一下<code>org.apache.jmeter.NewDriver 这个入口程序，就可以看到熟悉的</code>Jmeter 界面了</p>
-<p><img src="/2019/03/03/jmeter-source-code-initenviroment/Jietu20190303-233942@2x.jpg" alt="设置classpath"></p>
-<h3 id="问题解答"><a href="#问题解答" class="headerlink" title="问题解答"></a>问题解答</h3><ol>
-<li>过程中如果遇到一些<code>test</code>目录提示编译失败的化，可以直接在<code>Project Settings - Module</code>中把他们删除掉就好了，反正源码分析暂时也用不到</li>
-</ol>
+            <p>
+              准备环境
+操作系统 MacOS Mojave
+JDK 1.8
+Git (mac）
+Apache Ant  (Mac 的化可以用 brew install ant 的方式来安装)， 版本用最新的就好了
+Intellij 个人认为最好的Java IDE, 下载一个最新的版本就好了
 
+clone代码到本地目录下&gt; git clone git@github.com:apache/jmeter.git
+###进入到jmeter目录，下载第三方依赖 Jar
+&gt; ant download_jars
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/03/jmeter-source-code-initenviroment/#more" rel="contents">
+                阅读全文 »
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -3584,30 +3567,21 @@ hr {
       
         
           
-            <p>上一次写博客已经不知道是多久之前的事情了，开通 <code>Github Page</code> 刚开始更多是出于对于新事物尝鲜，对于坚持写作这个事情反而没有怎么重视。工作这几年，特别是在依图的这2年越来越感受到思考的深度是多么的重要，而其中写作正好是一个非常好的静下来去思考，去复盘的一个手段。趁着这段时间在北京出差在酒店空着没事儿，把之前基于<code>octopress</code> 的 blog 迁移到了 <code>hexo</code> , 希望从2019年开始，通过这里记录下工作生活中的点点滴滴，最关健的是要能一直坚持下去。</p>
-<h3 id="关于工作"><a href="#关于工作" class="headerlink" title="关于工作"></a>关于工作</h3><hr>
-<p>整个2018年的工作可以主要分为两个阶段，上半年我基本上是戴着测试团队负责人的帽子干着 <code>60%</code> 测试的工作和 <code>40%</code> 产品经理的工作，下半年是戴着产品经理的帽子干着 <code>80%</code> 产品管理的活和 <code>20%</code> 测试横向的事情 。 先来谈谈在测试这块做的一些工作，记录一些关于框架，工具方面的沉淀吧</p>
-<h4 id="Atom-Integration"><a href="#Atom-Integration" class="headerlink" title="Atom Integration"></a>Atom Integration</h4><p>这个是我上半年在负责原子的测试的时候设计开发的一个性能测试框架，至于为什么我会去负责原子的测试，主要的原因是2个</p>
-<ol>
-<li>整个2017年的招聘工作不给力，18年纵队化改革后，一下子暴露出了人员短缺的问题，当时的主力都要投到<code>人像大平台</code>和<code>人像大数据</code>的产品上，作为公司新的重要孵化产品，只能我自己上了</li>
-<li>另外原子是一个全新的贴近算法的层面的底层产品，支持分布式，我个人也比较希望可以借这个机会对底层的一些技术可以有更多的了解，而且当时团队都是Python，就我可能算还会一些一点 Java</li>
-</ol>
-<p>原子作为一个底层算法的产品，最为关注的就是性能，由于对外提供的 interface 是Java SDK （RPC Client），所以我一开始选择的方式的 <code>Jmeter</code> + <code>Java Sampler</code>的方式。但是由于我们的Client 中存在一些同步转异步的操作，内部Client的线程模型套在<code>Jmeter</code>的线程模型里后，最后测试出来的QPS 和开发自测的QPS总是不能对齐，而且GPU的利用率也一直上不去，当时项目实在是紧急，也来不及通过看<code>Jmeter</code>source code 的方式来排查具体的原因，就决定通过快速rush 一个性能压测的框架出来再说，取名 <code>Atom Integration</code>, 整个框架基于 Java Executors 的并发模型，支持通过 Console 输出最终的 QPS 和平均 Latency，对于测试过程中的实时 QPS 的 Latency 的监控是通过一个异步的线程把metrics 打到influxdb， 并通过grafana来看，在开发的过程中还是遇到了一些问题，后面我会单独写一篇文章来介绍这个整个设计的思路和过程，这里把当时遇到的问题这里记一下</p>
-<ol>
-<li>长时间运行的时候，Result 的 Queue 会出现 Out of memory 的情况</li>
-<li>P99 和 P95 计算方式设计不太好，最后用了一个time window的方式，丢掉了一些历史数据</li>
-<li>Request 的唯一性问题，因为 Result 是一个HashMap &lt;Request, Latency&gt;, 但是 Request 的唯一性不太够，导致出现 Key Conflict </li>
-</ol>
-<p><code>Atom Integration</code> 开发出来后，支持了原子多个版本的性能测试，后来还被他们改造成了一个HTTP Result API 的压力测试框架。这段经历弥足珍贵，让我有机会从头设计一个性能测试框架，对于线程的调度治理，并发模型的控制有了更加深刻的认识</p>
-<h4 id="Kan-Kan"><a href="#Kan-Kan" class="headerlink" title="Kan Kan"></a>Kan Kan</h4><p>吃狗粮是我们重要的质量文化，但是<code>人像原子</code>作为一个服务器的产品是没有界面的，没法吃狗粮。我花了一个星期的时间做了一个叫<code>KanKan</code>的前端应用，其实这一个星期中的大部分是在学习前端的技术，主要是<code>Web Socket</code> 相关的内容。因为之前在<code>人像大平台</code>和前端聊希望他们引入<code>Web Socket</code>技术来提高<code>drawer</code>的效果被他们以复杂拒绝后，我就一直希望在原子这里可以i 尝试一下<code>Web Socket</code>技术，现在<code>KanKan</code>在富麟他们的改造下（增加了更多监控metraic），已经成为一个重要的稳定性测试工具，关键还挺好玩的</p>
-<h4 id="Nebula"><a href="#Nebula" class="headerlink" title="Nebula"></a>Nebula</h4><p>下半年开始转型产品经理后，也花了一部分时间承担了测试团队横向工作方面的一些事情，最主要的就是CI 2.0的架构设计，也就是<code>Nebula</code> 项目。 目的是希望这个项目可以作为整个团队的横向工作，让大家纵向工作之余的时间可以投入到这个它的开发中去，并且最终可以帮助到纵向的测试工作，提高整体的研发效率.</p>
-<p><code>Nebula</code>的整体设计的核心思想就是<code>TaaS - Test as a Service</code> ，希望把测试也作为一个特殊的服务放到整个被测试服务的链路中来。当然它所聚焦的问题就是我们面前80%的测试团队在做的事情，集成测试和性能测试，主要针对的是各种服务，其中HTTP 为主，有一些是RPC 或者是自己的私有协议。希望通过一些工具把这些测试过程中问题统一解决掉，包括被测试服务的部署，接口测试，性能测试等，并结合Docker Kubernetse， Jenkins ，ELK等开源工具，把整个工具链系统化，平台化，服务化。后面有时间也会写一系列文站过来介绍 Nebula 中一些核心组件的设计思想，先放一个脱敏过的 PPT在这里，欢迎有兴趣的同学给我留言讨论</p>
-
-
-<iframe src="https://myslide.cn/html_player/10962" width="562.5" height="388.25" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="margin-bottom:5px; max-width: 100%;" allowfullscreen=""></iframe>	
-
-
+            <p>
+              上一次写博客已经不知道是多久之前的事情了，开通 Github Page 刚开始更多是出于对于新事物尝鲜，对于坚持写作这个事情反而没有怎么重视。工作这几年，特别是在依图的这2年越来越感受到思考的深度是多么的重要，而其中写作正好是一个非常好的静下来去思考，去复盘的一个手段。趁着这段时间在北京出差在酒店空着没事儿，把之前基于octopress 的 blog 迁移到了 hexo , 希望从2019年开始，通过这里记录下工作生活中的点点滴滴，最关健的是要能一直坚持下去。
+关于工作
+整个2018年的工作可以
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/01/2018-conclusion/#more" rel="contents">
+                阅读全文 »
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -4175,9 +4149,20 @@ hr {
       
         
           
-            <p>今天是2014/1/13日，正式在GITHUB上托管我的Blog，从此记录下我生活工作的点点滴滴。</p>
+            <p>
+              今天是2014/1/13日，正式在GITHUB上托管我的Blog，从此记录下我生活工作的点点滴滴。
 
+              
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2014/01/13/first-post/#more" rel="contents">
+                阅读全文 »
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
