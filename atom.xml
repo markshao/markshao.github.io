@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-04T17:19:38.109Z</updated>
+  <updated>2019-03-05T15:30:24.823Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JMeter 源码解读 [2] - 目录结构分析</title>
+    <link href="http://markshao.github.io/2019/03/05/jmeter-directory-structure/"/>
+    <id>http://markshao.github.io/2019/03/05/jmeter-directory-structure/</id>
+    <published>2019-03-05T15:01:14.000Z</published>
+    <updated>2019-03-05T15:30:24.823Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;本来是准备自己写一个关于&lt;code&gt;Jmeter&lt;/code&gt; 目录结构的分析，碰巧看到了这篇  &lt;a href=&quot;https://wiki.apache.org/jmeter/DeveloperManual/DirStructure&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>vscode 杂谈</title>
@@ -41,11 +65,11 @@
   </entry>
   
   <entry>
-    <title>JMeter 源码解读 - 配置开发环境</title>
+    <title>JMeter 源码解读 [1] - 配置开发环境</title>
     <link href="http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/"/>
     <id>http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/</id>
     <published>2019-03-03T14:33:23.000Z</published>
-    <updated>2019-03-03T16:36:59.483Z</updated>
+    <updated>2019-03-05T15:27:28.574Z</updated>
     
     <summary type="html">
     

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[JMeter 源码解读 [2] - 目录结构分析]]></title>
+    <url>%2F2019%2F03%2F05%2Fjmeter-directory-structure%2F</url>
+    <content type="text"><![CDATA[本来是准备自己写一个关于Jmeter 目录结构的分析，碰巧看到了这篇 官方文档 内容基本和我要写的差不都，就直接拿来翻译记录一下（对于其中一些过时的内容会直接删除掉） JMeter 的代码目录主要是根据支持的协议和功能来组织的。这样设计的好处是开发者可以编译一个只支持某种协议的JMeter 包而不用编译整个应用。我们接下来会给到更多JMeter 代码目录的解析，因为大多数的JMeter开发者是用ecipse来做开发环境，我们也用eclipse 的目录结构来做介绍 顶部目录 bin - 包含.bat 和 . sh 这些文件用于启动JMeter。同时也包含了ApacheJmeter.jar 和 相关的配置文件 build - build 脚本创建的目录，存放一些build过程生成的文件 dist - build 脚本创建饿目录，存放最后输出的文件 docs - JMeter 相关目录 extras - ant 相关的其他文件 lib - 包含JMeter 依赖的相关文件 src - 子目录包含支持的协议和相关组件代码 test - 单元测试目录 xdocs - 用于生成文档的xml文件，JMeter用xml来生成文档 Lib 目录结构 ext - 包含 JMeter 核心和协议相关的 jar 文件。把这些 jar 文件独立出来原因是如果都放在lib/目录里启动速度会变慢 opt - 一些可选的 jar 用于 JMeter 的一些可选的功能。这些 jar 只有在build 和 运行的时候才会被引入。用户可以自己下来可选的 jar 放到整个目录里 Src 目录结构 core - JMeter 核心功能和接口的代码目录，也是我们分析的重点 components - 和协议无关的一些类，例如协议， GUI 组件等 examples - 一些sampler的例子 functions - 一些其他组件会使用的标准函数 jorphan - 公共方法类 （https://markmail.org/message/xisc5fw2dr4bw4uy） protocol - 不同的协议支持代码 junit - 测试相关的代码]]></content>
+      <categories>
+        <category>JMeter 源码解读</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[vscode 杂谈]]></title>
     <url>%2F2019%2F03%2F04%2Fvscode-introduction%2F</url>
     <content type="text"><![CDATA[在依图的时候为了安利周围的同学都使用visual studio code ，特地写了一个ppt给他们做了一个培训。当然不是介绍vscode 本身那么无聊，主要是八卦了一下vscode 背后的作者以及相关的技术实现。 vscode 本身的设计还是很经典的, 主要是2个方面 Plugin 解偶，不同于过去 eclipse OSGI 的全部加载到内存模式，通过 RPC 和一个独立于vscode 的n extension进程进行通信的方式来工作 [Language Server Protoocl][https://langserver.org/] ，整个设计非常优雅，例如Java Extension 其实就没有从头开始开发，基于eclipse 封装了一个Language Server 就完事了 有兴趣的同学可以看一下PPT ，里面还介绍了vscode 的作者，都是一堆大牛]]></content>
@@ -9,7 +17,7 @@
       </categories>
   </entry>
   <entry>
-    <title><![CDATA[JMeter 源码解读 - 配置开发环境]]></title>
+    <title><![CDATA[JMeter 源码解读 [1] - 配置开发环境]]></title>
     <url>%2F2019%2F03%2F03%2Fjmeter-source-code-initenviroment%2F</url>
     <content type="text"><![CDATA[准备环境 操作系统 MacOS Mojave JDK 1.8 Git Apache Ant (Mac 的化可以用 brew install ant 的方式来安装)， 版本用最新的就好了 Intellij 个人认为最好的Java IDE, 下载一个最新的版本就好了 clone代码到本地目录下1&gt; git clone git@github.com:apache/jmeter.git ###进入到jmeter目录，下载第三方依赖 Jar 1&gt; ant download_jars 等download_jars任务完成后，确认一下lib目录下已经有了需要的依赖Jar 文件了 ###用 Intellij 直接打开 JMeter 如果之前安装intellij 时已经把idea添加到了command line的可以，可以在Jmeter目录下直接通过命令行打开 1&gt; idea . ###配置 IDE 添加 Jar 到 classpath ，点击右上角的蓝色按钮，选择Project Settings -&gt; Library,选择+ ，并选择Java, 然后选择lib后点击确认, 这样就把之前download_jars下载到lib中的所有jar添加到了classpath 中 配置环境变量Jmeter 的 Main函数入口在org.apache.jmeter.NewDriver这个class，在完成 classpath 设置后就可以直接运行，但是会报很多Runtime的Exception，我们需要再做一些设置 设置 jmeter.properties. 如果是用ant打包的话会把相关的resource 都打到Jar包内，但是如果通过源码来运行的话，需要显示指定一下jmeter.properties 否则会报错，提示找不到配置文件。方法就是修改运行的配置，增加一个命令行参数，手动设置jmeter.propreties, 在这里我用的是绝对路径 修改一下jmeter.properties, 把第37行注释打开就好，否则系统界面会是一堆乱码的界面，这里我选择的方式是改成英文就好了 1language=en 最后改动一下org.apache.jmeter.NewDriver中第83行代码，设置一下当前jmeter目录的绝对路径 (之前想用System Property来设置，好像没什么小姑哦，就直接改源代码好了) 123456789101112131415161718if (tok.countTokens() == 1 || (tok.countTokens() == 2 // Java on Mac OS can add a second entry to the initial classpath &amp;&amp; OS_NAME_LC.startsWith("mac os x")// $NON-NLS-1$ ) ) &#123; File jar = new File(tok.nextToken()); try &#123; tmpDir = jar.getCanonicalFile().getParentFile().getParent(); &#125; catch (IOException e) &#123; tmpDir = null; &#125; &#125; else &#123;// e.g. started from IDE with full classpath tmpDir = System.getProperty("jmeter.home","/Users/ylshao/code/github/jmeter");// Allow override $NON-NLS-1$ $NON-NLS-2$ if (tmpDir.length() == 0) &#123; File userDir = new File(System.getProperty("user.dir"));// $NON-NLS-1$ tmpDir = userDir.getAbsoluteFile().getParent(); &#125; &#125; 大功告成好了，现在启动一下org.apache.jmeter.NewDriver 这个入口程序，就可以看到熟悉的Jmeter 界面了 问题解答 过程中如果遇到一些test目录提示编译失败的化，可以直接在Project Settings - Module中把他们删除掉就好了，反正源码分析暂时也用不到]]></content>
       <categories>
