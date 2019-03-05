@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-05T15:30:24.823Z</updated>
+  <updated>2019-03-05T16:07:21.797Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JMeter 源码解读 [3] - 程序入口 NewDriver</title>
+    <link href="http://markshao.github.io/2019/03/05/jmeter-new-driver/"/>
+    <id>http://markshao.github.io/2019/03/05/jmeter-new-driver/</id>
+    <published>2019-03-05T15:37:30.000Z</published>
+    <updated>2019-03-05T16:07:21.797Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;code&gt;NewDriver&lt;/code&gt; 的完整路径是&lt;code&gt;org.apache.jmeter.NewDriver&lt;/code&gt; , 它是整个&lt;code&gt;JMeter&lt;/code&gt; 的入口类，主要的作用是提供了main
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>JMeter 源码解读 [2] - 目录结构分析</title>
