@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-05T16:35:59.273Z</updated>
+  <updated>2019-03-06T15:00:02.586Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JMeter 源码解读 [4] - HashTree</title>
+    <link href="http://markshao.github.io/2019/03/06/hashtree/"/>
+    <id>http://markshao.github.io/2019/03/06/hashtree/</id>
+    <published>2019-03-06T14:15:32.000Z</published>
+    <updated>2019-03-06T15:00:02.586Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;HashTree&quot;&gt;&lt;a href=&quot;#HashTree&quot; class=&quot;headerlink&quot; title=&quot;HashTree&quot;&gt;&lt;/a&gt;HashTree&lt;/h3&gt;&lt;p&gt;首先要特别说明一下这里说的&lt;code&gt;HashTree&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="设计模式" scheme="http://markshao.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>JMeter 源码解读 [3] - 程序入口 NewDriver</title>
@@ -93,7 +119,7 @@
     <link href="http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/"/>
     <id>http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/</id>
     <published>2019-03-03T14:33:23.000Z</published>
-    <updated>2019-03-05T15:27:28.574Z</updated>
+    <updated>2019-03-06T14:14:51.183Z</updated>
     
     <summary type="html">
     
