@@ -88,21 +88,13 @@
 
 
 
-  <meta name="description" content="HashTree首先要特别说明一下这里说的HashTree 和我们在数据结构里面谈的 哈希树 完全不是一个概念，一开始我也被它的名字误导，特地去看了一会哈希树相关的技术细节，后来越深人越发现，这个HashTree 完全是挂羊头卖狗肉嘛，不过作为整个JMeter 最核心的一个数据结构，还是很值得认真分析一下的 JMX文件我们知道jmx 是JMeter用来描述测试用例的核心文件，它可以用于在GUI 模">
-<meta name="keywords" content="设计模式">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JMeter 源码解读 [4] - HashTree">
-<meta property="og:url" content="http://markshao.github.io/2019/03/06/hashtree/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="小法@兵工厂">
+<meta property="og:url" content="http://markshao.github.io/archives/page/2/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
-<meta property="og:description" content="HashTree首先要特别说明一下这里说的HashTree 和我们在数据结构里面谈的 哈希树 完全不是一个概念，一开始我也被它的名字误导，特地去看了一会哈希树相关的技术细节，后来越深人越发现，这个HashTree 完全是挂羊头卖狗肉嘛，不过作为整个JMeter 最核心的一个数据结构，还是很值得认真分析一下的 JMX文件我们知道jmx 是JMeter用来描述测试用例的核心文件，它可以用于在GUI 模">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://markshao.github.io/2019/03/06/hashtree/Jietu20190306-222921.jpg">
-<meta property="og:image" content="http://markshao.github.io/2019/03/06/hashtree/Jietu20190306-223707.jpg">
-<meta property="og:updated_time" content="2019-03-06T15:08:14.150Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JMeter 源码解读 [4] - HashTree">
-<meta name="twitter:description" content="HashTree首先要特别说明一下这里说的HashTree 和我们在数据结构里面谈的 哈希树 完全不是一个概念，一开始我也被它的名字误导，特地去看了一会哈希树相关的技术细节，后来越深人越发现，这个HashTree 完全是挂羊头卖狗肉嘛，不过作为整个JMeter 最核心的一个数据结构，还是很值得认真分析一下的 JMX文件我们知道jmx 是JMeter用来描述测试用例的核心文件，它可以用于在GUI 模">
-<meta name="twitter:image" content="http://markshao.github.io/2019/03/06/hashtree/Jietu20190306-222921.jpg">
+<meta name="twitter:title" content="小法@兵工厂">
 
 
 
@@ -111,7 +103,7 @@
 
 
 
-  <link rel="canonical" href="http://markshao.github.io/2019/03/06/hashtree/">
+  <link rel="canonical" href="http://markshao.github.io/archives/page/2/">
 
 
 
@@ -121,7 +113,7 @@
   };
 </script>
 
-  <title>JMeter 源码解读 [4] - HashTree | 小法@兵工厂</title>
+  <title>归档 | 小法@兵工厂</title>
   
 
 
@@ -3036,7 +3028,7 @@ hr {
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-archive">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -3154,7 +3146,7 @@ hr {
         
         
           
-          <li class="menu-item menu-item-archives">
+          <li class="menu-item menu-item-archives menu-item-active">
 
     
     
@@ -3185,6 +3177,28 @@ hr {
 
   
     
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
 
   
 
@@ -3231,238 +3245,82 @@ hr {
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-  
+      
+      <span class="archive-page-counter">
+        
+        
+        
+          
+        
+        嗯..! 目前共计 11 篇日志。 继续努力。
+      </span>
+      
 
-  
-  
-  
+      
 
-  
+        
+        
+        
+
+        
+          
+          <div class="collection-title">
+            <h1 class="archive-year" id="archive-year-2014">2014</h1>
+          </div>
+        
+        
+
+        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/03/06/hashtree/">
+    <header class="post-header">
 
-    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="书记">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小法@兵工厂">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+          <a class="post-title-link" href="/2014/01/13/first-post/" itemprop="url">
+            
+              <span itemprop="name">第一篇POST纪念</span>
+            
+          </a>
         
-          <h1 class="post-title" itemprop="name headline">JMeter 源码解读 [4] - HashTree
+      </h2>
 
-              
-            
-          </h1>
-        
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2014-01-13T22:15:00+08:00" content="2014-01-13">
+          01-13
+        </time>
+      </div>
 
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-06 22:15:32 / 修改时间：23:08:14" itemprop="dateCreated datePublished" datetime="2019-03-06T22:15:32+08:00">2019-03-06</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/JMeter-源码解读/" itemprop="url" rel="index"><span itemprop="name">JMeter 源码解读</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/06/hashtree/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/06/hashtree/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h3 id="HashTree"><a href="#HashTree" class="headerlink" title="HashTree"></a>HashTree</h3><p>首先要特别说明一下这里说的<code>HashTree</code> 和我们在<code>数据结构</code>里面谈的 <a href="https://zh.wikipedia.org/zh-hans/%E5%93%88%E5%B8%8C%E6%A0%91" target="_blank" rel="noopener">哈希树</a> 完全不是一个概念，一开始我也被它的名字误导，特地去看了一会<code>哈希树</code>相关的技术细节，后来越深人越发现，这个<code>HashTree</code> 完全是挂羊头卖狗肉嘛，不过作为整个JMeter 最核心的一个数据结构，还是很值得认真分析一下的</p>
-<h3 id="JMX文件"><a href="#JMX文件" class="headerlink" title="JMX文件"></a>JMX文件</h3><p>我们知道<code>jmx</code> 是<code>JMeter</code>用来描述测试用例的核心文件，它可以用于在GUI 模式下加载整个测试组件，也可以直接运行于<code>Non-GUI</code>的执行模式，它是格式是基于XML 。那么<code>HashTree</code>就是它在内存的一份映射。 我们先来看一份我自定义的JMX 文件，我把一些 xml 节点都 fold 起来了，否则会很长</p>
-<p><img src="/2019/03/06/hashtree/Jietu20190306-222921.jpg" alt="JMX Test Plan"></p>
-<p>可以看到这个xml是有一定格式的，他的每一层都只有2个类型的节点</p>
-<ul>
-<li>Object 节点 - 代表一个 Test Component</li>
-<li>HashTree - 一个HashTree 的子节点</li>
-</ul>
-<p>那我们来看一下<code>org.apache.jorphan.collections.HashTree</code> 这个类的定义</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashTree</span> <span class="keyword">implements</span> <span class="title">Serializable</span>, <span class="title">Map</span>&lt;<span class="title">Object</span>, <span class="title">HashTree</span>&gt;, <span class="title">Cloneable</span> </span>{</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">240L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Used for the RuntimeException to short-circuit the traversal</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String FOUND = <span class="string">"found"</span>; <span class="comment">// $NON-NLS-1$</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// N.B. The keys can be either JMeterTreeNode or TestElement</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> Map&lt;Object, HashTree&gt; data; <span class="comment">// </span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Creates an empty new HashTree.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HashTree</span><span class="params">()</span> </span>{</span><br><span class="line">        <span class="keyword">this</span>(<span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">    }</span><br><span class="line">    .......</span><br></pre></td></tr></tbody></table></figure>
-<p>它的核心存储就是一个<code>protected final Map&lt;Object, HashTree&gt; data</code> 的 Map ，然后通过对外提供Map 接口来给上层提供读写的能力。我尝试单步调试了一下，确认<code>ListedHashTree</code> 在内存的结构就是 jmx 文件的映射, <code>ListedHashTre</code> 是<code>HashTree</code>的子类，实际使用的都是<code>ListedHashMap</code>，它类似于<code>LinkedHashMap</code> ，这里就不展开了</p>
-<p><img src="/2019/03/06/hashtree/Jietu20190306-223707.jpg" alt="image-debug"></p>
-<h3 id="Vistor-设计模式"><a href="#Vistor-设计模式" class="headerlink" title="Vistor 设计模式"></a>Vistor 设计模式</h3><p><code>HashTree</code>在数据节点的遍历上还用了一个经典的访问者的设计模式，由于在测试执行中JMeter的Engine需要经常访问 JMX 中的某些节点和子节点，如果把这些方法放在HashTree 本身会使得耦合特别紧密，通过访问者模式可以解耦并提供更好灵活的扩展性, 访问者模式参考<a href="https://www.jianshu.com/p/cd17bae4e949" target="_blank" rel="noopener">这里</a></p>
-<p><code>HashTreeIterator</code> 定义类访问者的标准接口，类似<code>accept(Object node)</code> 这样的定义，这里主要是<code>addNode</code>的方法，我们看一下<code>HashTreeIterator</code>的定义</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HashTreeTraverser</span> </span>{</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The tree traverses itself depth-first, calling addNode for each object it</span></span><br><span class="line"><span class="comment">     * encounters as it goes. This is a callback method, and should not be</span></span><br><span class="line"><span class="comment">     * called except by a HashTree during traversal.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> node</span></span><br><span class="line"><span class="comment">     *            the node currently encountered</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> subTree</span></span><br><span class="line"><span class="comment">     *            the HashTree under the node encountered</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addNode</span><span class="params">(Object node, HashTree subTree)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Indicates traversal has moved up a step, and the visitor should remove</span></span><br><span class="line"><span class="comment">     * the top node from its stack structure. This is a callback method, and</span></span><br><span class="line"><span class="comment">     * should not be called except by a HashTree during traversal.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">subtractNode</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Process path is called when a leaf is reached. If a visitor wishes to</span></span><br><span class="line"><span class="comment">     * generate Lists of path elements to each leaf, it should keep a Stack data</span></span><br><span class="line"><span class="comment">     * structure of nodes passed to it with addNode, and removing top items for</span></span><br><span class="line"><span class="comment">     * every {<span class="doctag">@link</span> #subtractNode()} call. This is a callback method, and should</span></span><br><span class="line"><span class="comment">     * not be called except by a HashTree during traversal.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">processPath</span><span class="params">()</span></span>;</span><br></pre></td></tr></tbody></table></figure>
-<p><code>SearchByClass</code> 是访问者的实现，它主要实现了<code>addNode</code>的方法，并且通过泛型定义了需要访问的Object 的类型，我们看下代码</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SearchByClass</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">HashTreeTraverser</span> </span>{</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> List&lt;T&gt; objectsOfClass = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;Object, ListedHashTree&gt; subTrees = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Class&lt;T&gt; searchClass;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Creates an instance of SearchByClass, and sets the Class to be searched</span></span><br><span class="line"><span class="comment">     * for.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> searchClass</span></span><br><span class="line"><span class="comment">     *            class to be searched for</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SearchByClass</span><span class="params">(Class&lt;T&gt; searchClass)</span> </span>{</span><br><span class="line">        <span class="keyword">this</span>.searchClass = searchClass;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * After traversing the HashTree, call this method to get a collection of</span></span><br><span class="line"><span class="comment">     * the nodes that were found.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Collection All found nodes of the requested type</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Collection&lt;T&gt; <span class="title">getSearchResults</span><span class="params">()</span> </span>{ <span class="comment">// TODO specify collection type without breaking callers</span></span><br><span class="line">        <span class="keyword">return</span> objectsOfClass;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Given a specific found node, this method will return the sub tree of that</span></span><br><span class="line"><span class="comment">     * node.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> root</span></span><br><span class="line"><span class="comment">     *            the node for which the sub tree is requested</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> HashTree</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> HashTree <span class="title">getSubTree</span><span class="params">(Object root)</span> </span>{</span><br><span class="line">        <span class="keyword">return</span> subTrees.get(root);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** {<span class="doctag">@inheritDoc</span>} */</span></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addNode</span><span class="params">(Object node, HashTree subTree)</span> </span>{ <span class="comment">// 某一层HashTre 的数据访问</span></span><br><span class="line">        <span class="keyword">if</span> (searchClass.isAssignableFrom(node.getClass())) {</span><br><span class="line">            objectsOfClass.add((T) node);</span><br><span class="line">            ListedHashTree tree = <span class="keyword">new</span> ListedHashTree(node);</span><br><span class="line">            tree.set(node, subTree);</span><br><span class="line">            subTrees.put(node, tree);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** {<span class="doctag">@inheritDoc</span>} */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subtractNode</span><span class="params">()</span> </span>{</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** {<span class="doctag">@inheritDoc</span>} */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processPath</span><span class="params">()</span> </span>{</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<p>我们看一下业务代码怎么使用访问者模式来选择 jmx 中的某个子节点，这里借用核心的<code>StandardJMeterEnginer</code>的<code>configure</code>函数来说明一下</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HashTree testTree)</span> </span>{</span><br><span class="line">        <span class="comment">// Is testplan serialised?</span></span><br><span class="line">        SearchByClass&lt;TestPlan&gt; testPlan = <span class="keyword">new</span> SearchByClass&lt;&gt;(TestPlan.class);</span><br><span class="line">        testTree.traverse(testPlan);</span><br><span class="line">        Object[] plan = testPlan.getSearchResults().toArray();</span><br><span class="line">        <span class="keyword">if</span> (plan.length == <span class="number">0</span>) {</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Could not find the TestPlan class!"</span>);</span><br><span class="line">        }</span><br><span class="line">        TestPlan tp = (TestPlan) plan[<span class="number">0</span>];</span><br><span class="line">        serialized = tp.isSerialized();</span><br><span class="line">        tearDownOnShutdown = tp.isTearDownOnShutdown();</span><br><span class="line">        active = <span class="keyword">true</span>;</span><br><span class="line">        test = testTree;</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
-<p>目标是要获取 TestPlan 的节点，我们看怎么调用的</p>
-<ol>
-<li>创建<code>SearchByClass</code>对象，传入TestPlan.class 用来构造</li>
-<li>调用 HashTree 资深的 <code>traverse</code> 方法，传入<code>SearchByClass</code> 对象</li>
-<li>通过 <code>testPlan.getSearchResults().toArray();</code> 获取访问结果</li>
-</ol>
-<p>关于HashTree就说到这了，下次我们深入到JMeter 的运行原理去进一步分析</p>
-
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/03/05/jmeter-new-driver/" rel="next" title="JMeter 源码解读 [3] - 程序入口 NewDriver">
-                <i class="fa fa-chevron-left"></i> JMeter 源码解读 [3] - 程序入口 NewDriver
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/07/jmeter/" rel="prev" title="JMeter 源码解读 [5] - 核心类 org.apache.jmeter.JMeter">
-                JMeter 源码解读 [5] - 核心类 org.apache.jmeter.JMeter <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
+
+      
+
+    </div>
   </div>
+  
+  
+  
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
 
         </div>
         
@@ -3482,17 +3340,8 @@ hr {
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -3614,23 +3463,6 @@ hr {
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashTree"><span class="nav-number">1.</span> <span class="nav-text">HashTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JMX文件"><span class="nav-number">2.</span> <span class="nav-text">JMX文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vistor-设计模式"><span class="nav-number">3.</span> <span class="nav-text">Vistor 设计模式</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
@@ -3766,10 +3598,6 @@ hr {
 
 
   
-  
-
-
-
 
   
 
@@ -3791,8 +3619,6 @@ hr {
 
 
 
-
-  
 
 
   
