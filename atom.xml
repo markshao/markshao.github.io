@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-08T11:40:00.274Z</updated>
+  <updated>2019-03-08T14:31:20.074Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>2019 生活 OKR</title>
+    <link href="http://markshao.github.io/2019/03/08/2019-objectives/"/>
+    <id>http://markshao.github.io/2019/03/08/2019-objectives/</id>
+    <published>2019-03-08T14:11:42.000Z</published>
+    <updated>2019-03-08T14:31:20.074Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这周在北京和老板对齐了接下来双月的 okr ，突然发现 2019年已经过去了快1/4了。第一次尝试给自己全年的工作和生活定一个目标，记录在博客也是希望可以鞭策和督促自己，等年底的时候再来看看完成的怎么样。&lt;/p&gt;
+&lt;h3 id=&quot;技术&quot;&gt;&lt;a href=&quot;#技术&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="杂谈" scheme="http://markshao.github.io/categories/%E6%9D%82%E8%B0%88/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>JMeter 源码解读 [7] - JMeter 线程模型</title>
     <link href="http://markshao.github.io/2019/03/08/jmeter-thread-model/"/>
     <id>http://markshao.github.io/2019/03/08/jmeter-thread-model/</id>
     <published>2019-03-08T09:40:31.000Z</published>
-    <updated>2019-03-08T11:40:00.274Z</updated>
+    <updated>2019-03-08T11:42:39.577Z</updated>
     
     <summary type="html">
     
