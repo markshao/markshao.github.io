@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-07T15:11:38.716Z</updated>
+  <updated>2019-03-08T11:40:00.274Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -17,11 +17,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>JMeter 源码解读 [7] - JMeter 线程模型</title>
+    <link href="http://markshao.github.io/2019/03/08/jmeter-thread-model/"/>
+    <id>http://markshao.github.io/2019/03/08/jmeter-thread-model/</id>
+    <published>2019-03-08T09:40:31.000Z</published>
+    <updated>2019-03-08T11:40:00.274Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;code&gt;JMeter&lt;/code&gt; 的线程管理主要是通过两个类来进行，一个是&lt;code&gt;ThreadGroup&lt;/code&gt; 顾名思义整个是一个线程的集合，另外一个是&lt;code&gt;JMeterThread&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>JMeter 源码解读 [6] - 核心类 org.apache.jmeter.engine.StandardJMeterEngine</title>
     <link href="http://markshao.github.io/2019/03/07/StandardJMeterEngine/"/>
     <id>http://markshao.github.io/2019/03/07/StandardJMeterEngine/</id>
     <published>2019-03-07T14:50:48.000Z</published>
-    <updated>2019-03-07T15:11:38.716Z</updated>
+    <updated>2019-03-08T09:40:08.398Z</updated>
     
     <summary type="html">
     

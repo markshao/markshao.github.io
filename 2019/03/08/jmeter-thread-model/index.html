@@ -88,17 +88,17 @@
 
 
 
-  <meta name="description" content="本来是准备自己写一个关于Jmeter 目录结构的分析，碰巧看到了这篇  官方文档 内容基本和我要写的差不都，就直接拿来翻译记录一下（对于其中一些过时的内容会直接删除掉） JMeter 的代码目录主要是根据支持的协议和功能来组织的。这样设计的好处是开发者可以编译一个只支持某种协议的JMeter 包而不用编译整个应用。我们接下来会给到更多JMeter 代码目录的解析，因为大多数的JMeter开发者是用">
+  <meta name="description" content="JMeter 的线程管理主要是通过两个类来进行，一个是ThreadGroup 顾名思义整个是一个线程的集合，另外一个是JMeterThread 整个可以理解为是一个工作线程，用来做实际请求发送的工作。上一次分析StandardJMeterEnginet提到它最后实际是构造了一个ThreadGroup的对象，然后通过调用startThreadGroup方法来启动线程组，实际内部就调用ThreadGr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JMeter 源码解读 [2] - 目录结构分析">
-<meta property="og:url" content="http://markshao.github.io/2019/03/05/jmeter-directory-structure/index.html">
+<meta property="og:title" content="JMeter 源码解读 [7] - JMeter 线程模型">
+<meta property="og:url" content="http://markshao.github.io/2019/03/08/jmeter-thread-model/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
-<meta property="og:description" content="本来是准备自己写一个关于Jmeter 目录结构的分析，碰巧看到了这篇  官方文档 内容基本和我要写的差不都，就直接拿来翻译记录一下（对于其中一些过时的内容会直接删除掉） JMeter 的代码目录主要是根据支持的协议和功能来组织的。这样设计的好处是开发者可以编译一个只支持某种协议的JMeter 包而不用编译整个应用。我们接下来会给到更多JMeter 代码目录的解析，因为大多数的JMeter开发者是用">
+<meta property="og:description" content="JMeter 的线程管理主要是通过两个类来进行，一个是ThreadGroup 顾名思义整个是一个线程的集合，另外一个是JMeterThread 整个可以理解为是一个工作线程，用来做实际请求发送的工作。上一次分析StandardJMeterEnginet提到它最后实际是构造了一个ThreadGroup的对象，然后通过调用startThreadGroup方法来启动线程组，实际内部就调用ThreadGr">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-05T15:30:24.823Z">
+<meta property="og:updated_time" content="2019-03-08T11:40:00.274Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JMeter 源码解读 [2] - 目录结构分析">
-<meta name="twitter:description" content="本来是准备自己写一个关于Jmeter 目录结构的分析，碰巧看到了这篇  官方文档 内容基本和我要写的差不都，就直接拿来翻译记录一下（对于其中一些过时的内容会直接删除掉） JMeter 的代码目录主要是根据支持的协议和功能来组织的。这样设计的好处是开发者可以编译一个只支持某种协议的JMeter 包而不用编译整个应用。我们接下来会给到更多JMeter 代码目录的解析，因为大多数的JMeter开发者是用">
+<meta name="twitter:title" content="JMeter 源码解读 [7] - JMeter 线程模型">
+<meta name="twitter:description" content="JMeter 的线程管理主要是通过两个类来进行，一个是ThreadGroup 顾名思义整个是一个线程的集合，另外一个是JMeterThread 整个可以理解为是一个工作线程，用来做实际请求发送的工作。上一次分析StandardJMeterEnginet提到它最后实际是构造了一个ThreadGroup的对象，然后通过调用startThreadGroup方法来启动线程组，实际内部就调用ThreadGr">
 
 
 
@@ -107,7 +107,7 @@
 
 
 
-  <link rel="canonical" href="http://markshao.github.io/2019/03/05/jmeter-directory-structure/">
+  <link rel="canonical" href="http://markshao.github.io/2019/03/08/jmeter-thread-model/">
 
 
 
@@ -117,7 +117,7 @@
   };
 </script>
 
-  <title>JMeter 源码解读 [2] - 目录结构分析 | 小法@兵工厂</title>
+  <title>JMeter 源码解读 [7] - JMeter 线程模型 | 小法@兵工厂</title>
   
 
 
@@ -3243,7 +3243,7 @@ hr {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/03/05/jmeter-directory-structure/">
+    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/03/08/jmeter-thread-model/">
 
     <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="书记">
@@ -3260,7 +3260,7 @@ hr {
 
         
         
-          <h1 class="post-title" itemprop="name headline">JMeter 源码解读 [2] - 目录结构分析
+          <h1 class="post-title" itemprop="name headline">JMeter 源码解读 [7] - JMeter 线程模型
 
               
             
@@ -3286,7 +3286,7 @@ hr {
                 
               
 
-              <time title="创建时间：2019-03-05 23:01:14 / 修改时间：23:30:24" itemprop="dateCreated datePublished" datetime="2019-03-05T23:01:14+08:00">2019-03-05</time>
+              <time title="创建时间：2019-03-08 17:40:31 / 修改时间：19:40:00" itemprop="dateCreated datePublished" datetime="2019-03-08T17:40:31+08:00">2019-03-08</time>
             
 
             
@@ -3327,8 +3327,8 @@ hr {
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/05/jmeter-directory-structure/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/05/jmeter-directory-structure/" itemprop="commentCount"></span>
+                <a href="/2019/03/08/jmeter-thread-model/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/08/jmeter-thread-model/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -3356,32 +3356,37 @@ hr {
       
 
       
-        <p>本来是准备自己写一个关于<code>Jmeter</code> 目录结构的分析，碰巧看到了这篇  <a href="https://wiki.apache.org/jmeter/DeveloperManual/DirStructure" target="_blank" rel="noopener">官方文档</a> 内容基本和我要写的差不都，就直接拿来翻译记录一下（<u>对于其中一些过时的内容会直接删除掉</u>）</p>
-<p>JMeter 的代码目录主要是根据支持的协议和功能来组织的。这样设计的好处是开发者可以编译一个只支持某种协议的JMeter 包而不用编译整个应用。我们接下来会给到更多JMeter 代码目录的解析，因为大多数的JMeter开发者是用<code>ecipse</code>来做开发环境，我们也用eclipse 的目录结构来做介绍</p>
-<h3 id="顶部目录"><a href="#顶部目录" class="headerlink" title="顶部目录"></a>顶部目录</h3><ul>
-<li>bin - 包含.bat 和 . sh 这些文件用于启动JMeter。同时也包含了ApacheJmeter.jar 和 相关的配置文件</li>
-<li>build - build 脚本创建的目录，存放一些build过程生成的文件</li>
-<li>dist - build 脚本创建饿目录，存放最后输出的文件</li>
-<li>docs - JMeter 相关目录</li>
-<li>extras - ant 相关的其他文件</li>
-<li>lib - 包含JMeter 依赖的相关文件</li>
-<li>src - 子目录包含支持的协议和相关组件代码</li>
-<li>test - 单元测试目录</li>
-<li>xdocs - 用于生成文档的xml文件，JMeter用xml来生成文档</li>
-</ul>
-<h3 id="Lib-目录结构"><a href="#Lib-目录结构" class="headerlink" title="Lib 目录结构"></a>Lib 目录结构</h3><ul>
-<li>ext - 包含 JMeter 核心和协议相关的 jar 文件。把这些 jar 文件独立出来原因是如果都放在<code>lib/</code>目录里启动速度会变慢</li>
-<li>opt - 一些可选的 jar 用于 JMeter 的一些可选的功能。这些 jar 只有在build 和 运行的时候才会被引入。用户可以自己下来可选的 jar 放到整个目录里 </li>
-</ul>
-<h3 id="Src-目录结构"><a href="#Src-目录结构" class="headerlink" title="Src 目录结构"></a>Src 目录结构</h3><ul>
-<li>core - JMeter 核心功能和接口的代码目录，也是我们分析的重点</li>
-<li>components - 和协议无关的一些类，例如协议， GUI 组件等</li>
-<li>examples - 一些sampler的例子</li>
-<li>functions - 一些其他组件会使用的标准函数</li>
-<li>jorphan - 公共方法类 （<a href="https://markmail.org/message/xisc5fw2dr4bw4uy）" target="_blank" rel="noopener">https://markmail.org/message/xisc5fw2dr4bw4uy）</a></li>
-<li>protocol - 不同的协议支持代码</li>
-<li>junit - 测试相关的代码</li>
-</ul>
+        <p><code>JMeter</code> 的线程管理主要是通过两个类来进行，一个是<code>ThreadGroup</code> 顾名思义整个是一个线程的集合，另外一个是<code>JMeterThread</code> 整个可以理解为是一个工作线程，用来做实际请求发送的工作。上一次分析<code>StandardJMeterEngine</code>t提到它最后实际是构造了一个<code>ThreadGroup</code>的对象，然后通过调用<code>startThreadGroup</code>方法来启动线程组，实际内部就调用<code>ThreadGroup</code>自身的<code>start</code>方法，那么我们来看一下这个方法的核心在做什么</p>
+<h3 id="ThreadGroup-start"><a href="#ThreadGroup-start" class="headerlink" title="ThreadGroup.start"></a>ThreadGroup.start</h3><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">delayedStartup = isDelayedStartup(); <span class="comment">// Fetch once; needs to stay constant</span></span><br><span class="line">        log.info(<span class="string">"Starting thread group... number={} threads={} ramp-up={} perThread={} delayedStart={}"</span>, groupNumber,</span><br><span class="line">                numThreads, rampUpPeriodInSeconds, perThreadDelayInMillis, delayedStartup);</span><br><span class="line">        <span class="keyword">if</span> (delayedStartup) {</span><br><span class="line">            threadStarter = <span class="keyword">new</span> Thread(<span class="keyword">new</span> ThreadStarter(notifier, threadGroupTree, engine), getName()+<span class="string">"-ThreadStarter"</span>);</span><br><span class="line">            threadStarter.setDaemon(<span class="keyword">true</span>);</span><br><span class="line">            threadStarter.start();</span><br><span class="line">            <span class="comment">// N.B. we don't wait for the thread to complete, as that would prevent parallel TGs</span></span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            <span class="keyword">long</span> now = System.currentTimeMillis(); <span class="comment">// needs to be same time for all threads in the group</span></span><br><span class="line">            <span class="keyword">final</span> JMeterContext context = JMeterContextService.getContext();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> threadNum = <span class="number">0</span>; running &amp;&amp; threadNum &lt; numThreads; threadNum++) {</span><br><span class="line">                startNewThread(notifier, threadGroupTree, engine, threadNum, context, now, (<span class="keyword">int</span>)(threadNum * perThreadDelayInMillis));</span><br><span class="line">            }</span><br><span class="line">        }</span><br></pre></td></tr></tbody></table></figure>
+<ol>
+<li>首先是获取一个delayedStartup 的状态，这个表示的启动线程组的方式，是否是立即启动全部，还是说通过一个period 的周期来启动整个线程组</li>
+<li>如果delayedStartup是true 的话，那么就会先启动过一个叫<code>ThreadStarter</code> 的线程，通过它来启动过线程组</li>
+<li>反之就直接通过循环调用<code>startNewThread</code> 这个函数的方式来启动线程组</li>
+</ol>
+<p>###看一下 ThreadStarter 线程是怎么启动线程组的</p>
+<p>我们知道<code>JMeter</code>在启动线程组的时候是有设置<code>Ramp up period</code>的模式，整个就是通过<code>ThreadStarter</code>线程来实现的，我么简单看一下它的<code>run()</code> 函数是咋么工作的</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">int</span> perThreadDelayInMillis = Math.round((<span class="keyword">float</span>) (getRampUp() * <span class="number">1000</span>) / (<span class="keyword">float</span>) numThreads);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> threadNumber = <span class="number">0</span>; running &amp;&amp; threadNumber &lt; numThreads; threadNumber++) {</span><br><span class="line">                    <span class="keyword">if</span> (threadNumber &gt; <span class="number">0</span>) {</span><br><span class="line">                        pause(perThreadDelayInMillis); <span class="comment">// ramp-up delay (except first)</span></span><br><span class="line">                    }</span><br><span class="line">                    <span class="keyword">if</span> (usingScheduler &amp;&amp; System.currentTimeMillis() &gt; endtime) {</span><br><span class="line">                        <span class="keyword">break</span>; <span class="comment">// no point continuing beyond the end time</span></span><br><span class="line">                    }</span><br><span class="line">                    JMeterThread jmThread = makeThread(notifier, threadGroupTree, engine, threadNumber, context);</span><br><span class="line">                    jmThread.setInitialDelay(<span class="number">0</span>);   <span class="comment">// Already waited</span></span><br></pre></td></tr></tbody></table></figure>
+<ol>
+<li>首先计算一下每个线程启动的时间等待间隔，<code>final int perThreadDelayInMillis = Math.round((float) (getRampUp() * 1000) / (float) numThreads);</code></li>
+<li>然后就是每次启动一个线程的时候，等待一下 <code>pause(perThreadDelayInMillis)</code></li>
+</ol>
+<h3 id="我们再看一下startNewThread-是怎么启动线程的"><a href="#我们再看一下startNewThread-是怎么启动线程的" class="headerlink" title="我们再看一下startNewThread 是怎么启动线程的"></a>我们再看一下startNewThread 是怎么启动线程的</h3><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> JMeterThread <span class="title">startNewThread</span><span class="params">(ListenerNotifier notifier, ListedHashTree threadGroupTree, StandardJMeterEngine engine,</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">int</span> threadNum, <span class="keyword">final</span> JMeterContext context, <span class="keyword">long</span> now, <span class="keyword">int</span> delay)</span> </span>{</span><br><span class="line">        JMeterThread jmThread = makeThread(notifier, threadGroupTree, engine, threadNum, context);</span><br><span class="line">        scheduleThread(jmThread, now); <span class="comment">// set start and end time</span></span><br><span class="line">        jmThread.setInitialDelay(delay);</span><br><span class="line">        Thread newThread = <span class="keyword">new</span> Thread(jmThread, jmThread.getThreadName());</span><br><span class="line">        registerStartedThread(jmThread, newThread);</span><br><span class="line">        newThread.start();</span><br><span class="line">        <span class="keyword">return</span> jmThread;</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
+<p>非常直观，创建一个<code>JMeterThread</code> 对象，做一些设置，然后放到一个<code>Thread</code> 里面跑就好了，<code>registerStartedThread(jmThread, newThread);</code> 这个调用是在<code>ThreadGroup</code>的一个Map 里把<code>JMeterThread</code>和真实的<code>Thread</code>关系存一下，方便后面的查找</p>
+<h3 id="JMeterThread"><a href="#JMeterThread" class="headerlink" title="JMeterThread"></a>JMeterThread</h3><p>最后我们来看一下核心的<code>JMeterThread</code> 工作线程是怎么work的。首先我们要找一个答案，它怎么处理‘Loop Count / Forever’ 的运行模式的</p>
+<p>我之前在设计依图自身的性能测试框架的时候对快问题采用的设计方式是通过<code>producer / consumer</code>的方式把系统解耦，通过一个 <code>Queue</code>来出来，所以对于<code>JMeter</code>的处理方式很好奇。看了代码发现 <code>JMeter</code>的实现非常简答，我们看一下<code>run</code> 函数头部的几个循环判断条件就能找到答案了</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{</span><br><span class="line">        <span class="comment">// threadContext is not thread-safe, so keep within thread</span></span><br><span class="line">        JMeterContext threadContext = JMeterContextService.getContext();</span><br><span class="line">        LoopIterationListener iterationListener = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            iterationListener = initRun(threadContext);</span><br><span class="line">            <span class="keyword">while</span> (running) {</span><br><span class="line">                Sampler sam = threadGroupLoopController.next();</span><br><span class="line">                <span class="keyword">while</span> (running &amp;&amp; sam != <span class="keyword">null</span>) {</span><br><span class="line">                    processSampler(sam, <span class="keyword">null</span>, threadContext);</span><br><span class="line">                    threadContext.cleanAfterSample();</span><br></pre></td></tr></tbody></table></figure>
+<ol>
+<li><code>Sampler</code> 表示一次请求，每次通过<code>threadGroupLoopController.next()</code> 这个迭代器来获取下一个Sampler对象，当 sampler 不为空的时候就继续发请求</li>
+<li><code>threadGroupLoopController</code> 这个对象实际是一个<code>Controller</code>接口的具体实现, Controller 的实现有很多类型，我们可以在界面上选择，也可以在配置文件里面修改, 下面就是用了一个 <code>LoopController</code></li>
+</ol>
+<figure class="highlight xml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">elementProp</span> <span class="attr">name</span>=<span class="string">"ThreadGroup.main_controller"</span> <span class="attr">elementType</span>=<span class="string">"LoopController"</span> <span class="attr">guiclass</span>=<span class="string">"LoopControlPanel"</span> <span class="attr">testclass</span>=<span class="string">"LoopController"</span> <span class="attr">testname</span>=<span class="string">"Loop Controller"</span> <span class="attr">enabled</span>=<span class="string">"true"</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+<ol start="3">
+<li>当controller对象的isDone判定为真的时候，就把<code>running</code>状态设置成False，那么这个<code>JMeterThread</code> 也就结束生命了</li>
+</ol>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (threadGroupLoopController.isDone()) {</span><br><span class="line">                    running = false;</span><br><span class="line">                    log.info("Thread is done: {}", threadName);</span><br><span class="line">                }</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="线程设计模型的更多思考"><a href="#线程设计模型的更多思考" class="headerlink" title="线程设计模型的更多思考"></a>线程设计模型的更多思考</h3><p>参考之前<code>Gatling</code>的使用来看，它对于并发模型本身的支持粒度非常细，例如支持恒定并发，恒定 QPS 等不同并发场景的设计</p>
+<p>我在自己设计 <code>Atom Integraion</code>的时候也希望这个框架能在并发模型支持的灵获性上做的更好，通过引入Queue 把 Scheduler 和 Load Generator 分离，我就可以通过写入 Queue 的速度来控制最终 Load Generator 的并发模型</p>
+<p>从以前使用 <code>JMeter</code>的经验来看，它对于并发模型的支持是比较有限的，从它目前的设计来看，整个系统的解耦做的是不太好的，首先每个<code>JMeterThread</code>的工作是独立的 , 虽然它们是共享同一个<code>threadGroupLoopController</code>对象，但是通过一个迭代器来控制并发的粒度，实在是有点难，不知道未来<code>JMeter</code> 开发团队对于并发模型支持这块会不会有更多的计划 。 这里只是我的一些愚见， 也欢迎大家留言和我讨论。</p>
 
       
     </div>
@@ -3412,8 +3417,8 @@ hr {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/04/vscode-introduction/" rel="next" title="vscode 杂谈">
-                <i class="fa fa-chevron-left"></i> vscode 杂谈
+              <a href="/2019/03/07/StandardJMeterEngine/" rel="next" title="JMeter 源码解读 [6] - 核心类 org.apache.jmeter.engine.StandardJMeterEngine">
+                <i class="fa fa-chevron-left"></i> JMeter 源码解读 [6] - 核心类 org.apache.jmeter.engine.StandardJMeterEngine
               </a>
             
           </div>
@@ -3421,10 +3426,6 @@ hr {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/05/jmeter-new-driver/" rel="prev" title="JMeter 源码解读 [3] - 程序入口 NewDriver">
-                JMeter 源码解读 [3] - 程序入口 NewDriver <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -3615,7 +3616,7 @@ hr {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#顶部目录"><span class="nav-number">1.</span> <span class="nav-text">顶部目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lib-目录结构"><span class="nav-number">2.</span> <span class="nav-text">Lib 目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Src-目录结构"><span class="nav-number">3.</span> <span class="nav-text">Src 目录结构</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadGroup-start"><span class="nav-number">1.</span> <span class="nav-text">ThreadGroup.start</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我们再看一下startNewThread-是怎么启动线程的"><span class="nav-number">2.</span> <span class="nav-text">我们再看一下startNewThread 是怎么启动线程的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JMeterThread"><span class="nav-number">3.</span> <span class="nav-text">JMeterThread</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程设计模型的更多思考"><span class="nav-number">4.</span> <span class="nav-text">线程设计模型的更多思考</span></a></li></ol></div>
             
 
           </div>

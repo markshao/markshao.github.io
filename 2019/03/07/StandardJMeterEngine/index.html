@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="小法@兵工厂">
 <meta property="og:description" content="我们越来约越接近 JMeter 的核心，先来看一下StandardJMeterEngine 这个类实现了哪些接口，首先是JMeterEngine, 它定义了 JMeterEngine 的一些核心接口 ，其中最主要的是下面几个 123456789101112131415161718/**    * Configure engine    * @param testPlan the test plan">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-07T15:11:38.716Z">
+<meta property="og:updated_time" content="2019-03-08T09:40:08.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JMeter 源码解读 [6] - 核心类 org.apache.jmeter.engine.StandardJMeterEngine">
 <meta name="twitter:description" content="我们越来约越接近 JMeter 的核心，先来看一下StandardJMeterEngine 这个类实现了哪些接口，首先是JMeterEngine, 它定义了 JMeterEngine 的一些核心接口 ，其中最主要的是下面几个 123456789101112131415161718/**    * Configure engine    * @param testPlan the test plan">
@@ -2030,7 +2030,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #e44dff;
+  background: #5f0;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3162,7 +3162,7 @@ hr {
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">11</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">12</span></a>
 
   </li>
 
@@ -3286,12 +3286,24 @@ hr {
                 
               
 
-              <time title="创建时间：2019-03-07 22:50:48 / 修改时间：23:11:38" itemprop="dateCreated datePublished" datetime="2019-03-07T22:50:48+08:00">2019-03-07</time>
+              <time title="创建时间：2019-03-07 22:50:48" itemprop="dateCreated datePublished" datetime="2019-03-07T22:50:48+08:00">2019-03-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-08 17:40:08" itemprop="dateModified" datetime="2019-03-08T17:40:08+08:00">2019-03-08</time>
               
             
           </span>
@@ -3368,7 +3380,7 @@ hr {
 <p>再继续做了一些简答的初始化后，会先开始做用<code>setup thread group</code> 做一些初始化的工作 ，这里会启动 N 个线程组来做初始化，</p>
 <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (setupIter.hasNext()) {</span><br><span class="line">            log.info(<span class="string">"Starting setUp thread groups"</span>);</span><br><span class="line">            <span class="keyword">while</span> (running &amp;&amp; setupIter.hasNext()) {<span class="comment">//for each setup thread group</span></span><br><span class="line">                AbstractThreadGroup group = setupIter.next();</span><br><span class="line">                groupCount++;</span><br><span class="line">                String groupName = group.getName();</span><br><span class="line">                log.info(<span class="string">"Starting setUp ThreadGroup: {} : {} "</span>, groupCount, groupName);</span><br><span class="line">                startThreadGroup(group, groupCount, setupSearcher, testLevelElements, notifier);</span><br><span class="line">                <span class="keyword">if</span> (serialized &amp;&amp; setupIter.hasNext()) {</span><br><span class="line">                    log.info(<span class="string">"Waiting for setup thread group: {} to finish before starting next setup group"</span>, </span><br><span class="line">                            groupName);</span><br><span class="line">                    group.waitThreadsStopped();</span><br><span class="line">                }</span><br><span class="line">            }    </span><br><span class="line">            log.info(<span class="string">"Waiting for all setup thread groups to exit"</span>);</span><br><span class="line">            <span class="comment">//wait for all Setup Threads To Exit</span></span><br><span class="line">            waitThreadsStopped();</span><br><span class="line">            log.info(<span class="string">"All Setup Threads have ended"</span>);</span><br><span class="line">            groupCount=<span class="number">0</span>;</span><br><span class="line">            JMeterContextService.clearTotalThreads();</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        groups.clear();</span><br></pre></td></tr></tbody></table></figure>
 <p>在 <code>setup thread group</code> 完成一些初始化的工作后，会主动出发一次 <code>JMeterUtils.helpGC();</code>  GC 的动作，后面就是执行测试的<code>Thread Group</code> 和 最后的<code>Post Thread Group</code> ，这些操作和<code>setup thread group</code> 的调用都差不多的，以为实际执行发送请求和并发线程的管理都在 <code>ThreaeGroup</code> 中 </p>
-<p>今天就说到这里，下次会单独来介绍一下 <code>JMeter</code> 的线程管模型</p>
+<p>今天就说到这里，下次会单独来介绍一下 <code>JMeter</code> 的线程模型</p>
 
       
     </div>
@@ -3408,6 +3420,10 @@ hr {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/08/jmeter-thread-model/" rel="prev" title="JMeter 源码解读 [7] - JMeter 线程模型">
+                JMeter 源码解读 [7] - JMeter 线程模型 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -3471,7 +3487,7 @@ hr {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
