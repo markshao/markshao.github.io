@@ -89,13 +89,14 @@
 
 
   <meta name="description" content="现状分析TestNG是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍">
+<meta name="keywords" content="testng">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈Testng测试框架的分布式实现">
 <meta property="og:url" content="http://markshao.github.io/2014/03/01/new-testng/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
 <meta property="og:description" content="现状分析TestNG是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-01T15:43:22.494Z">
+<meta property="og:updated_time" content="2019-03-09T09:30:33.197Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈Testng测试框架的分布式实现">
 <meta name="twitter:description" content="现状分析TestNG是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍">
@@ -2030,7 +2031,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #535418;
+  background: #ff58a1;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3124,7 +3125,7 @@ hr {
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">2</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">5</span></a>
 
   </li>
         
@@ -3143,7 +3144,7 @@ hr {
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">3</span></a>
 
   </li>
         
@@ -3162,7 +3163,7 @@ hr {
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">13</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">14</span></a>
 
   </li>
 
@@ -3303,29 +3304,11 @@ hr {
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-01 23:43:22" itemprop="dateModified" datetime="2019-03-01T23:43:22+08:00">2019-03-01</time>
+                <time title="修改时间：2019-03-09 17:30:33" itemprop="dateModified" datetime="2019-03-09T17:30:33+08:00">2019-03-09</time>
               
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/测试框架/" itemprop="url" rel="index"><span itemprop="name">测试框架</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -3413,6 +3396,12 @@ hr {
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/testng/" rel="tag"># testng</a>
+          
+        </div>
       
 
       
@@ -3508,7 +3497,7 @@ hr {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3527,9 +3516,7 @@ hr {
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -3546,7 +3533,13 @@ hr {
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-08T14:54:12.476Z</updated>
+  <updated>2019-03-09T09:57:02.592Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>&lt;绿皮书&gt; 观后小感</title>
+    <link href="http://markshao.github.io/2019/03/09/green-cover-book/"/>
+    <id>http://markshao.github.io/2019/03/09/green-cover-book/</id>
+    <published>2019-03-09T09:26:10.000Z</published>
+    <updated>2019-03-09T09:57:02.592Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;很久没有看文艺片了，在我这个平时很少看电影人的心里，没有打打杀杀的就可以称之为文艺片了。趁着奥斯卡的余温还在，抓紧时间去家里附近的电影院追了一下&amp;lt;绿皮书&amp;gt;，很多朋友说最后雪利在酒吧里谈钢琴的时候他们都流泪了，我虽然没有像当年看&amp;lt;集结号&amp;gt;那样感动到哭，
+        
+      
+    
+    </summary>
+    
+      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="电影" scheme="http://markshao.github.io/tags/%E7%94%B5%E5%BD%B1/"/>
+    
+  </entry>
+  
+  <entry>
     <title>2019 生活 OKR</title>
     <link href="http://markshao.github.io/2019/03/08/2019-objectives/"/>
     <id>http://markshao.github.io/2019/03/08/2019-objectives/</id>
     <published>2019-03-08T14:11:42.000Z</published>
-    <updated>2019-03-08T14:54:12.476Z</updated>
+    <updated>2019-03-09T09:58:23.661Z</updated>
     
     <summary type="html">
     
@@ -36,7 +62,7 @@
     
     </summary>
     
-      <category term="杂谈" scheme="http://markshao.github.io/categories/%E6%9D%82%E8%B0%88/"/>
+      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
     
     
   </entry>
@@ -192,7 +218,7 @@
     <link href="http://markshao.github.io/2019/03/04/vscode-introduction/"/>
     <id>http://markshao.github.io/2019/03/04/vscode-introduction/</id>
     <published>2019-03-04T15:22:38.000Z</published>
-    <updated>2019-03-04T17:19:38.109Z</updated>
+    <updated>2019-03-09T09:58:45.154Z</updated>
     
     <summary type="html">
     
@@ -206,8 +232,8 @@
     
     </summary>
     
-      <category term="杂谈" scheme="http://markshao.github.io/categories/%E6%9D%82%E8%B0%88/"/>
     
+      <category term="vscode" scheme="http://markshao.github.io/tags/vscode/"/>
     
   </entry>
   
@@ -242,7 +268,7 @@
     <link href="http://markshao.github.io/2019/03/01/2018-conclusion/"/>
     <id>http://markshao.github.io/2019/03/01/2018-conclusion/</id>
     <published>2019-03-01T15:52:24.000Z</published>
-    <updated>2019-03-01T18:00:06.465Z</updated>
+    <updated>2019-03-09T09:31:12.446Z</updated>
     
     <summary type="html">
     
@@ -256,7 +282,7 @@
     
     </summary>
     
-      <category term="工作感想" scheme="http://markshao.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%83%B3/"/>
+      <category term="年终总结" scheme="http://markshao.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
     
     
       <category term="Nebula" scheme="http://markshao.github.io/tags/Nebula/"/>
@@ -268,7 +294,7 @@
     <link href="http://markshao.github.io/2014/03/01/new-testng/"/>
     <id>http://markshao.github.io/2014/03/01/new-testng/</id>
     <published>2014-03-01T14:23:57.000Z</published>
-    <updated>2019-03-01T15:43:22.494Z</updated>
+    <updated>2019-03-09T09:30:33.197Z</updated>
     
     <summary type="html">
     
@@ -276,8 +302,8 @@
     
     </summary>
     
-      <category term="测试框架" scheme="http://markshao.github.io/categories/%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/"/>
     
+      <category term="testng" scheme="http://markshao.github.io/tags/testng/"/>
     
   </entry>
   
@@ -286,7 +312,7 @@
     <link href="http://markshao.github.io/2014/01/27/2013-conlusion/"/>
     <id>http://markshao.github.io/2014/01/27/2013-conlusion/</id>
     <published>2014-01-27T07:54:15.000Z</published>
-    <updated>2019-03-01T15:43:21.302Z</updated>
+    <updated>2019-03-09T09:28:52.591Z</updated>
     
     <summary type="html">
     
@@ -294,7 +320,7 @@
     
     </summary>
     
-      <category term="工作感想" scheme="http://markshao.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%83%B3/"/>
+      <category term="年终总结" scheme="http://markshao.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
     
     
   </entry>
@@ -304,7 +330,7 @@
     <link href="http://markshao.github.io/2014/01/13/first-post/"/>
     <id>http://markshao.github.io/2014/01/13/first-post/</id>
     <published>2014-01-13T14:15:00.000Z</published>
-    <updated>2019-03-01T15:43:18.909Z</updated>
+    <updated>2019-03-09T09:30:49.531Z</updated>
     
     <summary type="html">
     
@@ -319,7 +345,7 @@
     
     </summary>
     
-      <category term="工作感想" scheme="http://markshao.github.io/categories/%E5%B7%A5%E4%BD%9C%E6%84%9F%E6%83%B3/"/>
+      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
     
     
   </entry>
