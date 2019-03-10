@@ -88,13 +88,17 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="小法@兵工厂">
-<meta property="og:url" content="http://markshao.github.io/categories/JMeter-源码解读/index.html">
+  <meta name="description" content="上一次在分析 JMeter 核心类的时候 (http://markshao.github.io/2019/03/07/jmeter/) 讲到了无论是单机还是分布式模式下都会调用 startOptionServer, 我们来看一下到底是启动了那个server startOptionServer 的逻辑很简单，先简单看一眼123456789101112131415161718192021222324p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMeter 源码解读 [8] - BeanShell Server">
+<meta property="og:url" content="http://markshao.github.io/2019/03/10/beanshell-server/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="上一次在分析 JMeter 核心类的时候 (http://markshao.github.io/2019/03/07/jmeter/) 讲到了无论是单机还是分布式模式下都会调用 startOptionServer, 我们来看一下到底是启动了那个server startOptionServer 的逻辑很简单，先简单看一眼123456789101112131415161718192021222324p">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-10T13:52:32.222Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小法@兵工厂">
+<meta name="twitter:title" content="JMeter 源码解读 [8] - BeanShell Server">
+<meta name="twitter:description" content="上一次在分析 JMeter 核心类的时候 (http://markshao.github.io/2019/03/07/jmeter/) 讲到了无论是单机还是分布式模式下都会调用 startOptionServer, 我们来看一下到底是启动了那个server startOptionServer 的逻辑很简单，先简单看一眼123456789101112131415161718192021222324p">
 
 
 
@@ -103,7 +107,7 @@
 
 
 
-  <link rel="canonical" href="http://markshao.github.io/categories/JMeter-源码解读/">
+  <link rel="canonical" href="http://markshao.github.io/2019/03/10/beanshell-server/">
 
 
 
@@ -113,7 +117,7 @@
   };
 </script>
 
-  <title>分类: JMeter 源码解读 | 小法@兵工厂</title>
+  <title>JMeter 源码解读 [8] - BeanShell Server | 小法@兵工厂</title>
   
 
 
@@ -3028,7 +3032,7 @@ hr {
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -3127,7 +3131,7 @@ hr {
         
         
           
-          <li class="menu-item menu-item-categories menu-item-active">
+          <li class="menu-item menu-item-categories">
 
     
     
@@ -3178,28 +3182,6 @@ hr {
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -3245,239 +3227,209 @@ hr {
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>JMeter 源码解读<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/03/10/beanshell-server/">
 
-      <h2 class="post-title">
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="书记">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小法@兵工厂">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/2019/03/10/beanshell-server/" itemprop="url">
-            
-              <span itemprop="name">JMeter 源码解读 [8] - BeanShell Server</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">JMeter 源码解读 [8] - BeanShell Server
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-10T21:33:17+08:00" content="2019-03-10">
-          03-10
-        </time>
-      </div>
+              
+            
+          </h1>
+        
 
-    </header>
-  </article>
+        <div class="post-meta">
+          <span class="post-time">
 
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-10 21:33:17 / 修改时间：21:52:32" itemprop="dateCreated datePublished" datetime="2019-03-10T21:33:17+08:00">2019-03-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/JMeter-源码解读/" itemprop="url" rel="index"><span itemprop="name">JMeter 源码解读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/03/10/beanshell-server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/10/beanshell-server/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/03/08/jmeter-thread-model/" itemprop="url">
-            
-              <span itemprop="name">JMeter 源码解读 [7] - JMeter 线程模型</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-08T17:40:31+08:00" content="2019-03-08">
-          03-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/03/07/StandardJMeterEngine/" itemprop="url">
-            
-              <span itemprop="name">JMeter 源码解读 [6] - 核心类 org.apache.jmeter.engine.StandardJMeterEngine</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-07T22:50:48+08:00" content="2019-03-07">
-          03-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/03/07/jmeter/" itemprop="url">
-            
-              <span itemprop="name">JMeter 源码解读 [5] - 核心类 org.apache.jmeter.JMeter</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-07T22:05:13+08:00" content="2019-03-07">
-          03-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/03/06/hashtree/" itemprop="url">
-            
-              <span itemprop="name">JMeter 源码解读 [4] - HashTree</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-06T22:15:32+08:00" content="2019-03-06">
-          03-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/03/05/jmeter-new-driver/" itemprop="url">
-            
-              <span itemprop="name">JMeter 源码解读 [3] - 程序入口 NewDriver</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-05T23:37:30+08:00" content="2019-03-05">
-          03-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/03/05/jmeter-directory-structure/" itemprop="url">
-            
-              <span itemprop="name">JMeter 源码解读 [2] - 目录结构分析</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-05T23:01:14+08:00" content="2019-03-05">
-          03-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/03/03/jmeter-source-code-initenviroment/" itemprop="url">
-            
-              <span itemprop="name">JMeter 源码解读 [1] - 配置开发环境</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-03T22:33:23+08:00" content="2019-03-03">
-          03-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>上一次在分析 JMeter 核心类的时候 (<a href="http://markshao.github.io/2019/03/07/jmeter/">http://markshao.github.io/2019/03/07/jmeter/</a>) 讲到了无论是单机还是分布式模式下都会调用 <code>startOptionServer</code>, 我们来看一下到底是启动了那个server</p>
+<p><code>startOptionServer</code> 的逻辑很简单，先简单看一眼<br></p><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startOptionalServers</span><span class="params">()</span> </span>{</span><br><span class="line">        <span class="keyword">int</span> bshport = JMeterUtils.getPropDefault(<span class="string">"beanshell.server.port"</span>, <span class="number">0</span>);<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">        String bshfile = JMeterUtils.getPropDefault(<span class="string">"beanshell.server.file"</span>, <span class="string">""</span>);<span class="comment">// $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line">        <span class="keyword">if</span> (bshport &gt; <span class="number">0</span>) {</span><br><span class="line">            log.info(<span class="string">"Starting Beanshell server ({},{})"</span>, bshport, bshfile);</span><br><span class="line">            Runnable t = <span class="keyword">new</span> BeanShellServer(bshport, bshfile);</span><br><span class="line">            t.run(); <span class="comment">// NOSONAR we just evaluate some code here</span></span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        runInitScripts();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> mirrorPort=JMeterUtils.getPropDefault(<span class="string">"mirror.server.port"</span>, <span class="number">0</span>);<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">        <span class="keyword">if</span> (mirrorPort &gt; <span class="number">0</span>){</span><br><span class="line">            log.info(<span class="string">"Starting Mirror server ({})"</span>, mirrorPort);</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                Object instance = ClassTools.construct(</span><br><span class="line">                        <span class="string">"org.apache.jmeter.protocol.http.control.HttpMirrorControl"</span>,<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                        mirrorPort);</span><br><span class="line">                ClassTools.invoke(instance,<span class="string">"startHttpMirror"</span>);</span><br><span class="line">            } <span class="keyword">catch</span> (JMeterException e) {</span><br><span class="line">                log.warn(<span class="string">"Could not start Mirror server"</span>,e);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure><p></p>
+<p>核心的逻辑就是现在配置文件中读取相关 <code>beanshell</code> 的配置文件，然后调用<code>Runnable t = new BeanShellServer(bshport, bshfile);</code> 来启动一个BeanShell服务</p>
+<p>什么是<code>BeanShell</code>呢，它的官方介绍在这里 <a href="http://www.beanshell.org/bshservlet.html，总结下来就是一个" target="_blank" rel="noopener">http://www.beanshell.org/bshservlet.html，总结下来就是一个</a> Java Runtime 的一个hook服务，提供类似 oo 的 script 脚本作为interface和外部交互，实际的作用就是可以用来对于 runtime 的 jvm 做一些动态的挑战，例如获取一些jmeter中的变量，或者修改一些变量来改变最后的JMeter 的运行行为等</p>
+<p><code>BeanShellServer</code> 是一个对于 beanshell 服务的封装，它实现了<code>Runnable</code>接口，但是从<code>startOptionServer</code>的代码里来看，没看到有 Thread 的调用</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Runnable t = <span class="keyword">new</span> BeanShellServer(bshport, bshfile);</span><br><span class="line">t.run(); <span class="comment">// NOSONAR we just evaluate some code here</span></span><br></pre></td></tr></tbody></table></figure>
+<p>我们在<code>BeanShellServer</code>中的<code>run</code>函数看到，它是通过反射来调用<code>bsh</code>的服务，可能在这里会有一个 thread 的处理吧<br></p><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; interpreter = loader.loadClass(<span class="string">"bsh.Interpreter"</span>);<span class="comment">//$NON-NLS-1$</span></span><br><span class="line">Object instance = interpreter.getDeclaredConstructor().newInstance();</span><br></pre></td></tr></tbody></table></figure><p></p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/09/green-cover-book/" rel="next" title="<绿皮书> 观后小感">
+                <i class="fa fa-chevron-left"></i> &lt;绿皮书&gt; 观后小感
+              <!--绿皮书--></a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
 
         </div>
         
@@ -3759,6 +3711,10 @@ hr {
 
 
   
+  
+
+
+
 
   
 
@@ -3780,6 +3736,8 @@ hr {
 
 
 
+
+  
 
 
   

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-09T09:57:02.592Z</updated>
+  <updated>2019-03-10T13:52:32.222Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JMeter 源码解读 [8] - BeanShell Server</title>
+    <link href="http://markshao.github.io/2019/03/10/beanshell-server/"/>
+    <id>http://markshao.github.io/2019/03/10/beanshell-server/</id>
+    <published>2019-03-10T13:33:17.000Z</published>
+    <updated>2019-03-10T13:52:32.222Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;上一次在分析 JMeter 核心类的时候 (&lt;a href=&quot;http://markshao.github.io/2019/03/07/jmeter/&quot;&gt;http://markshao.github.io/2019/03/07/jmeter/&lt;/a&gt;)
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>&lt;绿皮书&gt; 观后小感</title>
