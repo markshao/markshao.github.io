@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://markshao.github.io/2019/03/11/install-mysqldb/</loc>
+    
+    <lastmod>2019-03-11T13:38:04.670Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://markshao.github.io/2019/03/10/beanshell-server/</loc>
     
     <lastmod>2019-03-10T13:52:32.222Z</lastmod>

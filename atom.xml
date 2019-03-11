@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-10T13:52:32.222Z</updated>
+  <updated>2019-03-11T13:38:04.670Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>macOS Mojave 上安装 python mysql module 遇到小坑</title>
+    <link href="http://markshao.github.io/2019/03/11/install-mysqldb/"/>
+    <id>http://markshao.github.io/2019/03/11/install-mysqldb/</id>
+    <published>2019-03-11T13:16:37.000Z</published>
+    <updated>2019-03-11T13:38:04.670Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;公司的一个项目需要安装&lt;code&gt;mysqlclient==1.3.12&lt;/code&gt;的模块，很久写&lt;code&gt;MySQL&lt;/code&gt; base 的应用了，而且之前2年基本都是在&lt;code&gt;ubuntu
+        
+      
+    
+    </summary>
+    
+      <category term="技术大杂烩" scheme="http://markshao.github.io/categories/%E6%8A%80%E6%9C%AF%E5%A4%A7%E6%9D%82%E7%83%A9/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>JMeter 源码解读 [8] - BeanShell Server</title>
