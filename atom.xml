@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-11T13:38:04.670Z</updated>
+  <updated>2019-03-12T14:05:54.000Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>JMeter 源码解读 [9] - 分布式架构</title>
+    <link href="http://markshao.github.io/2019/03/12/distributed-architecture/"/>
+    <id>http://markshao.github.io/2019/03/12/distributed-architecture/</id>
+    <published>2019-03-12T13:47:04.000Z</published>
+    <updated>2019-03-12T14:05:54.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;###JMeter 分布式模式&lt;/p&gt;
+&lt;p&gt;JMeter 除了单机模式外，还支持分布式的模式 (&lt;a href=&quot;https://jmeter.apache.org/usermanual/remote-test.html&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>macOS Mojave 上安装 python mysql module 遇到小坑</title>
     <link href="http://markshao.github.io/2019/03/11/install-mysqldb/"/>
     <id>http://markshao.github.io/2019/03/11/install-mysqldb/</id>
     <published>2019-03-11T13:16:37.000Z</published>
-    <updated>2019-03-11T13:38:04.670Z</updated>
+    <updated>2019-03-11T13:49:56.512Z</updated>
     
     <summary type="html">
     
