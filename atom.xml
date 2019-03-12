@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-12T14:05:54.000Z</updated>
+  <updated>2019-03-12T14:42:47.182Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JMeter 源码解读 [10] - 分布式核心类</title>
+    <link href="http://markshao.github.io/2019/03/12/distributed-code-analysis/"/>
+    <id>http://markshao.github.io/2019/03/12/distributed-code-analysis/</id>
+    <published>2019-03-12T14:11:38.000Z</published>
+    <updated>2019-03-12T14:42:47.182Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;上次我们已经分析了一下&lt;code&gt;JMeter&lt;/code&gt;的分布式架构，今天我们来看一下其中相关的核心类是怎么工作的，我们还是先从Master 开始，Master 是用来接收用户控制的&lt;code&gt;JMeter&lt;/code&gt; Engine， 它接收 GUI 和
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>JMeter 源码解读 [9] - 分布式架构</title>
