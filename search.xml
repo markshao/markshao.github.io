@@ -11,7 +11,7 @@
   <entry>
     <title><![CDATA[JMeter 源码解读 [9] - 分布式架构]]></title>
     <url>%2F2019%2F03%2F12%2Fdistributed-architecture%2F</url>
-    <content type="text"><![CDATA[###JMeter 分布式模式 JMeter 除了单机模式外，还支持分布式的模式 (https://jmeter.apache.org/usermanual/remote-test.html) , 主要是为了解决单机遇到的一些瓶颈 单机生成的并发压力是有上线的，JMeter 是基于 Java Thread ，单机的内存也会是一个问题 带宽上限和不同网络场景的模拟，例如阿里巴巴的双十一的压力发生器是通过CDN的网络来加压的 。。。 分布式架构JMeter 的分布式架构是一个标准的Master - Slave中心化的分布式架构，采用的通信方式是 Java RMI 通信框架 (https://www.ibm.com/developerworks/cn/java/j-rmiframe/index.html) 相关的核心类 Master ClientJMeterEngine 负责接收用户的请求，把测试任务分发给 Slave Slave RemoteJMeterEngineImpl ，独立运行 RMI Server ，接收来自 Client 的请求来运行测试， 实际上RemoteJMeterEngineImpl 是一个对于StandardJMeterEngine的封装，内部的实际逻辑还是 StandardJMeterEngine 来处理的 先把架构大概讲一下，下次我们来认真解读一下上面提到的几个核心类是怎么工作的]]></content>
+    <content type="text"><![CDATA[JMeter 分布式模式JMeter 除了单机模式外，还支持分布式的模式 (https://jmeter.apache.org/usermanual/remote-test.html) , 主要是为了解决单机遇到的一些瓶颈 单机生成的并发压力是有上线的，JMeter 是基于 Java Thread ，单机的内存也会是一个问题 带宽上限和不同网络场景的模拟，例如阿里巴巴的双十一的压力发生器是通过CDN的网络来加压的 。。。 分布式架构JMeter 的分布式架构是一个标准的Master - Slave中心化的分布式架构，采用的通信方式是 Java RMI 通信框架 (https://www.ibm.com/developerworks/cn/java/j-rmiframe/index.html) 相关的核心类 Master ClientJMeterEngine 负责接收用户的请求，把测试任务分发给 Slave Slave RemoteJMeterEngineImpl ，独立运行 RMI Server ，接收来自 Client 的请求来运行测试， 实际上RemoteJMeterEngineImpl 是一个对于StandardJMeterEngine的封装，内部的实际逻辑还是 StandardJMeterEngine 来处理的 先把架构大概讲一下，下次我们来认真解读一下上面提到的几个核心类是怎么工作的]]></content>
       <categories>
         <category>JMeter 源码解读</category>
       </categories>
