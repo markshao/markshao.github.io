@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-13T02:11:27.661Z</updated>
+  <updated>2019-03-17T14:31:55.031Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>golang channel 使用不当导致的 deadlock</title>
+    <link href="http://markshao.github.io/2019/03/17/golang-channel-deadlock/"/>
+    <id>http://markshao.github.io/2019/03/17/golang-channel-deadlock/</id>
+    <published>2019-03-17T13:57:40.000Z</published>
+    <updated>2019-03-17T14:31:55.031Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;最近开启了19年第二个重要任务，&lt;code&gt;Go Lang&lt;/code&gt;的学习，如果之前只是因为个人爱好的话，现在是因为&lt;code&gt;chaos monkey&lt;/code&gt;很多都是用&lt;code&gt;Go
+        
+      
+    
+    </summary>
+    
+      <category term="golang" scheme="http://markshao.github.io/categories/golang/"/>
+    
+    
+      <category term="goroutine" scheme="http://markshao.github.io/tags/goroutine/"/>
+    
+  </entry>
   
   <entry>
     <title>JMeter 源码解读 [10] - 分布式核心类</title>
