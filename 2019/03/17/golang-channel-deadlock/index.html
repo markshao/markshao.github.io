@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="小法@兵工厂">
 <meta property="og:description" content="最近开启了19年第二个重要任务，Go Lang的学习，如果之前只是因为个人爱好的话，现在是因为chaos monkey很多都是用Go Lang写的，不得不要抓紧完成这块知识的短板了 今天尝试用goroutine + channel的方式实现一个简单的下载豆瓣图书图片的工作，好像我特别喜欢拿豆瓣来做实验，哈哈，希望豆瓣的同学看到了不要生气 ##实现逻辑 代码逻辑其实非常简单，这个要感谢豆瓣的非常 R">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-17T14:31:55.031Z">
+<meta property="og:updated_time" content="2019-03-18T00:27:57.976Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="golang channel 使用不当导致的 deadlock">
 <meta name="twitter:description" content="最近开启了19年第二个重要任务，Go Lang的学习，如果之前只是因为个人爱好的话，现在是因为chaos monkey很多都是用Go Lang写的，不得不要抓紧完成这块知识的短板了 今天尝试用goroutine + channel的方式实现一个简单的下载豆瓣图书图片的工作，好像我特别喜欢拿豆瓣来做实验，哈哈，希望豆瓣的同学看到了不要生气 ##实现逻辑 代码逻辑其实非常简单，这个要感谢豆瓣的非常 R">
@@ -2031,7 +2031,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #6e9e86;
+  background: #e7ffe8;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3287,12 +3287,24 @@ hr {
                 
               
 
-              <time title="创建时间：2019-03-17 21:57:40 / 修改时间：22:31:55" itemprop="dateCreated datePublished" datetime="2019-03-17T21:57:40+08:00">2019-03-17</time>
+              <time title="创建时间：2019-03-17 21:57:40" itemprop="dateCreated datePublished" datetime="2019-03-17T21:57:40+08:00">2019-03-17</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-18 08:27:57" itemprop="dateModified" datetime="2019-03-18T08:27:57+08:00">2019-03-18</time>
               
             
           </span>
@@ -3360,7 +3372,7 @@ hr {
         <p>最近开启了19年第二个重要任务，<code>Go Lang</code>的学习，如果之前只是因为个人爱好的话，现在是因为<code>chaos monkey</code>很多都是用<code>Go Lang</code>写的，不得不要抓紧完成这块知识的短板了</p>
 <p>今天尝试用<code>goroutine</code> + <code>channel</code>的方式实现一个简单的下载豆瓣图书图片的工作，好像我特别喜欢拿豆瓣来做实验，哈哈，希望豆瓣的同学看到了不要生气</p>
 <p>##实现逻辑</p>
-<p>代码逻辑其实非常简单，这个要感谢豆瓣的非常 Restful 的 url ，让我可以不用通过 parse HTML 来获取图片链接，直接遍历 id 即可 ，因为 url 都非常简单 <a href="https://img1.doubanio.com/view/subject/l/public/s10000000.jpg" target="_blank" rel="noopener">https://img1.doubanio.com/view/subject/l/public/s10000000.jpg</a> , 这里再次感谢豆瓣，哈。</p>
+<p>代码逻辑其实非常简单，这个要感谢豆瓣的非常 Restful 的 url , 让我可以不用通过 parse HTML 来获取图片链接，直接遍历 id 即可 ,因 为 url 都非常简单 [<a href="https://img1.doubanio.com/view/subject/l/public/s10000000.jpg]" target="_blank" rel="noopener">https://img1.doubanio.com/view/subject/l/public/s10000000.jpg]</a> , 这里再次感谢豆瓣，哈。</p>
 <h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><p>main 的处理逻辑如下</p>
 <ol>
 <li>创建 N 个 go routine</li>
@@ -3374,7 +3386,7 @@ hr {
 <figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> {</span><br><span class="line">	fmt.Println(<span class="string">"start main2"</span>)</span><br><span class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">	ch &lt;- <span class="number">1</span></span><br><span class="line">	fmt.Println(&lt;-ch)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 <p>运行的结果还是老样子</p>
 <figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fatal error: all goroutines are asleep - deadlock!</span><br><span class="line"></span><br><span class="line">goroutine <span class="number">1</span> [<span class="keyword">chan</span> send]:</span><br><span class="line">main.main()</span><br><span class="line">	/Users/ylshao/code/lab/douban_spider/src/github.com/markshao/main2.<span class="keyword">go</span>:<span class="number">9</span> +<span class="number">0xbc</span></span><br></pre></td></tr></tbody></table></figure>
-<p>最后发现这篇文章解释的比较清晰 （<a href="https://my.oschina.net/u/157514/blog/149192），这里的问题就是处在没有buffer" target="_blank" rel="noopener">https://my.oschina.net/u/157514/blog/149192），这里的问题就是处在没有buffer</a> 的channel 上，上面这个例子里，没有buffer 的channel 当你写入的时候，它就会block，直到有另外一个线程拿走这个item，由于我们没有用goroutine，等于说master 的goroutine 就被整个锁住了，也就为什么go runtime 会报 deadlock的问题，</p>
+<p>最后发现[这篇文章][<a href="https://my.oschina.net/u/157514/blog/149192]解释的比较清,这里的问题就是处在没有buffer" target="_blank" rel="noopener">https://my.oschina.net/u/157514/blog/149192]解释的比较清,这里的问题就是处在没有buffer</a> 的channel 上，上面这个例子里，没有buffer 的channel 当你写入的时候，它就会block，直到有另外一个线程拿走这个item，由于我们没有用goroutine，等于说master 的goroutine 就被整个锁住了，也就为什么go runtime 会报 deadlock的问题，</p>
 <h3 id="修改成两个goroutine-的模式就没问题了"><a href="#修改成两个goroutine-的模式就没问题了" class="headerlink" title="修改成两个goroutine 的模式就没问题了"></a>修改成两个goroutine 的模式就没问题了</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> {</span><br><span class="line">	fmt.Println(<span class="string">"start main2"</span>)</span><br><span class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> {</span><br><span class="line">		ch &lt;- <span class="number">1</span></span><br><span class="line">	}()</span><br><span class="line"></span><br><span class="line">	fmt.Println(&lt;-ch)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 <p>输出结果</p>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">start main2</span><br><span class="line">1</span><br></pre></td></tr></tbody></table></figure>
@@ -3391,6 +3403,7 @@ hr {
 <p>修改的方式就很简单了,result 的 buffer size 改成 taskNumber 就好了</p>
 <figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">quit := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, goRoutineSize)</span><br><span class="line">	task := <span class="built_in">make</span>(<span class="keyword">chan</span> ImageTask, goRoutineSize)</span><br><span class="line">	result := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, taskNumber)</span><br></pre></td></tr></tbody></table></figure>
 <p>所以说虽然都说go 的并发好写，但是要把channel 理解好，用好，真是任重道远 </p>
+<p>[<a href="https://my.oschina.net/u/157514/blog/149192）]" target="_blank" rel="noopener">https://my.oschina.net/u/157514/blog/149192）]</a>: </p>
 
       
     </div>
