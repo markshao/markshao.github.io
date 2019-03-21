@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://markshao.github.io/2019/03/21/golang-interview-problem-1/</loc>
+    
+    <lastmod>2019-03-21T11:20:29.019Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://markshao.github.io/2019/03/17/golang-channel-deadlock/</loc>
     
     <lastmod>2019-03-18T00:27:57.976Z</lastmod>

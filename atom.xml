@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-18T00:27:57.976Z</updated>
+  <updated>2019-03-21T11:20:29.019Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第一次用 Golang 出面试题小记</title>
+    <link href="http://markshao.github.io/2019/03/21/golang-interview-problem-1/"/>
+    <id>http://markshao.github.io/2019/03/21/golang-interview-problem-1/</id>
+    <published>2019-03-21T06:38:06.000Z</published>
+    <updated>2019-03-21T11:20:29.019Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;最近一直在学习 &lt;code&gt;Golang&lt;/code&gt; ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 &lt;code&gt;Golang&lt;/code&gt; 写，在他写的过程中我担心自己没法给他 review code
+        
+      
+    
+    </summary>
+    
+      <category term="golang" scheme="http://markshao.github.io/categories/golang/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>golang channel 使用不当导致的 deadlock</title>
