@@ -88,17 +88,17 @@
 
 
 
-  <meta name="description" content="最近一直在学习 Golang ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 Golang 写，在他写的过程中我担心自己没法给他 review code （我也是个新手），就在自己的电脑上尝试了一把（好在我们是视频面试），rush 的比较快，但是还是遇到了 docklock的问题，在这里记录一吧 考题用两个goroutine分别打印奇数和偶数的方式，输出1~10 实现思路这个就是">
+  <meta name="description" content="最近一直在学习 Golang ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 Golang 写，在他写的过程中我担心自己没法给他 review code （我也是个新手），就在自己的电脑上尝试了一把，rush 的比较快，但是还是遇到了 docklock的问题，在这里记录一下 考题用两个goroutine分别打印奇数和偶数的方式，输出1~10 实现思路这个就是考核一下线程切换的，在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一次用 Golang 出面试题小记">
 <meta property="og:url" content="http://markshao.github.io/2019/03/21/golang-interview-problem-1/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
-<meta property="og:description" content="最近一直在学习 Golang ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 Golang 写，在他写的过程中我担心自己没法给他 review code （我也是个新手），就在自己的电脑上尝试了一把（好在我们是视频面试），rush 的比较快，但是还是遇到了 docklock的问题，在这里记录一吧 考题用两个goroutine分别打印奇数和偶数的方式，输出1~10 实现思路这个就是">
+<meta property="og:description" content="最近一直在学习 Golang ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 Golang 写，在他写的过程中我担心自己没法给他 review code （我也是个新手），就在自己的电脑上尝试了一把，rush 的比较快，但是还是遇到了 docklock的问题，在这里记录一下 考题用两个goroutine分别打印奇数和偶数的方式，输出1~10 实现思路这个就是考核一下线程切换的，在">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-21T11:20:29.019Z">
+<meta property="og:updated_time" content="2019-03-21T13:16:33.293Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一次用 Golang 出面试题小记">
-<meta name="twitter:description" content="最近一直在学习 Golang ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 Golang 写，在他写的过程中我担心自己没法给他 review code （我也是个新手），就在自己的电脑上尝试了一把（好在我们是视频面试），rush 的比较快，但是还是遇到了 docklock的问题，在这里记录一吧 考题用两个goroutine分别打印奇数和偶数的方式，输出1~10 实现思路这个就是">
+<meta name="twitter:description" content="最近一直在学习 Golang ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 Golang 写，在他写的过程中我担心自己没法给他 review code （我也是个新手），就在自己的电脑上尝试了一把，rush 的比较快，但是还是遇到了 docklock的问题，在这里记录一下 考题用两个goroutine分别打印奇数和偶数的方式，输出1~10 实现思路这个就是考核一下线程切换的，在">
 
 
 
@@ -2030,7 +2030,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #0d7f42;
+  background: #ffaf91;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3286,7 +3286,7 @@ hr {
                 
               
 
-              <time title="创建时间：2019-03-21 14:38:06 / 修改时间：19:20:29" itemprop="dateCreated datePublished" datetime="2019-03-21T14:38:06+08:00">2019-03-21</time>
+              <time title="创建时间：2019-03-21 14:38:06 / 修改时间：21:16:33" itemprop="dateCreated datePublished" datetime="2019-03-21T14:38:06+08:00">2019-03-21</time>
             
 
             
@@ -3356,7 +3356,7 @@ hr {
       
 
       
-        <p>最近一直在学习 <code>Golang</code> ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 <code>Golang</code> 写，在他写的过程中我担心自己没法给他 review code （我也是个新手），就在自己的电脑上尝试了一把（好在我们是视频面试），rush 的比较快，但是还是遇到了 <code>docklock</code>的问题，在这里记录一吧</p>
+        <p>最近一直在学习 <code>Golang</code> ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 <code>Golang</code> 写，在他写的过程中我担心自己没法给他 review code （我也是个新手），就在自己的电脑上尝试了一把，rush 的比较快，但是还是遇到了 <code>docklock</code>的问题，在这里记录一下</p>
 <h3 id="考题"><a href="#考题" class="headerlink" title="考题"></a>考题</h3><p>用两个<code>goroutine</code>分别打印奇数和偶数的方式，输出1~10</p>
 <h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><p>这个就是考核一下线程切换的，在<code>java</code>基本就是靠<code>object.wait</code> 和 <code>object.notifyAll</code>来实现，不够用<code>Golang</code>的channel 感受上会不太一样</p>
 <p>这个题目的关键点有3个</p>
