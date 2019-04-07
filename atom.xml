@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-03-21T13:16:33.293Z</updated>
+  <updated>2019-04-07T13:37:23.345Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -17,11 +17,51 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>愚人节澳门游记</title>
+    <link href="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/"/>
+    <id>http://markshao.github.io/2019/04/07/yurenjie-macau-youji/</id>
+    <published>2019-04-07T12:52:01.000Z</published>
+    <updated>2019-04-07T13:37:23.345Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;借着媳妇儿给老丈人庆祝生日的机会，我也有幸跟着去了一次澳门，也算完成了港澳台观光计划的最后一块拼图。在这里要感谢媳妇儿的辛劳，在繁忙的工作之余还要负责整个旅行攻略的安排。这次的旅行主要是舒适游，毕竟是带着两位老人，所以也没有安排什么一大早的观光，基本就是在酒店吃吃喝喝，当然
+        
+      
+    
+    </summary>
+    
+      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>人工智能带来的第二次大数据革命</title>
+    <link href="http://markshao.github.io/2019/03/25/next-generation-big-data-explosion/"/>
+    <id>http://markshao.github.io/2019/03/25/next-generation-big-data-explosion/</id>
+    <published>2019-03-25T10:34:05.000Z</published>
+    <updated>2019-03-25T10:47:15.326Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>第一次用 Golang 出面试题小记</title>
     <link href="http://markshao.github.io/2019/03/21/golang-interview-problem-1/"/>
     <id>http://markshao.github.io/2019/03/21/golang-interview-problem-1/</id>
     <published>2019-03-21T06:38:06.000Z</published>
-    <updated>2019-03-21T13:16:33.293Z</updated>
+    <updated>2019-03-21T14:22:42.153Z</updated>
     
     <summary type="html">
     
@@ -450,49 +490,6 @@
     
     
       <category term="testng" scheme="http://markshao.github.io/tags/testng/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2013年终小结</title>
-    <link href="http://markshao.github.io/2014/01/27/2013-conlusion/"/>
-    <id>http://markshao.github.io/2014/01/27/2013-conlusion/</id>
-    <published>2014-01-27T07:54:15.000Z</published>
-    <updated>2019-03-09T09:28:52.591Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;再过几天就要过春节了，办公室也已经没什么人了，显得有点冷冷清清的。闲着也没什么事情干，就写一下过去一年的小结吧，只是一个简单的流水帐，好歹以后老了可以回顾回顾，否则很多东西都不记得了以后，哈哈.&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="年终总结" scheme="http://markshao.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>第一篇POST纪念</title>
-    <link href="http://markshao.github.io/2014/01/13/first-post/"/>
-    <id>http://markshao.github.io/2014/01/13/first-post/</id>
-    <published>2014-01-13T14:15:00.000Z</published>
-    <updated>2019-03-09T09:30:49.531Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;今天是2014/1/13日，正式在GITHUB上托管我的Blog，从此记录下我生活工作的点点滴滴。&lt;/p&gt;
-
-        
-      
-    
-    </summary>
-    
-      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
-    
     
   </entry>
   
