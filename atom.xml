@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-04-07T13:37:23.345Z</updated>
+  <updated>2019-08-10T14:04:54.330Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pytest 源码解读 - Kickoff 篇</title>
+    <link href="http://markshao.github.io/2019/08/10/pytest-source-analysis/"/>
+    <id>http://markshao.github.io/2019/08/10/pytest-source-analysis/</id>
+    <published>2019-08-10T13:31:41.000Z</published>
+    <updated>2019-08-10T14:04:54.330Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Pytest-源码解读&quot;&gt;&lt;a href=&quot;#Pytest-源码解读&quot; class=&quot;headerlink&quot; title=&quot;Pytest 源码解读&quot;&gt;&lt;/a&gt;Pytest 源码解读&lt;/h3&gt;&lt;p&gt;之前定的目标，2019 年要完成
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>愚人节澳门游记</title>
@@ -32,22 +56,6 @@
           &lt;p&gt;借着媳妇儿给老丈人庆祝生日的机会，我也有幸跟着去了一次澳门，也算完成了港澳台观光计划的最后一块拼图。在这里要感谢媳妇儿的辛劳，在繁忙的工作之余还要负责整个旅行攻略的安排。这次的旅行主要是舒适游，毕竟是带着两位老人，所以也没有安排什么一大早的观光，基本就是在酒店吃吃喝喝，当然
         
       
-    
-    </summary>
-    
-      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>人工智能带来的第二次大数据革命</title>
-    <link href="http://markshao.github.io/2019/03/25/next-generation-big-data-explosion/"/>
-    <id>http://markshao.github.io/2019/03/25/next-generation-big-data-explosion/</id>
-    <published>2019-03-25T10:34:05.000Z</published>
-    <updated>2019-03-25T10:47:15.326Z</updated>
-    
-    <summary type="html">
     
     </summary>
     

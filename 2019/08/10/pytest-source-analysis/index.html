@@ -88,22 +88,17 @@
 
 
 
-  <meta name="description" content="借着媳妇儿给老丈人庆祝生日的机会，我也有幸跟着去了一次澳门，也算完成了港澳台观光计划的最后一块拼图。在这里要感谢媳妇儿的辛劳，在繁忙的工作之余还要负责整个旅行攻略的安排。这次的旅行主要是舒适游，毕竟是带着两位老人，所以也没有安排什么一大早的观光，基本就是在酒店吃吃喝喝，当然最重要的是去”赌”一把 第一天一大早的飞机从浦东机场飞澳门，差不多中午12点的时候落地。澳门机场给人的感觉很破旧，也很小，虽然">
+  <meta name="description" content="Pytest 源码解读之前定的目标，2019 年要完成 pytest 的源码解读，实在是因为之前太忙耽搁下来，眼看已经到了8月份，再不开始的话估计就要黄了 (之前信誓旦旦立的Flag不能轻易打破)。其实时间挤挤也总是有的，不能再找借口了。而且估计未来也不会再去看 pytest 的source code 了，就当给自己的 Pytest 这段经历做个总结吧。 Python 在测试框架的选择上主要是3个">
 <meta property="og:type" content="article">
-<meta property="og:title" content="愚人节澳门游记">
-<meta property="og:url" content="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/index.html">
+<meta property="og:title" content="pytest 源码解读 - Kickoff 篇">
+<meta property="og:url" content="http://markshao.github.io/2019/08/10/pytest-source-analysis/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
-<meta property="og:description" content="借着媳妇儿给老丈人庆祝生日的机会，我也有幸跟着去了一次澳门，也算完成了港澳台观光计划的最后一块拼图。在这里要感谢媳妇儿的辛劳，在繁忙的工作之余还要负责整个旅行攻略的安排。这次的旅行主要是舒适游，毕竟是带着两位老人，所以也没有安排什么一大早的观光，基本就是在酒店吃吃喝喝，当然最重要的是去”赌”一把 第一天一大早的飞机从浦东机场飞澳门，差不多中午12点的时候落地。澳门机场给人的感觉很破旧，也很小，虽然">
+<meta property="og:description" content="Pytest 源码解读之前定的目标，2019 年要完成 pytest 的源码解读，实在是因为之前太忙耽搁下来，眼看已经到了8月份，再不开始的话估计就要黄了 (之前信誓旦旦立的Flag不能轻易打破)。其实时间挤挤也总是有的，不能再找借口了。而且估计未来也不会再去看 pytest 的source code 了，就当给自己的 Pytest 这段经历做个总结吧。 Python 在测试框架的选择上主要是3个">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/yinhe.jpeg">
-<meta property="og:image" content="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/sanba.jpeg">
-<meta property="og:image" content="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/meishi.jpeg">
-<meta property="og:image" content="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/weinisiren.jpeg">
-<meta property="og:updated_time" content="2019-04-07T13:37:23.345Z">
+<meta property="og:updated_time" content="2019-08-10T14:04:54.330Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="愚人节澳门游记">
-<meta name="twitter:description" content="借着媳妇儿给老丈人庆祝生日的机会，我也有幸跟着去了一次澳门，也算完成了港澳台观光计划的最后一块拼图。在这里要感谢媳妇儿的辛劳，在繁忙的工作之余还要负责整个旅行攻略的安排。这次的旅行主要是舒适游，毕竟是带着两位老人，所以也没有安排什么一大早的观光，基本就是在酒店吃吃喝喝，当然最重要的是去”赌”一把 第一天一大早的飞机从浦东机场飞澳门，差不多中午12点的时候落地。澳门机场给人的感觉很破旧，也很小，虽然">
-<meta name="twitter:image" content="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/yinhe.jpeg">
+<meta name="twitter:title" content="pytest 源码解读 - Kickoff 篇">
+<meta name="twitter:description" content="Pytest 源码解读之前定的目标，2019 年要完成 pytest 的源码解读，实在是因为之前太忙耽搁下来，眼看已经到了8月份，再不开始的话估计就要黄了 (之前信誓旦旦立的Flag不能轻易打破)。其实时间挤挤也总是有的，不能再找借口了。而且估计未来也不会再去看 pytest 的source code 了，就当给自己的 Pytest 这段经历做个总结吧。 Python 在测试框架的选择上主要是3个">
 
 
 
@@ -112,7 +107,7 @@
 
 
 
-  <link rel="canonical" href="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/">
+  <link rel="canonical" href="http://markshao.github.io/2019/08/10/pytest-source-analysis/">
 
 
 
@@ -122,7 +117,7 @@
   };
 </script>
 
-  <title>愚人节澳门游记 | 小法@兵工厂</title>
+  <title>pytest 源码解读 - Kickoff 篇 | 小法@兵工厂</title>
   
 
 
@@ -3248,7 +3243,7 @@ hr {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/">
+    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/08/10/pytest-source-analysis/">
 
     <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="书记">
@@ -3265,7 +3260,7 @@ hr {
 
         
         
-          <h1 class="post-title" itemprop="name headline">愚人节澳门游记
+          <h1 class="post-title" itemprop="name headline">pytest 源码解读 - Kickoff 篇
 
               
             
@@ -3291,7 +3286,7 @@ hr {
                 
               
 
-              <time title="创建时间：2019-04-07 20:52:01 / 修改时间：21:37:23" itemprop="dateCreated datePublished" datetime="2019-04-07T20:52:01+08:00">2019-04-07</time>
+              <time title="创建时间：2019-08-10 21:31:41 / 修改时间：22:04:54" itemprop="dateCreated datePublished" datetime="2019-08-10T21:31:41+08:00">2019-08-10</time>
             
 
             
@@ -3313,7 +3308,7 @@ hr {
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/生活杂谈/" itemprop="url" rel="index"><span itemprop="name">生活杂谈</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/pytest-源码解读/" itemprop="url" rel="index"><span itemprop="name">pytest 源码解读</span></a></span>
 
                 
                 
@@ -3332,8 +3327,8 @@ hr {
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/04/07/yurenjie-macau-youji/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/07/yurenjie-macau-youji/" itemprop="commentCount"></span>
+                <a href="/2019/08/10/pytest-source-analysis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/10/pytest-source-analysis/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -3361,26 +3356,30 @@ hr {
       
 
       
-        <p>借着媳妇儿给老丈人庆祝生日的机会，我也有幸跟着去了一次澳门，也算完成了港澳台观光计划的最后一块拼图。在这里要感谢媳妇儿的辛劳，在繁忙的工作之余还要负责整个旅行攻略的安排。这次的旅行主要是舒适游，毕竟是带着两位老人，所以也没有安排什么一大早的观光，基本就是在酒店吃吃喝喝，当然最重要的是去”赌”一把</p>
-<h3 id="第一天"><a href="#第一天" class="headerlink" title="第一天"></a>第一天</h3><p>一大早的飞机从浦东机场飞澳门，差不多中午12点的时候落地。澳门机场给人的感觉很破旧，也很小，虽然一直说港澳，港澳，但是第一次踏上澳门的土地，我的感觉是小并且很破旧。机场出来就有就很的”发财车”，所谓的发财车就是赌场安排接送游客去赌场的。我们也很快找到了我们的发财车，就顺利出发了</p>
-<p>澳门由2个小岛组成，一个叫本岛，另外一个叫氹仔，机场就在氹仔，我们的赌场酒店也在氹仔，开过去非常近。氹仔好像是后来填海出来的，最初就只有一个本岛，本地的居民也大都住在本岛上。</p>
-<p>离开机场没多久就到了我们的酒店 - 银河。和机场的破败的相比，酒店赌场给人的感觉就是富丽堂皇, 我用知乎查了一下，银河的老板是吕志和，好像是澳门另外一个赌王，身价有140多亿美金 ，厉害厉害</p>
-<p><img src="/2019/04/07/yurenjie-macau-youji/yinhe.jpeg" alt="银河"></p>
-<p>整个银河是一个超大的shopping mall， 一楼全是赌场和各种商店 。 整个银河有多家酒店，听说你如果赌的大的话，是会赠送房间的，我想估计要几百万的赌资才可以吧。</p>
-<p>楼下还有一个室外的游泳池，和一个人造海浪的沙滩，本来想下去游泳的，后来因为天气不太好，就没下去。第一天因为坐飞机有点累，就在附近的一个葡萄牙餐厅吃了一个午餐，晚上陪老婆去见了一个她在澳门的大学同学，也顺便去了一次本岛，吃了一下当地的甜品小吃，回酒店就早早睡了</p>
-<h3 id="第二天"><a href="#第二天" class="headerlink" title="第二天"></a>第二天</h3><p>一大早去酒店楼下的游泳池游了一次，实在是太冷了，没坚持多久就上来了，当中还遇到一个大陆来的游客，下去站了2分钟就因为太冷逃走了，本想再去一下人造海浪，现在看只能等下次再去了</p>
-<p>下午去了一趟大三巴牌坊, 人太多了，典型的中国旅游特色景点。看到一个韩国导游带着一帮韩国游客在拼命介绍，我也真心佩服他的口才，足足讲了30多分钟，虽然我啥都没听懂。照片拍的角度不太好，就随便放一张网上的</p>
-<p><img src="/2019/04/07/yurenjie-macau-youji/sanba.jpeg" alt="SANBA"></p>
-<p>晚上老婆带我们去吃了一个澳门当地最有名的海鲜大排档，那里6点开门，我们早早就过去排队了 。店给人的感觉就是TVB 电视剧里面的那种叶荣添他们三兄弟经常去吃饭的地方，非常破和脏，但是一般这样的地方容易有好吃的。我们点了一个海鲜煲，一个椒盐虾，一个椒盐鸭舌，好不好吃，看下面这个图就知道了</p>
-<p><img src="/2019/04/07/yurenjie-macau-youji/meishi.jpeg" alt="meishi"></p>
-<h4 id="赌场"><a href="#赌场" class="headerlink" title="赌场"></a>赌场</h4><p>酒足饭饱回到酒店，稍微休息一下就准备去本次旅行的重要目的<code>casino</code> 玩一把了。秉着小赌怡情，大赌伤身的原则，我和老婆商量，决定出资1000 港币去赢回一个世界。进大门的时候我们被保安喊住了，我也没听懂啥，以为是要搜身，就把双手举了起来，其实人家是要看一下我们的通行证，确认我们是否成年，真是蜜汁尴尬。</p>
-<p>进了赌场，首先明白了一个道理，原来赌场里是没有兔女郎的，港片都是骗人的，荷官都是一些阿姨和爷叔。当然基本上每张桌子都是人满为患，只能感叹中国有钱人还真是多。不同的赌桌玩的东西都不一样的，我看了半天也没看懂，但是我发现我那个1000块港币其实在很多赌台连个起步价都不够，哈哈，只能先观望观望，看看有没有&lt; 1000 的。</p>
-<p>最后我们驻足在了一个赌大小的赌台，那里最小的赌注是300，好像放眼望去，没有比这个更小的赌桌了(除了老虎机) ，那就上去试一把，当中过程省略，一通操作后，我们赚了<code>1800</code>, 看来第一次去赌场的运气还不赖，见好就收的我们立刻就选择去账房还钱走人。</p>
-<p>如果你以为我们就真的赚了1800，那就错了，后来我又拿了1000块下楼想再试试一把运气，没想到5分钟就把1000块输掉了</p>
-<h3 id="第三天"><a href="#第三天" class="headerlink" title="第三天"></a>第三天</h3><p>睡到中午自然醒，虽然昨天输了1000块，但是好在还是最后赚了800，心情还是挺好的，中午吃了饭就checkout了，把行李寄存在了酒店后，我们去了一次威尼斯人，这是一个更知名的赌场，但是由于游客太多，所以我们这次没有选择这里. 威尼斯人最大的一个亮点是在shopping mall 里有一个人造的天空穹顶，然后下面是一个地下河，两边都是各种商店，给人的感觉宛如身在威尼斯，非常漂亮</p>
-<p><img src="/2019/04/07/yurenjie-macau-youji/weinisiren.jpeg" alt="weinisiren"></p>
-<p>从威尼斯人回来，也差不多下午3点了，回去拿了一个行李就匆匆赶往机场了。</p>
-<p>澳门的赌场的确给人很震撼的感觉，纸醉金迷的生活会让人一度忘记自己是谁，好在理智很快让我清醒，明天回去继续码代码了。</p>
+        <h3 id="Pytest-源码解读"><a href="#Pytest-源码解读" class="headerlink" title="Pytest 源码解读"></a>Pytest 源码解读</h3><p>之前定的目标，2019 年要完成 <code>pytest</code> 的源码解读，实在是因为之前太忙耽搁下来，眼看已经到了8月份，再不开始的话估计就要黄了 (之前信誓旦旦立的Flag不能轻易打破)。其实时间挤挤也总是有的，不能再找借口了。而且估计未来也不会再去看 pytest 的source code 了，就当给自己的 Pytest 这段经历做个总结吧。</p>
+<p>Python 在测试框架的选择上主要是3个</p>
+<ul>
+<li>unittest</li>
+<li>nose</li>
+<li>pytest</li>
+</ul>
+<p><code>unittest</code> 是 python 自带的一个轮子，一般常用的需求都能满</p>
+<p><code>nose</code> (<a href="https://nose.readthedocs.io/en/latest/" target="_blank" rel="noopener">https://nose.readthedocs.io/en/latest/</a>) 是一个第三方的测试框架，之前在<code>emc</code> 和 <code>greenplum</code> 团队一起搞了一个项目是基于 nose 的，感觉功能要比 unittest 要复杂一些，不够我没有用的太深入，也没资格点评</p>
+<p><code>pytest</code> 是我加入到 Splunk 的时候开始接触的，Splunk 当时内部有一个叫 <code>Helmut</code> 的框架，就是基于 <code>pytest</code> 来打造的 。这也是我第一次知道Pytest，刚开始最不习惯的使用 <code>Fixture</code>, 后来才慢慢品味到了 <code>Fixture</code> 这种 Lazy Loading 的设计价值。后来基本上我就一直在用 Pytest 了，而且在依图的时候团队写了一个 <code>Fixture Factory</code> 的 module ，进一步简化了 Fixture 的使用和管理复杂度。当然这次主要是聚焦在 Pytest 的源码分析上，至于 Pytest 的使用，大家自己看 Pytest 的官方文档吧。</p>
+<h3 id="一些周边信息"><a href="#一些周边信息" class="headerlink" title="一些周边信息"></a>一些周边信息</h3><h5 id="Holger-Krekel"><a href="#Holger-Krekel" class="headerlink" title="Holger Krekel"></a>Holger Krekel</h5><ul>
+<li>Pytest 的作者，其实 Pytest 最开始的名字叫 <code>Py.test</code></li>
+<li>他是个德国人，同时还是 <code>PyPy</code> 和 <code>tox</code> 的作者</li>
+</ul>
+<h5 id="Pluggy"><a href="#Pluggy" class="headerlink" title="Pluggy"></a>Pluggy</h5><ul>
+<li>(<a href="https://github.com/pytest-dev/pluggy" target="_blank" rel="noopener">https://github.com/pytest-dev/pluggy</a>)</li>
+<li>Pytest 的核心实际的基于 <code>Pluggy</code> 这个 plugin framework 的，实际上 pytest 本身就是由一个一个插件组成的</li>
+<li>本来 pluggy 的代码是在 pytest 的 repo 里，后来迁移了出来，作为一个独立的项目。Pluggy 作为一个独立的plugin framework 来看也是很优雅的存在</li>
+</ul>
+<h3 id="源码分析计划"><a href="#源码分析计划" class="headerlink" title="源码分析计划"></a>源码分析计划</h3><p>主要是分两步走</p>
+<ol>
+<li>Pluggy 的分析，这个是 Pytest 的核心引擎</li>
+<li>Pytest 分析</li>
+</ol>
 
       
     </div>
@@ -3411,8 +3410,8 @@ hr {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/21/golang-interview-problem-1/" rel="next" title="第一次用 Golang 出面试题小记">
-                <i class="fa fa-chevron-left"></i> 第一次用 Golang 出面试题小记
+              <a href="/2019/04/07/yurenjie-macau-youji/" rel="next" title="愚人节澳门游记">
+                <i class="fa fa-chevron-left"></i> 愚人节澳门游记
               </a>
             
           </div>
@@ -3420,10 +3419,6 @@ hr {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/10/pytest-source-analysis/" rel="prev" title="pytest 源码解读 - Kickoff 篇">
-                pytest 源码解读 - Kickoff 篇 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -3626,7 +3621,7 @@ hr {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一天"><span class="nav-number">1.</span> <span class="nav-text">第一天</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二天"><span class="nav-number">2.</span> <span class="nav-text">第二天</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#赌场"><span class="nav-number">2.1.</span> <span class="nav-text">赌场</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三天"><span class="nav-number">3.</span> <span class="nav-text">第三天</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pytest-源码解读"><span class="nav-number">1.</span> <span class="nav-text">Pytest 源码解读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些周边信息"><span class="nav-number">2.</span> <span class="nav-text">一些周边信息</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Holger-Krekel"><span class="nav-number">2.0.1.</span> <span class="nav-text">Holger Krekel</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Pluggy"><span class="nav-number">2.0.2.</span> <span class="nav-text">Pluggy</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#源码分析计划"><span class="nav-number">3.</span> <span class="nav-text">源码分析计划</span></a></li></div>
             
 
           </div>
