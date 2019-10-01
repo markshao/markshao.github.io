@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="theme-next mist use-motion" lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0">
+<!DOCTYPE html><html class="theme-next mist use-motion" lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -88,14 +88,18 @@
 
 
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="人工智能带来的第二次大数据革命">
-<meta property="og:url" content="http://markshao.github.io/2019/03/25/next-generation-big-data-explosion/index.html">
+  <meta name="description" content="前言今天是祖国母亲的70华诞，早上在家里和媳妇一起看了令人激动的阅兵，真心为自己做位一个中国人而自豪。国庆的上海天气有点操蛋，受到台风的影响外面是大风大雨，不过因为媳妇怀孕的原因本来也没计划出去玩，趁着难得的假期，在家喝喝茶，吃吃东西，写写博客，把的之前拖欠的 Pytest 源码解读 给完成。 言归正传，上次说了 Pytest 的核心是基于Pluggy这个 Python Plugin 框架，这次先">
+<meta name="keywords" content="pytest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytest 源码解读 [1] - Pluggy 插件框架介绍">
+<meta property="og:url" content="http://markshao.github.io/2019/10/01/pluggy-guideline/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="前言今天是祖国母亲的70华诞，早上在家里和媳妇一起看了令人激动的阅兵，真心为自己做位一个中国人而自豪。国庆的上海天气有点操蛋，受到台风的影响外面是大风大雨，不过因为媳妇怀孕的原因本来也没计划出去玩，趁着难得的假期，在家喝喝茶，吃吃东西，写写博客，把的之前拖欠的 Pytest 源码解读 给完成。 言归正传，上次说了 Pytest 的核心是基于Pluggy这个 Python Plugin 框架，这次先">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-25T10:47:15.326Z">
+<meta property="og:updated_time" content="2019-10-01T12:14:46.066Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="人工智能带来的第二次大数据革命">
+<meta name="twitter:title" content="Pytest 源码解读 [1] - Pluggy 插件框架介绍">
+<meta name="twitter:description" content="前言今天是祖国母亲的70华诞，早上在家里和媳妇一起看了令人激动的阅兵，真心为自己做位一个中国人而自豪。国庆的上海天气有点操蛋，受到台风的影响外面是大风大雨，不过因为媳妇怀孕的原因本来也没计划出去玩，趁着难得的假期，在家喝喝茶，吃吃东西，写写博客，把的之前拖欠的 Pytest 源码解读 给完成。 言归正传，上次说了 Pytest 的核心是基于Pluggy这个 Python Plugin 框架，这次先">
 
 
 
@@ -104,7 +108,7 @@
 
 
 
-  <link rel="canonical" href="http://markshao.github.io/2019/03/25/next-generation-big-data-explosion/">
+  <link rel="canonical" href="http://markshao.github.io/2019/10/01/pluggy-guideline/">
 
 
 
@@ -114,7 +118,7 @@
   };
 </script>
 
-  <title>人工智能带来的第二次大数据革命 | 小法@兵工厂</title>
+  <title>Pytest 源码解读 [1] - Pluggy 插件框架介绍 | 小法@兵工厂</title>
   
 
 
@@ -2027,7 +2031,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #2d2dff;
+  background: #ff8b04;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3121,7 +3125,7 @@ hr {
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">6</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">7</span></a>
 
   </li>
         
@@ -3140,7 +3144,7 @@ hr {
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">5</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">6</span></a>
 
   </li>
         
@@ -3159,7 +3163,7 @@ hr {
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">22</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">23</span></a>
 
   </li>
 
@@ -3240,7 +3244,7 @@ hr {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/03/25/next-generation-big-data-explosion/">
+    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/10/01/pluggy-guideline/">
 
     <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="书记">
@@ -3257,7 +3261,7 @@ hr {
 
         
         
-          <h1 class="post-title" itemprop="name headline">人工智能带来的第二次大数据革命
+          <h1 class="post-title" itemprop="name headline">Pytest 源码解读 [1] - Pluggy 插件框架介绍
 
               
             
@@ -3283,7 +3287,7 @@ hr {
                 
               
 
-              <time title="创建时间：2019-03-25 18:34:05 / 修改时间：18:47:15" itemprop="dateCreated datePublished" datetime="2019-03-25T18:34:05+08:00">2019-03-25</time>
+              <time title="创建时间：2019-10-01 17:15:25 / 修改时间：20:14:46" itemprop="dateCreated datePublished" datetime="2019-10-01T17:15:25+08:00">2019-10-01</time>
             
 
             
@@ -3305,7 +3309,7 @@ hr {
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/生活杂谈/" itemprop="url" rel="index"><span itemprop="name">生活杂谈</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/pytest-源码解读/" itemprop="url" rel="index"><span itemprop="name">pytest 源码解读</span></a></span>
 
                 
                 
@@ -3324,8 +3328,8 @@ hr {
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/25/next-generation-big-data-explosion/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/25/next-generation-big-data-explosion/" itemprop="commentCount"></span>
+                <a href="/2019/10/01/pluggy-guideline/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/01/pluggy-guideline/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -3353,7 +3357,63 @@ hr {
       
 
       
-        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天是祖国母亲的70华诞，早上在家里和媳妇一起看了令人激动的阅兵，真心为自己做位一个中国人而自豪。国庆的上海天气有点操蛋，受到台风的影响外面是大风大雨，不过因为媳妇怀孕的原因本来也没计划出去玩，趁着难得的假期，在家喝喝茶，吃吃东西，写写博客，把的之前拖欠的 <code>Pytest 源码解读</code> 给完成。</p>
+<p>言归正传，上次说了 <code>Pytest</code> 的核心是基于<code>Pluggy</code>这个 Python Plugin 框架，这次先介绍一下  <code>Pluggy</code> 的核心功能</p>
+<h1 id="一个简单的Demo"><a href="#一个简单的Demo" class="headerlink" title="一个简单的Demo"></a>一个简单的Demo</h1><p><code>Pluggy</code> 已经从之前的 <code>Pytest</code>源码中独立出了一个单独的 <a href="https://github.com/pytest-dev/pluggy" target="_blank" rel="noopener">Repo</a> , 对于 <code>Pytest</code>自身也是把它作为一个外部的依赖来使用，我们这里就用一个独立的 Python 项目来 Demo，先看代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pluggy <span class="keyword">import</span> HookspecMarker, HookimplMarker, PluginManager</span><br><span class="line"></span><br><span class="line">spec = HookspecMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">impl = HookimplMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HookSpec</span>:</span></span><br><span class="line"><span class="meta">    @spec(historic=True)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HookImpl1</span>:</span></span><br><span class="line"><span class="meta">    @impl</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line">pm = PluginManager(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">pm.add_hookspecs(HookSpec)</span><br><span class="line">pm.register(HookImpl1())</span><br><span class="line">pm.hook.calculate(a=<span class="number">1</span>, b=<span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p><strong>Output</strong></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[3]</span><br></pre></td></tr></tbody></table></figure>
+<p>解释</p>
+<ul>
+<li><code>Pluggy</code>的核心就是三个类 <code>HookspecMarker</code>, <code>HookimplMarker</code>,<code>PluginManager</code>，核心的插件逻辑就是定义了一组 hook 的方法，然后 plugin 是hook 方法的具体实现</li>
+<li>整个 Project 需要用一个全局唯一的 Project Name ，这里是 <code>pluggy_demo_1</code></li>
+<li><code>HookSpec</code>是一个申明 hook method 的 class ，每一个 hook method 需要用<code>spec</code>的装饰器来装饰</li>
+<li><code>HookImpl1</code> 是一个 plugin 的实现，需要完整实现对应的hook方法，并且通过<code>impl</code>装饰器来装饰</li>
+<li>核心代码的调用逻辑就是先创建一个<code>PluginManager</code>对象，注册 Spec 和对应的 plugin 对象，然后通过 <code>PluginManager</code>自带的 hook 变量来调用对应的hook方法，传入相关的参数即可。<strong>切记在调用 hook 的时候参数必须是通过关键字的方式来传递</strong></li>
+</ul>
+<h1 id="hook-和-plugin-的关系"><a href="#hook-和-plugin-的关系" class="headerlink" title="hook 和 plugin 的关系"></a>hook 和 plugin 的关系</h1><p>hook 和 plugin 的对应关系是 <code>1:N</code>，如果说注册了多个实现了同一个 hook 的 plugin ，会返回多个结果，我们来看这个例子</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pluggy <span class="keyword">import</span> HookspecMarker, HookimplMarker, PluginManager</span><br><span class="line"></span><br><span class="line">spec = HookspecMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">impl = HookimplMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HookSpec</span>:</span></span><br><span class="line"><span class="meta">    @spec</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HookImpl1</span>:</span></span><br><span class="line"><span class="meta">    @impl</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HookImpl2</span>:</span></span><br><span class="line"><span class="meta">    @impl</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> a * b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pm = PluginManager(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">pm.add_hookspecs(HookSpec)</span><br><span class="line">pm.register(HookImpl1())</span><br><span class="line">pm.register(HookImpl2())</span><br><span class="line">print(pm.hook.calculate(a=<span class="number">1</span>, b=<span class="number">2</span>))</span><br></pre></td></tr></tbody></table></figure>
+<p><strong>Output</strong></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2,3]</span><br></pre></td></tr></tbody></table></figure>
+<p>解释</p>
+<ul>
+<li><p>在这里我们注册了两个 plugin , <code>HookImpl1</code>和 <code>HookImpl2</code>，分别对应了加法和乘法的两个不同逻辑</p>
+</li>
+<li><p>一次 hook 的调用返回了2个plugin 执行的结果，<strong>注意一下</strong>这里是先执行后注册的 <code>HookImpl2</code>，再执行先注册的<code>HookImpl1</code>, 下次具体分析 <code>pluggy</code> 实现的时候会解释</p>
+</li>
+</ul>
+<h1 id="plugin-调用顺序"><a href="#plugin-调用顺序" class="headerlink" title="plugin 调用顺序"></a>plugin 调用顺序</h1><h2 id="HookimplMarker-装饰器参数"><a href="#HookimplMarker-装饰器参数" class="headerlink" title="HookimplMarker 装饰器参数"></a>HookimplMarker 装饰器参数</h2><p><code>HookimplMarker</code> 装饰器支持一些特定的参数</p>
+<ul>
+<li>tryfirst - 顾名思义就是这个 plugin 在 <code>1:N</code> 的执行链路中先执行</li>
+<li>trylast - 顾名思义后执行</li>
+<li>hookwrapper - 基于 <code>yield</code> 实现的一个wrapper，先执行 wrapper plugin 的一部分逻辑，然后执行其他 plugin，最后执行剩余的 wrapper plugin 逻辑</li>
+</ul>
+<h3 id="tryfirst"><a href="#tryfirst" class="headerlink" title="tryfirst"></a>tryfirst</h3><p>我们修改一下刚才那个demo，把<code>HookImpl1</code>加上<code>tryfirst</code>参数, 执行的顺序就变了</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HookImpl1</span>:</span></span><br><span class="line"><span class="meta">    @impl(tryfirst=True)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> a + b</span><br></pre></td></tr></tbody></table></figure>
+<p><strong>Output</strong></p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[3,2]</span><br></pre></td></tr></tbody></table></figure>
+<p>HookspecMarker 装饰器参数</p>
+<h3 id="hookwrapper"><a href="#hookwrapper" class="headerlink" title="hookwrapper"></a>hookwrapper</h3><p>这里我们实现一个特殊 plugin <code>ImplWrapper</code>，先看代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pluggy <span class="keyword">import</span> HookspecMarker, HookimplMarker, PluginManager</span><br><span class="line"></span><br><span class="line">spec = HookspecMarker(<span class="string">"plugin_demo_2"</span>)</span><br><span class="line">impl = HookimplMarker(<span class="string">"plugin_demo_2"</span>)</span><br><span class="line">pm = PluginManager(<span class="string">"plugin_demo_2"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spec</span>:</span></span><br><span class="line"><span class="meta">    @spec</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Impl1</span>:</span></span><br><span class="line"><span class="meta">    @impl</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Impl2</span>:</span></span><br><span class="line"><span class="meta">    @impl(tryfirst=True)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> a + b + <span class="number">2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImplWrapper</span>:</span></span><br><span class="line"><span class="meta">    @impl(hookwrapper=True)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">        print(<span class="string">"before logic"</span>)</span><br><span class="line">        outcome = <span class="keyword">yield</span></span><br><span class="line">        print(<span class="string">"Get Result %s"</span> % outcome.result)</span><br><span class="line">        <span class="keyword">return</span> a * b * <span class="number">10</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pm.add_hookspecs(Spec)</span><br><span class="line">pm.register(Impl1())</span><br><span class="line">pm.register(Impl2())</span><br><span class="line">pm.register(ImplWrapper())</span><br><span class="line">print(pm.hook.calculate(a=<span class="number">1</span>, b=<span class="number">2</span>))</span><br></pre></td></tr></tbody></table></figure>
+<p><strong>Output</strong></p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">before logic</span><br><span class="line">Get Result [5, 3]</span><br><span class="line">[5, 3]</span><br></pre></td></tr></tbody></table></figure>
+<p>解释</p>
+<ul>
+<li><code>ImplWrapper</code> 是一个类似 <code>coroutine</code>的 生成器，它有两段逻辑，用<code>outcome = yield</code>来分割</li>
+<li>outcome 通过 <code>yield</code>来获取，它是<code>_Result</code>对象，包含了非wrapper 的 plugin 的执行结果，这里就是 <code>Impl1</code> 和 <code>Impl2</code>，从实际的output来看，<code>Get Result [5,3]</code>就是获取了返回值</li>
+<li>wrapper plugin 的返回值是会被 ignore 的，具体的原因下次分析源码的时候会给解释</li>
+</ul>
+<h2 id="HookspecMarker-装饰器参数"><a href="#HookspecMarker-装饰器参数" class="headerlink" title="HookspecMarker 装饰器参数"></a>HookspecMarker 装饰器参数</h2><p><code>HookspckMarker</code>装饰器也支持一些参数，主要是</p>
+<ul>
+<li>firstresult - 获取第一个plugin 执行结果后就中断后续执行</li>
+<li>historic - 表示这个 hook 是需要保存call history 的，当有新的 plugin 注册的时候，需要回放历史</li>
+</ul>
+<h3 id="firstresult"><a href="#firstresult" class="headerlink" title="firstresult"></a>firstresult</h3><p>调整一下 <code>HookSpec</code>，添加 <code>firstresult</code>参数，我们看一下执行结果</p>
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Spec:</span><br><span class="line">    @spec(firstresult)</span><br><span class="line">    def calculate(self, a, b):</span><br><span class="line">        pass</span><br><span class="line">        </span><br><span class="line">class HookImpl1:</span><br><span class="line">    @impl(tryfirst=True)</span><br><span class="line">    def calculate(self, a, b):</span><br><span class="line">        return a + b</span><br></pre></td></tr></tbody></table></figure>
+<p> <strong>Output</strong></p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2]</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>关于 <code>plugin</code>的基本使用就先介绍到这里了，大家有有兴趣可以看这篇文章，介绍的很细致 <a href="https://buildmedia.readthedocs.org/media/pdf/pluggy/latest/pluggy.pdf" target="_blank" rel="noopener">https://buildmedia.readthedocs.org/media/pdf/pluggy/latest/pluggy.pdf</a> </p>
+
       
     </div>
 
@@ -3374,6 +3434,12 @@ hr {
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/pytest/" rel="tag"># pytest</a>
+          
+        </div>
+      
 
       
       
@@ -3383,8 +3449,8 @@ hr {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/21/golang-interview-problem-1/" rel="next" title="第一次用 Golang 出面试题小记">
-                <i class="fa fa-chevron-left"></i> 第一次用 Golang 出面试题小记
+              <a href="/2019/08/10/pytest-source-analysis/" rel="next" title="Pytest 源码解读 [0] - Kickoff 篇">
+                <i class="fa fa-chevron-left"></i> Pytest 源码解读 [0] - Kickoff 篇
               </a>
             
           </div>
@@ -3392,10 +3458,6 @@ hr {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/07/yurenjie-macau-youji/" rel="prev" title="愚人节澳门游记">
-                愚人节澳门游记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -3443,8 +3505,17 @@ hr {
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -3459,7 +3530,7 @@ hr {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3482,7 +3553,9 @@ hr {
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -3507,7 +3580,9 @@ hr {
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -3577,6 +3652,23 @@ hr {
       </div>
 
       
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个简单的Demo"><span class="nav-number">2.</span> <span class="nav-text">一个简单的Demo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hook-和-plugin-的关系"><span class="nav-number">3.</span> <span class="nav-text">hook 和 plugin 的关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#plugin-调用顺序"><span class="nav-number">4.</span> <span class="nav-text">plugin 调用顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HookimplMarker-装饰器参数"><span class="nav-number">4.1.</span> <span class="nav-text">HookimplMarker 装饰器参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tryfirst"><span class="nav-number">4.1.1.</span> <span class="nav-text">tryfirst</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hookwrapper"><span class="nav-number">4.1.2.</span> <span class="nav-text">hookwrapper</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HookspecMarker-装饰器参数"><span class="nav-number">4.2.</span> <span class="nav-text">HookspecMarker 装饰器参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#firstresult"><span class="nav-number">4.2.1.</span> <span class="nav-text">firstresult</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
 
       
         <div class="back-to-top">
@@ -3610,7 +3702,7 @@ hr {
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
 
 
 

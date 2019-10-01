@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-08-10T14:04:54.330Z</updated>
+  <updated>2019-10-01T12:14:46.066Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>pytest 源码解读 - Kickoff 篇</title>
+    <title>Pytest 源码解读 [1] - Pluggy 插件框架介绍</title>
+    <link href="http://markshao.github.io/2019/10/01/pluggy-guideline/"/>
+    <id>http://markshao.github.io/2019/10/01/pluggy-guideline/</id>
+    <published>2019-10-01T09:15:25.000Z</published>
+    <updated>2019-10-01T12:14:46.066Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [0] - Kickoff 篇</title>
     <link href="http://markshao.github.io/2019/08/10/pytest-source-analysis/"/>
     <id>http://markshao.github.io/2019/08/10/pytest-source-analysis/</id>
     <published>2019-08-10T13:31:41.000Z</published>
-    <updated>2019-08-10T14:04:54.330Z</updated>
+    <updated>2019-10-01T12:14:57.975Z</updated>
     
     <summary type="html">
     
@@ -37,6 +63,8 @@
     
       <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
     
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
     
   </entry>
   
@@ -480,24 +508,6 @@
     
     
       <category term="Nebula" scheme="http://markshao.github.io/tags/Nebula/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈Testng测试框架的分布式实现</title>
-    <link href="http://markshao.github.io/2014/03/01/new-testng/"/>
-    <id>http://markshao.github.io/2014/03/01/new-testng/</id>
-    <published>2014-03-01T14:23:57.000Z</published>
-    <updated>2019-03-09T09:30:33.197Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;现状分析&quot;&gt;&lt;a href=&quot;#现状分析&quot; class=&quot;headerlink&quot; title=&quot;现状分析&quot;&gt;&lt;/a&gt;现状分析&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;http://testng.org&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG&lt;/a&gt;是目前在Java领域用的比较多的一款测试框架，它是基于JUnit的一个二次封装，不过增加了很多新的功能，比如完全基于Annotaion的配置，测试用例的依赖等等。你可以通过review它的Guide文档来获得更多的信息，不够有一个问题就是，TestNG的文档里面之字未提关于分布式执行测试用例方面的内容，难道TestNG不支持分布式测试么？错，其实作者老早就写了一篇Blog来介绍如何使用TestNG的分布式了，详情请见&lt;a href=&quot;http://beust.com/weblog2/archives/000362.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TestNG Distribute&lt;/a&gt;。但是如果你拿最新的Testng6.8.7的版本来配置分布式的实现，肯定会遇到一堆的问题，所以结论就是目前的分布式是有Bug存在的。&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="testng" scheme="http://markshao.github.io/tags/testng/"/>
     
   </entry>
   

@@ -88,17 +88,13 @@
 
 
 
-  <meta name="description" content="上次我们已经分析了一下JMeter的分布式架构，今天我们来看一下其中相关的核心类是怎么工作的，我们还是先从Master 开始，Master 是用来接收用户控制的JMeter Engine， 它接收 GUI 和 NoneGUI 两种运行模式，我们先来看一下 JMete.java 里面是怎么处理分布式模式的, 看一下start  函数是怎么工作的 12345678910else if (parser.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JMeter 源码解读 [10] - 分布式核心类">
-<meta property="og:url" content="http://markshao.github.io/2019/03/12/distributed-code-analysis/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="小法@兵工厂">
+<meta property="og:url" content="http://markshao.github.io/tags/pytest/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
-<meta property="og:description" content="上次我们已经分析了一下JMeter的分布式架构，今天我们来看一下其中相关的核心类是怎么工作的，我们还是先从Master 开始，Master 是用来接收用户控制的JMeter Engine， 它接收 GUI 和 NoneGUI 两种运行模式，我们先来看一下 JMete.java 里面是怎么处理分布式模式的, 看一下start  函数是怎么工作的 12345678910else if (parser.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-13T02:11:27.661Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JMeter 源码解读 [10] - 分布式核心类">
-<meta name="twitter:description" content="上次我们已经分析了一下JMeter的分布式架构，今天我们来看一下其中相关的核心类是怎么工作的，我们还是先从Master 开始，Master 是用来接收用户控制的JMeter Engine， 它接收 GUI 和 NoneGUI 两种运行模式，我们先来看一下 JMete.java 里面是怎么处理分布式模式的, 看一下start  函数是怎么工作的 12345678910else if (parser.">
+<meta name="twitter:title" content="小法@兵工厂">
 
 
 
@@ -107,7 +103,7 @@
 
 
 
-  <link rel="canonical" href="http://markshao.github.io/2019/03/12/distributed-code-analysis/">
+  <link rel="canonical" href="http://markshao.github.io/tags/pytest/">
 
 
 
@@ -117,7 +113,7 @@
   };
 </script>
 
-  <title>JMeter 源码解读 [10] - 分布式核心类 | 小法@兵工厂</title>
+  <title>标签: pytest | 小法@兵工厂</title>
   
 
 
@@ -3032,7 +3028,7 @@ hr {
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-right ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -3112,7 +3108,7 @@ hr {
         
         
           
-          <li class="menu-item menu-item-tags">
+          <li class="menu-item menu-item-tags menu-item-active">
 
     
     
@@ -3182,6 +3178,28 @@ hr {
   
     
 
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
   
 
   
@@ -3227,236 +3245,82 @@ hr {
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block tag">
 
-  
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>pytest<small>标签</small>
+        </h1>
+      </div>
 
-  
-  
-  
-
-  
+      
+        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/03/12/distributed-code-analysis/">
+    <header class="post-header">
 
-    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="书记">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小法@兵工厂">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+          <a class="post-title-link" href="/2019/10/01/pluggy-guideline/" itemprop="url">
+            
+              <span itemprop="name">Pytest 源码解读 [1] - Pluggy 插件框架介绍</span>
+            
+          </a>
         
-          <h1 class="post-title" itemprop="name headline">JMeter 源码解读 [10] - 分布式核心类
+      </h2>
 
-              
-            
-          </h1>
-        
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2019-10-01T17:15:25+08:00" content="2019-10-01">
+          10-01
+        </time>
+      </div>
 
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-12 22:11:38" itemprop="dateCreated datePublished" datetime="2019-03-12T22:11:38+08:00">2019-03-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-13 10:11:27" itemprop="dateModified" datetime="2019-03-13T10:11:27+08:00">2019-03-13</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/JMeter-源码解读/" itemprop="url" rel="index"><span itemprop="name">JMeter 源码解读</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/12/distributed-code-analysis/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/12/distributed-code-analysis/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>上次我们已经分析了一下<code>JMeter</code>的分布式架构，今天我们来看一下其中相关的核心类是怎么工作的，我们还是先从Master 开始，Master 是用来接收用户控制的<code>JMeter</code> Engine， 它接收 GUI 和 NoneGUI 两种运行模式，我们先来看一下 <code>JMete.java</code> 里面是怎么处理分布式模式的, 看一下<code>start</code>  函数是怎么工作的</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (parser.getArgumentById(SERVER_OPT) != <span class="keyword">null</span>) {</span><br><span class="line">                <span class="comment">// Start the server</span></span><br><span class="line">                <span class="keyword">try</span> {</span><br><span class="line">                    RemoteJMeterEngineImpl.startServer(RmiUtils.getRmiRegistryPort()); <span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                    startOptionalServers();</span><br><span class="line">                } <span class="keyword">catch</span> (Exception ex) {</span><br><span class="line">                    System.err.println(<span class="string">"Server failed to start: "</span>+ex);<span class="comment">//NOSONAR</span></span><br><span class="line">                    log.error(<span class="string">"Giving up, as server failed with:"</span>, ex);</span><br><span class="line">                    <span class="keyword">throw</span> ex;</span><br><span class="line">                }</span><br></pre></td></tr></tbody></table></figure>
-<p>当命令行包含一个<code>-s</code>参数的时候，表示我们要启动一个<code>Slave Server</code> , 实际启动的工作是交给<code>RemoteJMeterEngineImpl</code>的</p>
-<p>###RemoteJMeterEngineImpl<br>RemoteJMeterEngineImpl 这个类实现了<code>RemoteJMeterEngine</code>接口，而<code>RemoteJMeterEngine</code>接口继承自 <code>Remote</code> 接口，我们知道在 <code>RMI</code> 通信框架里提供的 <code>Remote</code> 接口，就是用来声明继承这个接口的interface 定义的方法是用来远程调用的，RemoteJMeterEngine 定义的接口和<code>JMeterEngine</code>定义的一样，唯一的区别是每个方法前多了一个<code>r</code>,例如在 JMeterEngine 里定义的叫 <code>configure</code>的方法在<code>RemoteJMeterEngine</code>里定义的是<code>rconfigure</code></p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RemoteJMeterEngine</span> <span class="keyword">extends</span> <span class="title">Remote</span> </span>{</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rconfigure</span><span class="params">(HashTree testTree, String host, File jmxBase, String scriptName)</span> <span class="keyword">throws</span> RemoteException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rrunTest</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException, JMeterEngineException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rstopTest</span><span class="params">(<span class="keyword">boolean</span> now)</span> <span class="keyword">throws</span> RemoteException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rreset</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rsetProperties</span><span class="params">(HashMap&lt;String,String&gt; p)</span> <span class="keyword">throws</span> RemoteException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rexit</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<p>我们在来看 RemoteJMeterEngineImpl 的实现，首先在上次的分析中谈过，真正的执行逻辑是通过在内部自带的一个 <code>JMeterEngine</code> 来实现，可以理解为一个 JMeter Slave 就是一个不提供外部交互interface， 只允许通过 RMI 协议来访问的特殊 JMeter， 它自身的处理逻辑就是一个标准的 <code>JMeterEngine</code>, 我们简单看一个 <code>RemoteJMeterEngine</code> 的接口实现，我们看一下<code>rexit</code>的实现</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rexit</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException </span>{</span><br><span class="line">        log.info(<span class="string">"Exiting"</span>);</span><br><span class="line">        <span class="comment">// Bug 59400 - allow rexit() to return</span></span><br><span class="line">        Thread et = <span class="keyword">new</span> Thread(() -&gt; {</span><br><span class="line">            log.info(<span class="string">"Stopping the backing engine"</span>);</span><br><span class="line">            backingEngine.exit();</span><br><span class="line">        });</span><br><span class="line">        et.setDaemon(<span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">// Tidy up any objects we created</span></span><br><span class="line">        Registry reg = LocateRegistry.getRegistry(</span><br><span class="line">                RmiUtils.getRmiHost().getHostName(),</span><br><span class="line">                <span class="keyword">this</span>.rmiRegistryPort,</span><br><span class="line">                RmiUtils.createClientSocketFactory());        </span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            reg.unbind(JMETER_ENGINE_RMI_NAME);</span><br><span class="line">        } <span class="keyword">catch</span> (NotBoundException e) {</span><br><span class="line">            log.warn(<span class="string">"{} is not bound"</span>, JMETER_ENGINE_RMI_NAME, e);</span><br><span class="line">        }</span><br><span class="line">        log.info(<span class="string">"Unbound from registry"</span>);</span><br><span class="line">        <span class="comment">// Help with garbage control</span></span><br><span class="line">        JMeterUtils.helpGC();</span><br><span class="line">        et.start();</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
-<p>它的处理逻辑分几步</p>
-<ol>
-<li>启动一个线程，调用 StandardJMeterEngine 自身的方法<code>backingEngine.exit();</code>来关闭 JMeter , 然后把自己从 RMI Service 中注销掉 <code>reg.unbind(JMETER_ENGINE_RMI_NAME);</code></li>
-</ol>
-<p>###DistributedRunner<br>刚刚谈了 Slave 的运行逻辑，再来看看 Master JMeter 怎么工作的，Master 在整个 RMI 通信框架中实际是一个 Client， 我们先还是从用户入口代码来看，看一下 JMeter 的 <code>runNonGui</code> 函数，在最下面有这么几行代码</p>
-<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">java.util.StringTokenizer st = <span class="keyword">new</span> java.util.StringTokenizer(remoteHostsString, <span class="string">","</span>);<span class="comment">//$NON-NLS-1$</span></span><br><span class="line">               List&lt;String&gt; hosts = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">               <span class="keyword">while</span> (st.hasMoreElements()) {</span><br><span class="line">                   hosts.add((String) st.nextElement());</span><br><span class="line">               }</span><br><span class="line">               </span><br><span class="line">               DistributedRunner distributedRunner=<span class="keyword">new</span> DistributedRunner(<span class="keyword">this</span>.remoteProps);</span><br><span class="line">               distributedRunner.setStdout(System.out); <span class="comment">// NOSONAR</span></span><br><span class="line">               distributedRunner.setStdErr(System.err); <span class="comment">// NOSONAR</span></span><br><span class="line">               distributedRunner.init(hosts, clonedTree);</span><br><span class="line">               engines.addAll(distributedRunner.getEngines());</span><br><span class="line">               distributedRunner.start();</span><br></pre></td></tr></tbody></table></figure>
-<p>这里创建了一个 DistributeRunner ，看起来是一个 远程调用的 stub ，先看一下 <code>distributedRunner.init</code> 在干什么<br></p><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (idx &lt; addrs.size()) {</span><br><span class="line">                String address = addrs.get(idx);</span><br><span class="line">                println(<span class="string">"Configuring remote engine: "</span> + address);</span><br><span class="line">                JMeterEngine engine = getClientEngine(address.trim(), tree);</span><br><span class="line">                <span class="keyword">if</span> (engine != <span class="keyword">null</span>) {</span><br><span class="line">                    engines.put(address, engine);</span><br><span class="line">                    addrs.remove(address);</span><br><span class="line">                } <span class="keyword">else</span> {</span><br><span class="line">                    println(<span class="string">"Failed to configure "</span> + address);</span><br><span class="line">                    idx++;</span><br><span class="line">                }</span><br><span class="line">            }</span><br></pre></td></tr></tbody></table></figure><p></p>
-<p>它接收输入的多组Slave 的IP 和 Port ，然后会创建对应的（1:1）的 ClientJMeterEngine，并保存在 <code>engines</code> 这个容器里，等实际<code>runTest</code>的时候，是通过内部调用其自身的 <code>start(List&lt;String&gt; addresses)</code>方法，遍历每个<code>ClientJMeterEngine</code> 并通过RMI Call来调用Slave 来运行测试<br></p><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(List&lt;String&gt; addresses)</span> </span>{</span><br><span class="line">        println(<span class="string">"Starting remote engines"</span>);</span><br><span class="line">        <span class="keyword">long</span> now = System.currentTimeMillis();</span><br><span class="line">        println(<span class="string">"Starting the test @ "</span> + <span class="keyword">new</span> Date(now) + <span class="string">" ("</span> + now + <span class="string">")"</span>);</span><br><span class="line">        <span class="keyword">for</span> (String address : addresses) {</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                <span class="keyword">if</span> (engines.containsKey(address)) {</span><br><span class="line">                    engines.get(address).runTest();</span><br><span class="line">                } <span class="keyword">else</span> {</span><br><span class="line">                    log.warn(HOST_NOT_FOUND_MESSAGE, address);</span><br><span class="line">                }</span><br><span class="line">            } <span class="keyword">catch</span> (IllegalStateException | JMeterEngineException e) { <span class="comment">// NOSONAR already reported to user</span></span><br><span class="line">                JMeterUtils.reportErrorToUser(e.getMessage(), JMeterUtils.getResString(<span class="string">"remote_error_starting"</span>)); <span class="comment">// $NON-NLS-1$  </span></span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        println(<span class="string">"Remote engines have been started"</span>);</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure><p></p>
-<p>###ClientJMeterEngine<br>最后我们来看一下<code>ClientJMeterEngine</code>怎么工作的，它是一个<code>JMeterEngine</code>接口的实现，但是内部是一个RMI Client。首先是在构造函数的时候来创建一个<code>RMI Client</code><br></p><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Registry registry = LocateRegistry.getRegistry(</span><br><span class="line">               host, </span><br><span class="line">               port,</span><br><span class="line">               RmiUtils.createClientSocketFactory());</span><br><span class="line">        Remote remobj = registry.lookup(name);</span><br><span class="line">        <span class="keyword">if</span> (remobj <span class="keyword">instanceof</span> RemoteJMeterEngine){</span><br><span class="line">            <span class="keyword">final</span> RemoteJMeterEngine rje = (RemoteJMeterEngine) remobj;</span><br><span class="line">            <span class="keyword">if</span> (remobj <span class="keyword">instanceof</span> RemoteObject){</span><br><span class="line">                RemoteObject robj = (RemoteObject) remobj;</span><br><span class="line">                System.out.println(<span class="string">"Using remote object: "</span>+robj.getRef().remoteToString()); <span class="comment">// NOSONAR</span></span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">return</span> rje;</span><br><span class="line">        }</span><br></pre></td></tr></tbody></table></figure><p></p>
-<p>然后我们再看一下它怎么实现<code>JMeterEngine</code>中定义的方法就一目了然了，我们看一个<code>stopTest()</code>方法，其实就是通过 RMI Client 来调用远程的方法<br></p><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopTest</span><span class="params">(<span class="keyword">boolean</span> now)</span> </span>{</span><br><span class="line">        log.info(<span class="string">"About to {} remote test on {}"</span>, now ? <span class="string">"stop"</span> : <span class="string">"shutdown"</span>, hostAndPort);</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            remote.rstopTest(now);</span><br><span class="line">        } <span class="keyword">catch</span> (Exception ex) {</span><br><span class="line">            log.error(<span class="string">""</span>, ex); <span class="comment">// $NON-NLS-1$</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure><p></p>
-<p>分布式的内容差不多就介绍到这里</p>
-
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/03/12/distributed-architecture/" rel="next" title="JMeter 源码解读 [9] - 分布式架构">
-                <i class="fa fa-chevron-left"></i> JMeter 源码解读 [9] - 分布式架构
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/17/golang-channel-deadlock/" rel="prev" title="golang channel 使用不当导致的 deadlock">
-                golang channel 使用不当导致的 deadlock <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
+      
+        
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+          <a class="post-title-link" href="/2019/08/10/pytest-source-analysis/" itemprop="url">
+            
+              <span itemprop="name">Pytest 源码解读 [0] - Kickoff 篇</span>
+            
+          </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2019-08-10T21:31:41+08:00" content="2019-08-10">
+          08-10
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+    </div>
+
   </div>
+  
+  
+  
+
+  
 
 
           </div>
           
-
-  
-    <div class="comments" id="comments">
-    </div>
-
-  
-
-
 
         </div>
         
@@ -3748,10 +3612,6 @@ hr {
 
 
   
-  
-
-
-
 
   
 
@@ -3773,8 +3633,6 @@ hr {
 
 
 
-
-  
 
 
   

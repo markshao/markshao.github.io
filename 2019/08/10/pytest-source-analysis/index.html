@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="theme-next mist use-motion" lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0">
+<!DOCTYPE html><html class="theme-next mist use-motion" lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0">
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -89,15 +89,16 @@
 
 
   <meta name="description" content="Pytest 源码解读之前定的目标，2019 年要完成 pytest 的源码解读，实在是因为之前太忙耽搁下来，眼看已经到了8月份，再不开始的话估计就要黄了 (之前信誓旦旦立的Flag不能轻易打破)。其实时间挤挤也总是有的，不能再找借口了。而且估计未来也不会再去看 pytest 的source code 了，就当给自己的 Pytest 这段经历做个总结吧。 Python 在测试框架的选择上主要是3个">
+<meta name="keywords" content="pytest">
 <meta property="og:type" content="article">
-<meta property="og:title" content="pytest 源码解读 - Kickoff 篇">
+<meta property="og:title" content="Pytest 源码解读 [0] - Kickoff 篇">
 <meta property="og:url" content="http://markshao.github.io/2019/08/10/pytest-source-analysis/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
 <meta property="og:description" content="Pytest 源码解读之前定的目标，2019 年要完成 pytest 的源码解读，实在是因为之前太忙耽搁下来，眼看已经到了8月份，再不开始的话估计就要黄了 (之前信誓旦旦立的Flag不能轻易打破)。其实时间挤挤也总是有的，不能再找借口了。而且估计未来也不会再去看 pytest 的source code 了，就当给自己的 Pytest 这段经历做个总结吧。 Python 在测试框架的选择上主要是3个">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-10T14:04:54.330Z">
+<meta property="og:updated_time" content="2019-10-01T12:14:57.975Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="pytest 源码解读 - Kickoff 篇">
+<meta name="twitter:title" content="Pytest 源码解读 [0] - Kickoff 篇">
 <meta name="twitter:description" content="Pytest 源码解读之前定的目标，2019 年要完成 pytest 的源码解读，实在是因为之前太忙耽搁下来，眼看已经到了8月份，再不开始的话估计就要黄了 (之前信誓旦旦立的Flag不能轻易打破)。其实时间挤挤也总是有的，不能再找借口了。而且估计未来也不会再去看 pytest 的source code 了，就当给自己的 Pytest 这段经历做个总结吧。 Python 在测试框架的选择上主要是3个">
 
 
@@ -117,7 +118,7 @@
   };
 </script>
 
-  <title>pytest 源码解读 - Kickoff 篇 | 小法@兵工厂</title>
+  <title>Pytest 源码解读 [0] - Kickoff 篇 | 小法@兵工厂</title>
   
 
 
@@ -2030,7 +2031,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #77ff17;
+  background: #ff8b04;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3124,7 +3125,7 @@ hr {
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">6</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">7</span></a>
 
   </li>
         
@@ -3162,7 +3163,7 @@ hr {
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">22</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">23</span></a>
 
   </li>
 
@@ -3260,7 +3261,7 @@ hr {
 
         
         
-          <h1 class="post-title" itemprop="name headline">pytest 源码解读 - Kickoff 篇
+          <h1 class="post-title" itemprop="name headline">Pytest 源码解读 [0] - Kickoff 篇
 
               
             
@@ -3286,12 +3287,24 @@ hr {
                 
               
 
-              <time title="创建时间：2019-08-10 21:31:41 / 修改时间：22:04:54" itemprop="dateCreated datePublished" datetime="2019-08-10T21:31:41+08:00">2019-08-10</time>
+              <time title="创建时间：2019-08-10 21:31:41" itemprop="dateCreated datePublished" datetime="2019-08-10T21:31:41+08:00">2019-08-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-01 20:14:57" itemprop="dateModified" datetime="2019-10-01T20:14:57+08:00">2019-10-01</time>
               
             
           </span>
@@ -3401,6 +3414,12 @@ hr {
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/pytest/" rel="tag"># pytest</a>
+          
+        </div>
+      
 
       
       
@@ -3419,6 +3438,10 @@ hr {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/01/pluggy-guideline/" rel="prev" title="Pytest 源码解读 [1] - Pluggy 插件框架介绍">
+                Pytest 源码解读 [1] - Pluggy 插件框架介绍 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -3491,7 +3514,7 @@ hr {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3541,7 +3564,9 @@ hr {
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -3661,7 +3686,7 @@ hr {
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
 
 
 
