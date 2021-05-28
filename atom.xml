@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2019-10-01T12:14:46.066Z</updated>
+  <updated>2021-05-28T14:37:35.293Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -17,11 +17,89 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Pytest 源码解读 [1] - Pluggy 插件框架介绍</title>
+    <title>Pytest 源码解读 [4] - pluggy &quot;_HookCall&quot; 调用链分析</title>
+    <link href="http://markshao.github.io/2019/10/05/hook-caller-logic/"/>
+    <id>http://markshao.github.io/2019/10/05/hook-caller-logic/</id>
+    <published>2019-10-05T09:13:32.000Z</published>
+    <updated>2021-05-28T14:37:35.293Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;我们知道&lt;code&gt;pm.hook.xxx(**kwargs)&lt;/code&gt;　，最后实际是调用了绑定的 &lt;code&gt;_HookCaller&lt;/code&gt;对象的&lt;code&gt;__call__&lt;/code&gt;方法，那么今天我们来看一下这个方法的逻辑是什么样的，废话少说，先上代码,
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [3] - [pluggy] plugin 注册逻辑分析</title>
+    <link href="http://markshao.github.io/2019/10/03/register-pluggy/"/>
+    <id>http://markshao.github.io/2019/10/03/register-pluggy/</id>
+    <published>2019-10-03T01:41:56.000Z</published>
+    <updated>2021-05-28T14:37:35.292Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;今天我们再仔细分析一下 &lt;code&gt;plugin&lt;/code&gt; 的注册逻辑，这里面包含了&lt;code&gt;pluggy&lt;/code&gt; 框架中的一些核心设计元素。代码在
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构</title>
+    <link href="http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/"/>
+    <id>http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/</id>
+    <published>2019-10-02T02:04:28.000Z</published>
+    <updated>2021-05-28T14:37:35.290Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;代码结构&quot;&gt;&lt;a href=&quot;#代码结构&quot; class=&quot;headerlink&quot; title=&quot;代码结构&quot;&gt;&lt;/a&gt;代码结构&lt;/h1&gt;&lt;p&gt;&lt;code&gt;pluggy&lt;/code&gt; 的核心代码非常简介，把 &lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [1] - [pluggy] 插件框架介绍</title>
     <link href="http://markshao.github.io/2019/10/01/pluggy-guideline/"/>
     <id>http://markshao.github.io/2019/10/01/pluggy-guideline/</id>
     <published>2019-10-01T09:15:25.000Z</published>
-    <updated>2019-10-01T12:14:46.066Z</updated>
+    <updated>2021-05-28T14:37:35.290Z</updated>
     
     <summary type="html">
     
@@ -47,7 +125,7 @@
     <link href="http://markshao.github.io/2019/08/10/pytest-source-analysis/"/>
     <id>http://markshao.github.io/2019/08/10/pytest-source-analysis/</id>
     <published>2019-08-10T13:31:41.000Z</published>
-    <updated>2019-10-01T12:14:57.975Z</updated>
+    <updated>2019-10-01T12:15:32.687Z</updated>
     
     <summary type="html">
     
@@ -432,82 +510,6 @@
     
       <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>vscode 杂谈</title>
-    <link href="http://markshao.github.io/2019/03/04/vscode-introduction/"/>
-    <id>http://markshao.github.io/2019/03/04/vscode-introduction/</id>
-    <published>2019-03-04T15:22:38.000Z</published>
-    <updated>2019-03-09T09:58:45.154Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在依图的时候为了安利周围的同学都使用visual studio code ，特地写了一个ppt给他们做了一个培训。当然不是介绍vscode 本身那么无聊，主要是八卦了一下vscode 背后的作者以及相关的技术实现。 vscode 本身的设计还是很经典的,
-        
-      
-    
-    </summary>
-    
-    
-      <category term="vscode" scheme="http://markshao.github.io/tags/vscode/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JMeter 源码解读 [1] - 配置开发环境</title>
-    <link href="http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/"/>
-    <id>http://markshao.github.io/2019/03/03/jmeter-source-code-initenviroment/</id>
-    <published>2019-03-03T14:33:23.000Z</published>
-    <updated>2019-03-06T14:14:51.183Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h3 id=&quot;准备环境&quot;&gt;&lt;a href=&quot;#准备环境&quot; class=&quot;headerlink&quot; title=&quot;准备环境&quot;&gt;&lt;/a&gt;准备环境&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;操作系统 MacOS Mojave&lt;/li&gt;
-&lt;li&gt;JDK
-        
-      
-    
-    </summary>
-    
-      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>2018 总结 [质量篇]</title>
-    <link href="http://markshao.github.io/2019/03/01/2018-conclusion/"/>
-    <id>http://markshao.github.io/2019/03/01/2018-conclusion/</id>
-    <published>2019-03-01T15:52:24.000Z</published>
-    <updated>2019-03-09T09:31:12.446Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;上一次写博客已经不知道是多久之前的事情了，开通 &lt;code&gt;Github Page&lt;/code&gt;
-        
-      
-    
-    </summary>
-    
-      <category term="年终总结" scheme="http://markshao.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
-    
-    
-      <category term="Nebula" scheme="http://markshao.github.io/tags/Nebula/"/>
     
   </entry>
   

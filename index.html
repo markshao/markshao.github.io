@@ -2026,7 +2026,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff8b04;
+  background: #5391a6;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3159,7 +3159,7 @@ hr {
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">23</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">26</span></a>
 
   </li>
 
@@ -3240,7 +3240,7 @@ hr {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/10/01/pluggy-guideline/">
+    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/10/05/hook-caller-logic/">
 
     <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="书记">
@@ -3260,7 +3260,7 @@ hr {
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/10/01/pluggy-guideline/" class="post-title-link" itemprop="url">Pytest 源码解读 [1] - Pluggy 插件框架介绍</a>
+                <a href="/2019/10/05/hook-caller-logic/" class="post-title-link" itemprop="url">Pytest 源码解读 [4] - pluggy "_HookCall" 调用链分析</a>
               
             
           </h1>
@@ -3285,12 +3285,620 @@ hr {
                 
               
 
-              <time title="创建时间：2019-10-01 17:15:25 / 修改时间：20:14:46" itemprop="dateCreated datePublished" datetime="2019-10-01T17:15:25+08:00">2019-10-01</time>
+              <time title="创建时间：2019-10-05 17:13:32" itemprop="dateCreated datePublished" datetime="2019-10-05T17:13:32+08:00">2019-10-05</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-05-28 22:37:35" itemprop="dateModified" datetime="2021-05-28T22:37:35+08:00">2021-05-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/pytest-源码解读/" itemprop="url" rel="index"><span itemprop="name">pytest 源码解读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/10/05/hook-caller-logic/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/05/hook-caller-logic/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              我们知道pm.hook.xxx(**kwargs)　，最后实际是调用了绑定的 _HookCaller对象的__call__方法，那么今天我们来看一下这个方法的逻辑是什么样的，废话少说，先上代码, 我们先看下_HookCaller的构造函数
+def __init__(self, name, hook_execute, specmodule_or_class=None, spec_opts=None):    self.name = name    self._wrappers = []    self._nonwrappers = []    self._hookexec = hook_exec
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/10/05/hook-caller-logic/#more" rel="contents">
+                阅读全文 »
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/10/03/register-pluggy/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="书记">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小法@兵工厂">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/03/register-pluggy/" class="post-title-link" itemprop="url">Pytest 源码解读 [3] - [pluggy] plugin 注册逻辑分析</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-03 09:41:56" itemprop="dateCreated datePublished" datetime="2019-10-03T09:41:56+08:00">2019-10-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-05-28 22:37:35" itemprop="dateModified" datetime="2021-05-28T22:37:35+08:00">2021-05-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/pytest-源码解读/" itemprop="url" rel="index"><span itemprop="name">pytest 源码解读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/10/03/register-pluggy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/03/register-pluggy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              今天我们再仔细分析一下 plugin 的注册逻辑，这里面包含了pluggy 框架中的一些核心设计元素。代码在 manager.py中的PluginManager的register方法
+首先是先判断一下这个plugin是否已经注册过了，
+plugin_name = name or self.get_canonical_name(plugin)        if plugin_name in self._name2plugin or plugin in self._plugin2hookcallers:            if self._name2plugin.get(plugin_nam
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/10/03/register-pluggy/#more" rel="contents">
+                阅读全文 »
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="书记">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小法@兵工厂">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/02/pytest-core-design-and-code-structure/" class="post-title-link" itemprop="url">Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-02 10:04:28" itemprop="dateCreated datePublished" datetime="2019-10-02T10:04:28+08:00">2019-10-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-05-28 22:37:35" itemprop="dateModified" datetime="2021-05-28T22:37:35+08:00">2021-05-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/pytest-源码解读/" itemprop="url" rel="index"><span itemprop="name">pytest 源码解读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/10/02/pytest-core-design-and-code-structure/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/02/pytest-core-design-and-code-structure/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              代码结构pluggy 的核心代码非常简介，把 repo 克隆到本地目录后，它的核心代码就是在 src目录下的4个文件
+
+_tracing.py - 调试作用，把 hookspec 和 plugin 调用链路的分析打印出来，一般不开启
+callers.py - 主要是 _multicall 这个方法，用来实现对于 plugin 的调用逻辑
+hooks.py -  核心是 HookspeckMarker 和 HookimplMarker, 用来装饰 hook 和 plugin 的方法
+manager.py - PluginManager  是整个 pluggy 的核心类，负责 hook 和 plu
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/10/02/pytest-core-design-and-code-structure/#more" rel="contents">
+                阅读全文 »
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/10/01/pluggy-guideline/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="书记">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小法@兵工厂">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/01/pluggy-guideline/" class="post-title-link" itemprop="url">Pytest 源码解读 [1] - [pluggy] 插件框架介绍</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-01 17:15:25" itemprop="dateCreated datePublished" datetime="2019-10-01T17:15:25+08:00">2019-10-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-05-28 22:37:35" itemprop="dateModified" datetime="2021-05-28T22:37:35+08:00">2021-05-28</time>
               
             
           </span>
@@ -3488,7 +4096,7 @@ hr {
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-01 20:14:57" itemprop="dateModified" datetime="2019-10-01T20:14:57+08:00">2019-10-01</time>
+                <time title="修改时间：2019-10-01 20:15:32" itemprop="dateModified" datetime="2019-10-01T20:15:32+08:00">2019-10-01</time>
               
             
           </span>
@@ -4588,562 +5196,6 @@ else if (parser.getArgumentById(SERVER_OPT) != null) {                // Start t
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/03/11/install-mysqldb/">
-
-    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="书记">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小法@兵工厂">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/11/install-mysqldb/" class="post-title-link" itemprop="url">macOS Mojave 上安装 python mysql module 遇到小坑</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-11 21:16:37 / 修改时间：21:49:56" itemprop="dateCreated datePublished" datetime="2019-03-11T21:16:37+08:00">2019-03-11</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/技术大杂烩/" itemprop="url" rel="index"><span itemprop="name">技术大杂烩</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/11/install-mysqldb/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/11/install-mysqldb/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              公司的一个项目需要安装mysqlclient==1.3.12的模块，很久写MySQL base 的应用了，而且之前2年基本都是在ubuntu destkop上，还是遇到了一些小坑，不过很快就趟过去了，记录一下希望帮到有类似问题的同学
-我的环境operation system = macOS Mojave 10.14.3python version = 2.7pipenv version =  2018.11.26
-mysql_config找不到这个是个老生长谈的问题了，以前在Linux 上也经常遇到，解决的办法大多都是让你装一个Mysql就好了，不过为了解决一个mysql client 的依赖
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/03/11/install-mysqldb/#more" rel="contents">
-                阅读全文 »
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/03/10/beanshell-server/">
-
-    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="书记">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小法@兵工厂">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/10/beanshell-server/" class="post-title-link" itemprop="url">JMeter 源码解读 [8] - BeanShell Server</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-10 21:33:17 / 修改时间：21:52:32" itemprop="dateCreated datePublished" datetime="2019-03-10T21:33:17+08:00">2019-03-10</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/JMeter-源码解读/" itemprop="url" rel="index"><span itemprop="name">JMeter 源码解读</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/10/beanshell-server/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/10/beanshell-server/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              上一次在分析 JMeter 核心类的时候 (http://markshao.github.io/2019/03/07/jmeter/) 讲到了无论是单机还是分布式模式下都会调用 startOptionServer, 我们来看一下到底是启动了那个server
-startOptionServer 的逻辑很简单，先简单看一眼private void startOptionalServers() {        int bshport = JMeterUtils.getPropDefault("beanshell.server.port", 0);// $NON-NLS-1$       
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/03/10/beanshell-server/#more" rel="contents">
-                阅读全文 »
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://markshao.github.io/2019/03/09/green-cover-book/">
-
-    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="书记">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小法@兵工厂">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/03/09/green-cover-book/" class="post-title-link" itemprop="url">&lt;绿皮书&gt; 观后小感<!--绿皮书--></a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-09 17:26:10 / 修改时间：17:57:02" itemprop="dateCreated datePublished" datetime="2019-03-09T17:26:10+08:00">2019-03-09</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/生活杂谈/" itemprop="url" rel="index"><span itemprop="name">生活杂谈</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/09/green-cover-book/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/09/green-cover-book/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              很久没有看文艺片了，在我这个平时很少看电影人的心里，没有打打杀杀的就可以称之为文艺片了。趁着奥斯卡的余温还在，抓紧时间去家里附近的电影院追了一下&lt;绿皮书&gt;，很多朋友说最后雪利在酒吧里谈钢琴的时候他们都流泪了，我虽然没有像当年看&lt;集结号&gt;那样感动到哭，但是不可否认它是一部好片子
-整部电影在谈一个关于“孤独”的话题，主人公雪莉虽然是一个音乐家，但是他是内心极度孤独，作为黑人，他在黑人同胞的眼里是一个异类，在白人的眼里，他也只是一个会弹琴的“黑人”而已，电影里有一个画面，在他准备去上洗手间的时候，刚才还很客气的白人男主人突然沉下了脸，指他去一个草丛边的茅坑上洗手间 . 而且他
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/03/09/green-cover-book/#more" rel="contents">
-                阅读全文 »
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -5190,7 +5242,7 @@ startOptionServer 的逻辑很简单，先简单看一眼private void startOptio
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -5333,7 +5385,7 @@ startOptionServer 的逻辑很简单，先简单看一眼private void startOptio
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">© <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">© <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -5552,7 +5604,7 @@ startOptionServer 的逻辑很简单，先简单看一眼private void startOptio
     notify: false,
     appId: 'w0t9aXGQs14nHgvoj3BsuKaw-gzGzoHsz',
     appKey: 'KPQqimAyUYPM0wSBJySvAW7F',
-    placeholder: 'Just go go',
+    placeholder: 'leave your comment',
     avatar: 'mm',
     meta: guest,
     pageSize: '10' || 10,

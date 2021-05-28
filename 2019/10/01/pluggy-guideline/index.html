@@ -91,14 +91,14 @@
   <meta name="description" content="前言今天是祖国母亲的70华诞，早上在家里和媳妇一起看了令人激动的阅兵，真心为自己做位一个中国人而自豪。国庆的上海天气有点操蛋，受到台风的影响外面是大风大雨，不过因为媳妇怀孕的原因本来也没计划出去玩，趁着难得的假期，在家喝喝茶，吃吃东西，写写博客，把的之前拖欠的 Pytest 源码解读 给完成。 言归正传，上次说了 Pytest 的核心是基于Pluggy这个 Python Plugin 框架，这次先">
 <meta name="keywords" content="pytest">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pytest 源码解读 [1] - Pluggy 插件框架介绍">
+<meta property="og:title" content="Pytest 源码解读 [1] - [pluggy] 插件框架介绍">
 <meta property="og:url" content="http://markshao.github.io/2019/10/01/pluggy-guideline/index.html">
 <meta property="og:site_name" content="小法@兵工厂">
 <meta property="og:description" content="前言今天是祖国母亲的70华诞，早上在家里和媳妇一起看了令人激动的阅兵，真心为自己做位一个中国人而自豪。国庆的上海天气有点操蛋，受到台风的影响外面是大风大雨，不过因为媳妇怀孕的原因本来也没计划出去玩，趁着难得的假期，在家喝喝茶，吃吃东西，写写博客，把的之前拖欠的 Pytest 源码解读 给完成。 言归正传，上次说了 Pytest 的核心是基于Pluggy这个 Python Plugin 框架，这次先">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-01T12:14:46.066Z">
+<meta property="og:updated_time" content="2021-05-28T14:37:35.290Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pytest 源码解读 [1] - Pluggy 插件框架介绍">
+<meta name="twitter:title" content="Pytest 源码解读 [1] - [pluggy] 插件框架介绍">
 <meta name="twitter:description" content="前言今天是祖国母亲的70华诞，早上在家里和媳妇一起看了令人激动的阅兵，真心为自己做位一个中国人而自豪。国庆的上海天气有点操蛋，受到台风的影响外面是大风大雨，不过因为媳妇怀孕的原因本来也没计划出去玩，趁着难得的假期，在家喝喝茶，吃吃东西，写写博客，把的之前拖欠的 Pytest 源码解读 给完成。 言归正传，上次说了 Pytest 的核心是基于Pluggy这个 Python Plugin 框架，这次先">
 
 
@@ -118,7 +118,7 @@
   };
 </script>
 
-  <title>Pytest 源码解读 [1] - Pluggy 插件框架介绍 | 小法@兵工厂</title>
+  <title>Pytest 源码解读 [1] - [pluggy] 插件框架介绍 | 小法@兵工厂</title>
   
 
 
@@ -2031,7 +2031,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff8b04;
+  background: #5391a6;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3163,7 +3163,7 @@ hr {
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">23</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">26</span></a>
 
   </li>
 
@@ -3261,7 +3261,7 @@ hr {
 
         
         
-          <h1 class="post-title" itemprop="name headline">Pytest 源码解读 [1] - Pluggy 插件框架介绍
+          <h1 class="post-title" itemprop="name headline">Pytest 源码解读 [1] - [pluggy] 插件框架介绍
 
               
             
@@ -3287,12 +3287,24 @@ hr {
                 
               
 
-              <time title="创建时间：2019-10-01 17:15:25 / 修改时间：20:14:46" itemprop="dateCreated datePublished" datetime="2019-10-01T17:15:25+08:00">2019-10-01</time>
+              <time title="创建时间：2019-10-01 17:15:25" itemprop="dateCreated datePublished" datetime="2019-10-01T17:15:25+08:00">2019-10-01</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-05-28 22:37:35" itemprop="dateModified" datetime="2021-05-28T22:37:35+08:00">2021-05-28</time>
               
             
           </span>
@@ -3459,6 +3471,10 @@ hr {
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/10/02/pytest-core-design-and-code-structure/" rel="prev" title="Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构">
+                Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -3530,7 +3546,7 @@ hr {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3690,7 +3706,7 @@ hr {
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">© <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">© <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -3893,7 +3909,7 @@ hr {
     notify: false,
     appId: 'w0t9aXGQs14nHgvoj3BsuKaw-gzGzoHsz',
     appKey: 'KPQqimAyUYPM0wSBJySvAW7F',
-    placeholder: 'Just go go',
+    placeholder: 'leave your comment',
     avatar: 'mm',
     meta: guest,
     pageSize: '10' || 10,

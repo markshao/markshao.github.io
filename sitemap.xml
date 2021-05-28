@@ -2,16 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://markshao.github.io/2019/08/10/pytest-source-analysis/</loc>
+    <loc>http://markshao.github.io/2019/10/05/hook-caller-logic/</loc>
     
-    <lastmod>2019-10-01T12:14:57.975Z</lastmod>
+    <lastmod>2021-05-28T14:37:35.293Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://markshao.github.io/2019/10/03/register-pluggy/</loc>
+    
+    <lastmod>2021-05-28T14:37:35.292Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://markshao.github.io/2019/10/01/pluggy-guideline/</loc>
     
-    <lastmod>2019-10-01T12:14:46.066Z</lastmod>
+    <lastmod>2021-05-28T14:37:35.290Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/</loc>
+    
+    <lastmod>2021-05-28T14:37:35.290Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://markshao.github.io/2019/08/10/pytest-source-analysis/</loc>
+    
+    <lastmod>2019-10-01T12:15:32.687Z</lastmod>
     
   </url>
   
