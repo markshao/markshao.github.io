@@ -46,8 +46,8 @@
 <p>我在自己设计 <code>Atom Integraion</code>的时候也希望这个框架能在并发模型支持的灵获性上做的更好，通过引入Queue 把 Scheduler 和 Load Generator 分离，我就可以通过写入 Queue 的速度来控制最终 Load Generator 的并发模型</p>
 <p>从以前使用 <code>JMeter</code>的经验来看，它对于并发模型的支持是比较有限的，从它目前的设计来看，整个系统的解耦做的是不太好的，首先每个<code>JMeterThread</code>的工作是独立的 , 虽然它们是共享同一个<code>threadGroupLoopController</code>对象，但是通过一个迭代器来控制并发的粒度，实在是有点难，不知道未来<code>JMeter</code> 开发团队对于并发模型支持这块会不会有更多的计划 。 这里只是我的一些愚见， 也欢迎大家留言和我讨论。</p>
 </div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">书记</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://markshao.github.io/2019/03/08/jmeter-thread-model/">http://markshao.github.io/2019/03/08/jmeter-thread-model/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2019/03/08/2019-objectives/"><i class="fa fa-chevron-left">  </i><span>2019 生活 OKR</span></a></div><div class="next-post pull-right"><a href="/2019/03/07/StandardJMeterEngine/"><span>JMeter 源码解读 [6] - 核心类 org.apache.jmeter.engine.StandardJMeterEngine</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
-  clientID: 'Iv1.b550c50607c71201',
-  clientSecret: 'a50f9d66b123c0714682d72f3fb987ef1a5500e7',
+  clientID: 'ba9291d9491f0876b53f',
+  clientSecret: '9a98de1ef34e7a2d3b170215a21217bdbd09da95',
   repo: 'blogcomment',
   owner: 'markshao',
   admin: 'markshao',
