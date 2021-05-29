@@ -1,1052 +1,612 @@
-/* global NexT, CONFIG */
-
-NexT.utils = NexT.$u = {
-
-  /**
-   * Wrap images with fancybox support.
-   */
-  wrapImageWithFancyBox: function() {
-    $('.content img')
-      .not(':hidden')
-      .not('.group-picture img, .post-gallery img')
-      .each(function() {
-        var $image = $(this);
-        var imageTitle = $image.attr('title');
-        var $imageWrapLink = $image.parent('a');
-
-        if ($imageWrapLink.length < 1) {
-          var imageLink = $image.attr('data-original') ? this.getAttribute('data-original') : this.getAttribute('src');
-          $imageWrapLink = $image.wrap('<a data-fancybox="group" href="' + imageLink + '"></a>').parent('a');
-          $imageWrapLink.addClass('fancybox fancybox.image');
-          $imageWrapLink.attr('rel', 'group');
-        }
-
-        if (imageTitle) {
-          $imageWrapLink.append('<p class="image-caption">' + imageTitle + '</p>');
-
-          //make sure img title tag will show correctly in fancybox
-          $imageWrapLink.attr('title', imageTitle);
-        }
-      });
-
-    $('.fancybox').fancybox({
-      loop: true,
-      helpers: {
-        overlay: {
-          locked: false
-        }
-      }
-    });
-  },
-
-  lazyLoadPostsImages: function() {
-    $('#posts').find('img').lazyload({
-      //placeholder: '/images/loading.gif',
-      effect   : 'fadeIn',
-      threshold: 0
-    });
-  },
-
-  /**
-   * Tabs tag listener (without twitter bootstrap).
-   */
-  registerTabsTag: function() {
-    var tNav = '.tabs ul.nav-tabs ';
-
-    // Binding `nav-tabs` & `tab-content` by real time permalink changing.
-    $(function() {
-      $(window).bind('hashchange', function() {
-        var tHash = location.hash;
-        if (tHash !== '' && !tHash.match(/%\S{2}/)) {
-          $(tNav + 'li:has(a[href="' + tHash + '"])').addClass('active').siblings().removeClass('active');
-          $(tHash).addClass('active').siblings().removeClass('active');
-        }
-      }).trigger('hashchange');
-    });
-
-    $(tNav + '.tab').on('click', function(href) {
-      href.preventDefault();
-      // Prevent selected tab to select again.
-      if (!$(this).hasClass('active')) {
-
-        // Add & Remove active class on `nav-tabs` & `tab-content`.
-        $(this).addClass('active').siblings().removeClass('active');
-        var tActive = $(this).find('a').attr('href');
-        $(tActive).addClass('active').siblings().removeClass('active');
-
-        // Clear location hash in browser if #permalink exists.
-        if (location.hash !== '') {
-          history.pushState('', document.title, window.location.pathname + window.location.search);
-        }
-      }
-    });
-  },
-
-  registerESCKeyEvent: function() {
-    $(document).on('keyup', function(event) {
-      var shouldDismissSearchPopup = event.which === 27
-          && $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        $('.search-popup').hide();
-        $('.search-popup-overlay').remove();
-        $('body').css('overflow', '');
-      }
-    });
-  },
-
-  registerBackToTop: function() {
-    var THRESHOLD = 50;
-    var $top = $('.back-to-top');
-
-    function initBackToTop() {
-      $top.toggleClass('back-to-top-on', window.pageYOffset > THRESHOLD);
-
-      var scrollTop = $(window).scrollTop();
-      var contentVisibilityHeight = NexT.utils.getContentVisibilityHeight();
-      var scrollPercent = scrollTop / contentVisibilityHeight;
-      var scrollPercentRounded = Math.round(scrollPercent * 100);
-      var scrollPercentMaxed = scrollPercentRounded > 100 ? 100 : scrollPercentRounded;
-      $('#scrollpercent>span').html(scrollPercentMaxed);
+function debounce(func, wait, immediate) {
+  var timeout
+  return function () {
+    var context = this
+    var args = arguments
+    var later = function () {
+      timeout = null
+      if (!immediate) func.apply(context, args)
     }
-
-    // For init back to top in sidebar if page was scrolled after page refresh.
-    $(window).on('load', function() {
-      initBackToTop();
-    });
-
-    $(window).on('scroll', function() {
-      initBackToTop();
-    });
-
-    $top.on('click', function() {
-      $.isFunction($('html').velocity) ? $('body').velocity('scroll') : $('html, body').animate({ scrollTop: 0 });
-    });
-  },
-
-  /**
-   * Transform embedded video to support responsive layout.
-   * @see http://toddmotto.com/fluid-and-responsive-youtube-and-vimeo-videos-with-fluidvids-js/
-   */
-  embeddedVideoTransformer: function() {
-    var $iframes = $('iframe');
-
-    // Supported Players. Extend this if you need more players.
-    var SUPPORTED_PLAYERS = [
-      'www.youtube.com',
-      'player.vimeo.com',
-      'player.youku.com',
-      'music.163.com',
-      'www.tudou.com'
-    ];
-    var pattern = new RegExp(SUPPORTED_PLAYERS.join('|'));
-
-    function getDimension($element) {
-      return {
-        width : $element.width(),
-        height: $element.height()
-      };
-    }
-
-    function getAspectRadio(width, height) {
-      return height / width * 100;
-    }
-
-    $iframes.each(function() {
-      var iframe = this;
-      var $iframe = $(this);
-      var oldDimension = getDimension($iframe);
-      var newDimension;
-
-      if (this.src.search(pattern) > 0) {
-
-        // Calculate the video ratio based on the iframe's w/h dimensions
-        var videoRatio = getAspectRadio(oldDimension.width, oldDimension.height);
-
-        // Replace the iframe's dimensions and position the iframe absolute
-        // This is the trick to emulate the video ratio
-        $iframe.width('100%').height('100%')
-          .css({
-            position: 'absolute',
-            top     : '0',
-            left    : '0'
-          });
-
-        // Wrap the iframe in a new <div> which uses a dynamically fetched padding-top property
-        // based on the video's w/h dimensions
-        var wrap = document.createElement('div');
-        wrap.className = 'fluid-vids';
-        wrap.style.position = 'relative';
-        wrap.style.marginBottom = '20px';
-        wrap.style.width = '100%';
-        wrap.style.paddingTop = videoRatio + '%';
-        // Fix for appear inside tabs tag.
-        (wrap.style.paddingTop === '') && (wrap.style.paddingTop = '50%');
-
-        // Add the iframe inside our newly created <div>
-        var iframeParent = iframe.parentNode;
-        iframeParent.insertBefore(wrap, iframe);
-        wrap.appendChild(iframe);
-
-        // Additional adjustments for 163 Music
-        if (this.src.search('music.163.com') > 0) {
-          newDimension = getDimension($iframe);
-          var shouldRecalculateAspect = newDimension.width > oldDimension.width
-                                     || newDimension.height < oldDimension.height;
-
-          // 163 Music Player has a fixed height, so we need to reset the aspect radio
-          if (shouldRecalculateAspect) {
-            wrap.style.paddingTop = getAspectRadio(newDimension.width, oldDimension.height) + '%';
-          }
-        }
-      }
-    });
-
-  },
-
-  hasMobileUA: function() {
-    var nav = window.navigator;
-    var ua = nav.userAgent;
-    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
-
-    return pa.test(ua);
-  },
-
-  isTablet: function() {
-    return window.screen.width < 992 && window.screen.width > 767 && this.hasMobileUA();
-  },
-
-  isMobile: function() {
-    return window.screen.width < 767 && this.hasMobileUA();
-  },
-
-  isDesktop: function() {
-    return !this.isTablet() && !this.isMobile();
-  },
-
-  /**
-   * Escape meta symbols in jQuery selectors.
-   *
-   * @param selector
-   * @returns {string|void|XML|*}
-   */
-  escapeSelector: function(selector) {
-    return selector.replace(/[!"$%&'()*+,./:;<=>?@[\\\]^`{|}~]/g, '\\$&');
-  },
-
-  displaySidebar: function() {
-    if (!this.isDesktop() || this.isPisces() || this.isGemini()) {
-      return;
-    }
-    $('.sidebar-toggle').trigger('click');
-  },
-
-  isMuse: function() {
-    return CONFIG.scheme === 'Muse';
-  },
-
-  isMist: function() {
-    return CONFIG.scheme === 'Mist';
-  },
-
-  isPisces: function() {
-    return CONFIG.scheme === 'Pisces';
-  },
-
-  isGemini: function() {
-    return CONFIG.scheme === 'Gemini';
-  },
-
-  getScrollbarWidth: function() {
-    var $div = $('<div />').addClass('scrollbar-measure').prependTo('body');
-    var div = $div[0];
-    var scrollbarWidth = div.offsetWidth - div.clientWidth;
-    $div.remove();
-
-    return scrollbarWidth;
-  },
-
-  getContentVisibilityHeight: function() {
-    var docHeight = $('.container').height();
-    var winHeight = $(window).height();
-    var contentVisibilityHeight = docHeight > winHeight ? docHeight - winHeight : $(document).height() - winHeight;
-    return contentVisibilityHeight;
-  },
-
-  getSidebarb2tHeight: function() {
-    //var sidebarb2tHeight = (CONFIG.sidebar.b2t) ? document.getElementsByClassName('back-to-top')[0].clientHeight : 0;
-    var sidebarb2tHeight = CONFIG.sidebar.b2t ? $('.back-to-top').height() : 0;
-    return sidebarb2tHeight;
-  },
-
-  getSidebarSchemePadding: function() {
-    var sidebarNavHeight = $('.sidebar-nav').css('display') === 'block' ? $('.sidebar-nav').outerHeight(true) : 0;
-    var sidebarInner = $('.sidebar-inner');
-    var sidebarPadding = sidebarInner.innerWidth() - sidebarInner.width();
-    var sidebarOffset = CONFIG.sidebar.offset ? CONFIG.sidebar.offset : 12;
-    var sidebarSchemePadding = this.isPisces() || this.isGemini()
-      ? (sidebarPadding * 2) + sidebarNavHeight + sidebarOffset + this.getSidebarb2tHeight()
-      : (sidebarPadding * 2) + (sidebarNavHeight / 2);
-    return sidebarSchemePadding;
+    var callNow = immediate && !timeout
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+    if (callNow) func.apply(context, args)
   }
 };
 
-$(document).ready(function() {
+function throttle(func, wait, mustRun) {
+  var timeout
+  var startTime = new Date()
 
-  function wrapTable() {
-    $('table').not('figure table').wrap('<div class="table-container"></div>');
-  }
+  return function () {
+    var context = this
+    var args = arguments
+    var curTime = new Date()
 
-  /**
-   * Init Sidebar & TOC inner dimensions on all pages and for all schemes.
-   * Need for Sidebar/TOC inner scrolling if content taller then viewport.
-   */
-
-  function updateSidebarHeight(height) {
-    height = height || 'auto';
-    $('.site-overview, .post-toc').css('max-height', height);
-  }
-
-  function initSidebarDimension() {
-    var updateSidebarHeightTimer;
-
-    $(window).on('resize', function() {
-      updateSidebarHeightTimer && clearTimeout(updateSidebarHeightTimer);
-
-      updateSidebarHeightTimer = setTimeout(function() {
-        var sidebarWrapperHeight = document.body.clientHeight - NexT.utils.getSidebarSchemePadding();
-
-        updateSidebarHeight(sidebarWrapperHeight);
-      }, 0);
-    });
-
-    // Initialize Sidebar & TOC Width.
-    var scrollbarWidth = NexT.utils.getScrollbarWidth();
-    if ($('.site-overview-wrap').height() > (document.body.clientHeight - NexT.utils.getSidebarSchemePadding())) {
-      $('.site-overview').css('width', 'calc(100% + ' + scrollbarWidth + 'px)');
+    clearTimeout(timeout)
+    if (curTime - startTime >= mustRun) {
+      func.apply(context, args)
+      startTime = curTime
+    } else {
+      timeout = setTimeout(func, wait)
     }
-    if ($('.post-toc-wrap').height() > (document.body.clientHeight - NexT.utils.getSidebarSchemePadding())) {
-      $('.post-toc').css('width', 'calc(100% + ' + scrollbarWidth + 'px)');
-    }
-
-    // Initialize Sidebar & TOC Height.
-    updateSidebarHeight(document.body.clientHeight - NexT.utils.getSidebarSchemePadding());
   }
-  initSidebarDimension();
-  wrapTable();
-});
+};
+
+function isMobile() {
+  var check = false;
+  (function (a) { if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true })(navigator.userAgent || navigator.vendor || window.opera)
+  return check
+};
+
+window.debounce = debounce
+
+window.throttle = throttle
+
+window.isMobile = isMobile
 ;
-/* global NexT, CONFIG */
-
-$(document).ready(function() {
-  NexT.motion = {};
-
-  var sidebarToggleLines = {
-    lines: [],
-    push : function(line) {
-      this.lines.push(line);
-    },
-    init: function() {
-      this.lines.forEach(function(line) {
-        line.init();
-      });
-    },
-    arrow: function() {
-      this.lines.forEach(function(line) {
-        line.arrow();
-      });
-    },
-    close: function() {
-      this.lines.forEach(function(line) {
-        line.close();
-      });
+$(function () {
+  var imgList = $('.recent-post-item img').not('.no-fancybox')
+  if (imgList.length === 0) {
+    imgList = $('#post-content img').not('.no-fancybox')
+  }
+  for (var i = 0; i < imgList.length; i++) {
+    var $a = $(
+      '<a href="' +
+        imgList[i].src +
+        '" data-fancybox="group" data-caption="' +
+        imgList[i].alt +
+        '" class="fancybox"></a>'
+    )
+    var alt = imgList[i].alt
+    var $wrap = $(imgList[i]).wrap($a)
+    if (alt) {
+      $wrap.after('<div class="img-alt">' + alt + '</div>')
     }
-  };
-
-  function SidebarToggleLine(settings) {
-    this.el = $(settings.el);
-    this.status = $.extend({}, {
-      init: {
-        width  : '100%',
-        opacity: 1,
-        left   : 0,
-        rotateZ: 0,
-        top    : 0
-      }
-    }, settings.status);
   }
 
-  SidebarToggleLine.prototype.init = function() {
-    this.transform('init');
-  };
-  SidebarToggleLine.prototype.arrow = function() {
-    this.transform('arrow');
-  };
-  SidebarToggleLine.prototype.close = function() {
-    this.transform('close');
-  };
-  SidebarToggleLine.prototype.transform = function(status) {
-    this.el.velocity('stop').velocity(this.status[status]);
-  };
+  $().fancybox({
+    selector: '[data-fancybox]',
+    loop: true,
+    transitionEffect: 'slide',
+    buttons: ['share', 'slideShow', 'fullScreen', 'download', 'thumbs', 'close']
+  })
 
-  var sidebarToggleLine1st = new SidebarToggleLine({
-    el    : '.sidebar-toggle-line-first',
-    status: {
-      arrow: {width: '50%', rotateZ: '-45deg', top: '2px'},
-      close: {width: '100%', rotateZ: '-45deg', top: '5px'}
-    }
-  });
-  var sidebarToggleLine2nd = new SidebarToggleLine({
-    el    : '.sidebar-toggle-line-middle',
-    status: {
-      arrow: {width: '90%'},
-      close: {opacity: 0}
-    }
-  });
-  var sidebarToggleLine3rd = new SidebarToggleLine({
-    el    : '.sidebar-toggle-line-last',
-    status: {
-      arrow: {width: '50%', rotateZ: '45deg', top: '-2px'},
-      close: {width: '100%', rotateZ: '45deg', top: '-5px'}
-    }
-  });
-
-  sidebarToggleLines.push(sidebarToggleLine1st);
-  sidebarToggleLines.push(sidebarToggleLine2nd);
-  sidebarToggleLines.push(sidebarToggleLine3rd);
-
-  var SIDEBAR_WIDTH = CONFIG.sidebar.width ? CONFIG.sidebar.width : '320px';
-  var SIDEBAR_DISPLAY_DURATION = 200;
-  var xPos, yPos;
-
-  var sidebarToggleMotion = {
-    toggleEl        : $('.sidebar-toggle'),
-    dimmerEl        : $('#sidebar-dimmer'),
-    sidebarEl       : $('.sidebar'),
-    isSidebarVisible: false,
-    init            : function() {
-      this.toggleEl.on('click', this.clickHandler.bind(this));
-      this.dimmerEl.on('click', this.clickHandler.bind(this));
-      this.toggleEl.on('mouseenter', this.mouseEnterHandler.bind(this));
-      this.toggleEl.on('mouseleave', this.mouseLeaveHandler.bind(this));
-      this.sidebarEl.on('touchstart', this.touchstartHandler.bind(this));
-      this.sidebarEl.on('touchend', this.touchendHandler.bind(this));
-      this.sidebarEl.on('touchmove', function(e) { e.preventDefault(); });
-
-      $(document)
-        .on('sidebar.isShowing', function() {
-          NexT.utils.isDesktop() && $('body').velocity('stop').velocity(
-            {paddingRight: SIDEBAR_WIDTH},
-            SIDEBAR_DISPLAY_DURATION
-          );
+  var galleryItem = $('.gallery-item')
+  var galleryList = []
+  galleryItem.each(function (idx, elem) {
+    galleryList.push({
+      src: $(elem).data('url'),
+      opts: {
+        caption: $(elem).data('title')
+      }
+    })
+  })
+  galleryItem.on('click', function () {
+    $.fancybox.open(
+      galleryList,
+      {
+        loop: true,
+        transitionEffect: 'slide'
+      },
+      galleryItem.index(this)
+    )
+    return false
+  })
+})
+;
+$(function () {
+  $('.toggle-sidebar-info > span').on('click', function () {
+    var toggleText = $(this).attr('data-toggle')
+    $(this).attr('data-toggle', $(this).text())
+    $(this).text(toggleText)
+    changeSideBarInfo()
+  })
+  $('#toggle-sidebar').on('click', function () {
+    if (!isMobile() && $('#sidebar').is(':visible')) {
+      var isOpen = $(this).hasClass('on')
+      isOpen ? $(this).removeClass('on') : $(this).addClass('on')
+      if (isOpen) {
+        $('#page-header').removeClass('open-sidebar')
+        $('body').velocity('stop').velocity({
+          paddingLeft: '0px'
+        }, {
+          duration: 200
         })
-        .on('sidebar.isHiding', function() {
-        });
-    },
-    clickHandler: function() {
-      this.isSidebarVisible ? this.hideSidebar() : this.showSidebar();
-      this.isSidebarVisible = !this.isSidebarVisible;
-    },
-    mouseEnterHandler: function() {
-      if (this.isSidebarVisible) {
-        return;
-      }
-      sidebarToggleLines.arrow();
-    },
-    mouseLeaveHandler: function() {
-      if (this.isSidebarVisible) {
-        return;
-      }
-      sidebarToggleLines.init();
-    },
-    touchstartHandler: function(e) {
-      xPos = e.originalEvent.touches[0].clientX;
-      yPos = e.originalEvent.touches[0].clientY;
-    },
-    touchendHandler: function(e) {
-      var _xPos = e.originalEvent.changedTouches[0].clientX;
-      var _yPos = e.originalEvent.changedTouches[0].clientY;
-      if (_xPos - xPos > 30 && Math.abs(_yPos - yPos) < 20) {
-        this.clickHandler();
-      }
-    },
-    showSidebar: function() {
-      var self = this;
-
-      sidebarToggleLines.close();
-
-      this.sidebarEl.velocity('stop').velocity({
-        width: SIDEBAR_WIDTH
-      }, {
-        display : 'block',
-        duration: SIDEBAR_DISPLAY_DURATION,
-        begin   : function() {
-          $('.sidebar .motion-element').velocity(
-            'transition.slideRightIn',
-            {
-              stagger : 50,
-              drag    : true,
-              complete: function() {
-                self.sidebarEl.trigger('sidebar.motion.complete');
-              }
-            }
-          );
-        },
-        complete: function() {
-          self.sidebarEl.addClass('sidebar-active');
-          self.sidebarEl.trigger('sidebar.didShow');
-        }
-      });
-
-      this.sidebarEl.trigger('sidebar.isShowing');
-    },
-    hideSidebar: function() {
-      NexT.utils.isDesktop() && $('body').velocity('stop').velocity({paddingRight: 0});
-      this.sidebarEl.find('.motion-element').velocity('stop').css('display', 'none');
-      this.sidebarEl.velocity('stop').velocity({width: 0}, {display: 'none'});
-
-      sidebarToggleLines.init();
-
-      this.sidebarEl.removeClass('sidebar-active');
-      this.sidebarEl.trigger('sidebar.isHiding');
-
-      // Prevent adding TOC to Overview if Overview was selected when close & open sidebar.
-      if ($('.post-toc-wrap')) {
-        if ($('.site-overview-wrap').css('display') === 'block') {
-          $('.post-toc-wrap').removeClass('motion-element');
-        } else {
-          $('.post-toc-wrap').addClass('motion-element');
-        }
-      }
-    }
-  };
-  sidebarToggleMotion.init();
-
-  NexT.motion.integrator = {
-    queue : [],
-    cursor: -1,
-    add   : function(fn) {
-      this.queue.push(fn);
-      return this;
-    },
-    next: function() {
-      this.cursor++;
-      var fn = this.queue[this.cursor];
-      $.isFunction(fn) && fn(NexT.motion.integrator);
-    },
-    bootstrap: function() {
-      this.next();
-    }
-  };
-
-  NexT.motion.middleWares = {
-    logo: function(integrator) {
-      var sequence = [];
-      var $brand = $('.brand');
-      var $image = $('.custom-logo-image');
-      var $title = $('.site-title');
-      var $subtitle = $('.site-subtitle');
-      var $logoLineTop = $('.logo-line-before i');
-      var $logoLineBottom = $('.logo-line-after i');
-
-      $brand.length > 0 && sequence.push({
-        e: $brand,
-        p: {opacity: 1},
-        o: {duration: 200}
-      });
-
-      /**
-       * Check if $elements exist.
-       * @param {jQuery|Array} $elements
-       * @returns {boolean}
-       */
-      function hasElement($elements) {
-        $elements = Array.isArray($elements) ? $elements : [$elements];
-        return $elements.every(function($element) {
-          return $element.length > 0;
-        });
-      }
-
-      function getMistLineSettings(element, translateX) {
-        return {
-          e: $(element),
-          p: {translateX: translateX},
-          o: {
-            duration     : 500,
-            sequenceQueue: false
-          }
-        };
-      }
-
-      function pushImageToSequence() {
-        sequence.push({
-          e: $image,
-          p: {opacity: 1, top: 0},
-          o: {duration: 200}
-        });
-      }
-
-      NexT.utils.isMist() && hasElement([$logoLineTop, $logoLineBottom])
-      && sequence.push(
-        getMistLineSettings($logoLineTop, '100%'),
-        getMistLineSettings($logoLineBottom, '-100%')
-      );
-
-      NexT.utils.isMuse() && hasElement($image) && pushImageToSequence();
-
-      hasElement($title) && sequence.push({
-        e: $title,
-        p: {opacity: 1, top: 0},
-        o: {duration: 200}
-      });
-
-      hasElement($subtitle) && sequence.push({
-        e: $subtitle,
-        p: {opacity: 1, top: 0},
-        o: {duration: 200}
-      });
-
-      (NexT.utils.isPisces() || NexT.utils.isGemini()) && hasElement($image) && pushImageToSequence();
-
-      if (CONFIG.motion.async) {
-        integrator.next();
-      }
-
-      if (sequence.length > 0) {
-        sequence[sequence.length - 1].o.complete = function() {
-          integrator.next();
-        };
-        /* eslint-disable */
-        $.Velocity.RunSequence(sequence);
-        /* eslint-enable */
+        $('#sidebar').velocity('stop').velocity({
+          translateX: '0px'
+        }, {
+          duration: 200
+        })
+        $('#toggle-sidebar').velocity('stop').velocity({
+          rotateZ: '0deg',
+          color: '#1F2D3D'
+        }, {
+          duration: 200
+        })
       } else {
-        integrator.next();
+        $('#page-header').addClass('open-sidebar')
+        $('body').velocity('stop').velocity({
+          paddingLeft: '300px'
+        }, {
+          duration: 200
+        })
+        $('#sidebar').velocity('stop').velocity({
+          translateX: '300px'
+        }, {
+          duration: 200
+        })
+        $('#toggle-sidebar').velocity('stop').velocity({
+          rotateZ: '180deg',
+          color: '#99a9bf'
+        }, {
+          duration: 200
+        })
       }
-    },
-
-    menu: function(integrator) {
-
-      if (CONFIG.motion.async) {
-        integrator.next();
-      }
-
-      $('.menu-item').velocity('transition.slideDownIn', {
-        display : null,
-        duration: 200,
-        complete: function() {
-          integrator.next();
-        }
-      });
-    },
-
-    postList: function(integrator) {
-
-      //var $post = $('.post');
-      var $postBlock = $('.post-block, .pagination, .comments');
-      var $postBlockTransition = CONFIG.motion.transition.post_block;
-      var $postHeader = $('.post-header');
-      var $postHeaderTransition = CONFIG.motion.transition.post_header;
-      var $postBody = $('.post-body');
-      var $postBodyTransition = CONFIG.motion.transition.post_body;
-      var $collHeader = $('.collection-title, .archive-year');
-      var $collHeaderTransition = CONFIG.motion.transition.coll_header;
-      var $sidebarAffix = $('.sidebar-inner');
-      var $sidebarAffixTransition = CONFIG.motion.transition.sidebar;
-      var hasPost = $postBlock.length > 0;
-
-      function postMotion() {
-        var postMotionOptions = window.postMotionOptions || {
-          stagger: 100,
-          drag   : true
-        };
-        postMotionOptions.complete = function() {
-          // After motion complete need to remove transform from sidebar to let affix work on Pisces | Gemini.
-          if (CONFIG.motion.transition.sidebar && (NexT.utils.isPisces() || NexT.utils.isGemini())) {
-            $sidebarAffix.css({ 'transform': 'initial' });
+    }
+  })
+  function changeSideBarInfo () {
+    if ($('.author-info').is(':visible')) {
+      $('.author-info').velocity('stop')
+        .velocity('transition.slideLeftOut', {
+          duration: 300,
+          complete: function () {
+            $('.sidebar-toc').velocity('stop')
+              .velocity('transition.slideRightIn', { duration: 500 })
           }
-          integrator.next();
-        };
-
-        //$post.velocity('transition.slideDownIn', postMotionOptions);
-        if (CONFIG.motion.transition.post_block) {
-          $postBlock.velocity('transition.' + $postBlockTransition, postMotionOptions);
-        }
-        if (CONFIG.motion.transition.post_header) {
-          $postHeader.velocity('transition.' + $postHeaderTransition, postMotionOptions);
-        }
-        if (CONFIG.motion.transition.post_body) {
-          $postBody.velocity('transition.' + $postBodyTransition, postMotionOptions);
-        }
-        if (CONFIG.motion.transition.coll_header) {
-          $collHeader.velocity('transition.' + $collHeaderTransition, postMotionOptions);
-        }
-        // Only for Pisces | Gemini.
-        if (CONFIG.motion.transition.sidebar && (NexT.utils.isPisces() || NexT.utils.isGemini())) {
-          $sidebarAffix.velocity('transition.' + $sidebarAffixTransition, postMotionOptions);
-        }
+        })
+    } else {
+      $('.sidebar-toc').velocity('stop')
+        .velocity('transition.slideRightOut', {
+          duration: 300,
+          complete: function () {
+            $('.author-info').velocity('stop')
+              .velocity('transition.slideLeftIn', { duration: 500 })
+          }
+        })
+    }
+  }
+})
+;
+$(function () {
+  // Add copy icon
+  $('figure.highlight').wrap('<div class="code-area-wrap"></div>')
+  var $copyIcon = $('<i class="fa fa-clipboard" aria-hidden="true"></i>')
+  var $notice = $('<div class="copy-notice"></div>')
+  var $codeLanguage = $('<span class="codeblock-language"></span>')
+  $('.code-area-wrap').prepend($copyIcon)
+  $('.code-area-wrap').prepend($notice)
+  $('.code-area-wrap').prepend($codeLanguage)
+  $('.code-area-wrap').each(function (index, element) {
+    var codeLanguage = $(element)
+      .find('figure.highlight')
+      .attr('class')
+      .replace('highlight', '')
+      .trim()
+    $(element)
+      .find('.codeblock-language')
+      .text(codeLanguage)
+  })
+  // copy function
+  function copy (text, ctx) {
+    if (
+      document.queryCommandSupported &&
+      document.queryCommandSupported('copy')
+    ) {
+      try {
+        document.execCommand('copy') // Security exception may be thrown by some browsers.
+        $(ctx)
+          .prev('.copy-notice')
+          .text(GLOBAL_CONFIG.copy.success)
+          .velocity(
+            {
+              translateX: -30,
+              opacity: 1
+            },
+            {
+              loop: 1,
+              duration: 750,
+              easing: 'easeOutQuint'
+            }
+          )
+      } catch (ex) {
+        $(ctx)
+          .prev('.copy-notice')
+          .text(GLOBAL_CONFIG.copy.error)
+          .velocity(
+            {
+              translateX: -30,
+              opacity: 1
+            },
+            {
+              loop: 1,
+              duration: 750,
+              easing: 'easeOutQuint'
+            }
+          )
+        return false
       }
+    } else {
+      $(ctx)
+        .prev('.copy-notice')
+        .text(GLOBAL_CONFIG.copy.noSupport)
+    }
+  }
+  // click events
+  $('.code-area-wrap .fa-clipboard').on('click', function () {
+    var selection = window.getSelection()
+    var range = document.createRange()
+    range.selectNodeContents(
+      $(this)
+        .siblings('figure')
+        .find('.code pre')[0]
+    )
+    selection.removeAllRanges()
+    selection.addRange(range)
+    var text = selection.toString()
+    copy(text, this)
+    selection.removeAllRanges()
+  })
+})
+;
+var canvasEl = document.querySelector('.fireworks')
+if (canvasEl) {
+  var ctx = canvasEl.getContext('2d')
+  var numberOfParticules = 30
+  var pointerX = 0
+  var pointerY = 0
+  // var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown'
+  // Fixed the mobile scroll
+  var tap = 'mousedown'
+  var colors = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C']
 
-      hasPost ? postMotion() : integrator.next();
+  var setCanvasSize = debounce(function () {
+    canvasEl.width = window.innerWidth
+    canvasEl.height = window.innerHeight
+    canvasEl.style.width = window.innerWidth + 'px'
+    canvasEl.style.height = window.innerHeight + 'px'
+    canvasEl.getContext('2d').scale(1, 1)
+  }, 500)
 
-      if (CONFIG.motion.async) {
-        integrator.next();
-      }
+  var render = anime({
+    duration: Infinity,
+    update: function () {
+      ctx.clearRect(0, 0, canvasEl.width, canvasEl.height)
+    }
+  })
+
+  document.addEventListener(tap, function (e) {
+    if (e.target.id !== 'sidebar' && e.target.id !== 'toggle-sidebar' && e.target.nodeName !== 'A' && e.target.nodeName !== 'IMG') {
+      render.play()
+      updateCoords(e)
+      animateParticules(pointerX, pointerY)
+    }
+  }, false)
+
+  setCanvasSize()
+  window.addEventListener('resize', setCanvasSize, false)
+}
+
+function updateCoords (e) {
+  pointerX = (e.clientX || e.touches[0].clientX) - canvasEl.getBoundingClientRect().left
+  pointerY = e.clientY || e.touches[0].clientY - canvasEl.getBoundingClientRect().top
+}
+
+function setParticuleDirection (p) {
+  var angle = anime.random(0, 360) * Math.PI / 180
+  var value = anime.random(50, 180)
+  var radius = [-1, 1][anime.random(0, 1)] * value
+  return {
+    x: p.x + radius * Math.cos(angle),
+    y: p.y + radius * Math.sin(angle)
+  }
+}
+
+function createParticule (x, y) {
+  var p = {}
+  p.x = x
+  p.y = y
+  p.color = colors[anime.random(0, colors.length - 1)]
+  p.radius = anime.random(16, 32)
+  p.endPos = setParticuleDirection(p)
+  p.draw = function () {
+    ctx.beginPath()
+    ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true)
+    ctx.fillStyle = p.color
+    ctx.fill()
+  }
+  return p
+}
+
+function createCircle (x, y) {
+  var p = {}
+  p.x = x
+  p.y = y
+  p.color = '#F00'
+  p.radius = 0.1
+  p.alpha = 0.5
+  p.lineWidth = 6
+  p.draw = function () {
+    ctx.globalAlpha = p.alpha
+    ctx.beginPath()
+    ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true)
+    ctx.lineWidth = p.lineWidth
+    ctx.strokeStyle = p.color
+    ctx.stroke()
+    ctx.globalAlpha = 1
+  }
+  return p
+}
+
+function renderParticule (anim) {
+  for (var i = 0; i < anim.animatables.length; i++) {
+    anim.animatables[i].target.draw()
+  }
+}
+
+function animateParticules (x, y) {
+  var circle = createCircle(x, y)
+  var particules = []
+  for (var i = 0; i < numberOfParticules; i++) {
+    particules.push(createParticule(x, y))
+  }
+  anime.timeline().add({
+    targets: particules,
+    x: function (p) {
+      return p.endPos.x
     },
-
-    sidebar: function(integrator) {
-      if (CONFIG.sidebar.display === 'always') {
-        NexT.utils.displaySidebar();
+    y: function (p) {
+      return p.endPos.y
+    },
+    radius: 0.1,
+    duration: anime.random(1200, 1800),
+    easing: 'easeOutExpo',
+    update: renderParticule
+  })
+    .add({
+      targets: circle,
+      radius: anime.random(80, 160),
+      lineWidth: 0,
+      alpha: {
+        value: 0,
+        easing: 'linear',
+        duration: anime.random(600, 800)
+      },
+      duration: anime.random(1200, 1800),
+      easing: 'easeOutExpo',
+      update: renderParticule,
+      offset: 0
+    })
+}
+;
+$(function () {
+  // page
+  $('.layout')
+    .velocity('stop')
+    .velocity('transition.slideUpIn', {
+      delay: 500,
+      duration: 1000,
+      easing: 'easeInOutQuart',
+      complete: function () {
+        if ($('#sidebar').data('display')) {
+          setTimeout(function () {
+            $('#toggle-sidebar').click()
+          }, 200)
+        }
       }
-      integrator.next();
-    }
-  };
-
-});
+    })
+  $('#top-container')
+    .velocity('stop')
+    .velocity('transition.fadeIn', {
+      delay: 500,
+      duration: 1000,
+      easing: 'easeInOutQuart'
+    })
+})
 ;
-$(document).ready(function() {
-  function updateFooterPosition() {
-    var containerHeight = $('#footer').attr('position') ? $('.container').height() + $('#footer').outerHeight(true) : $('.container').height();
-    if (containerHeight < window.innerHeight) $('#footer').css({ 'position': 'fixed', 'bottom': 0, 'left': 0, 'right': 0 }).attr('position', 'fixed');
-    else $('#footer').removeAttr('style position');
-  }
-  updateFooterPosition();
-  $(window).on('resize scroll', updateFooterPosition);
-});
-;
-/* ========================================================================
-* Bootstrap: scrollspy.js v3.3.2
-* http://getbootstrap.com/javascript/#scrollspy
-* ========================================================================
-* Copyright 2011-2015 Twitter, Inc.
-* Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-* ======================================================================== */
+$(function () {
+  var initTop = 0
+  $('.toc-child').hide()
 
-/**
- * Customized by iissnan & Ivan.Nginx
- *
- * - Add a `clear.bs.scrollspy` event.
- * - Esacpe targets selector.
- * - Refactored with eslint-config-theme-next style.
- */
-
-/* global NexT */
-
-(function($) {
-  'use strict';
-
-  // SCROLLSPY CLASS DEFINITION
-  // ==========================
-  function ScrollSpy(element, options) {
-    this.$body          = $(document.body);
-    this.$scrollElement = $(element).is(document.body) ? $(window) : $(element);
-    this.options        = $.extend({}, ScrollSpy.DEFAULTS, options);
-    this.selector       = (this.options.target || '') + ' .nav li > a';
-    this.offsets        = [];
-    this.targets        = [];
-    this.activeTarget   = null;
-    this.scrollHeight   = 0;
-
-    this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this));
-    this.refresh();
-    this.process();
-  }
-
-  ScrollSpy.VERSION  = '3.3.2';
-
-  ScrollSpy.DEFAULTS = {
-    offset: 10
-  };
-
-  ScrollSpy.prototype.getScrollHeight = function() {
-    return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight);
-  };
-
-  ScrollSpy.prototype.refresh = function() {
-    var that          = this;
-    var offsetMethod  = 'offset';
-    var offsetBase    = 0;
-
-    this.offsets      = [];
-    this.targets      = [];
-    this.scrollHeight = this.getScrollHeight();
-
-    if (!$.isWindow(this.$scrollElement[0])) {
-      offsetMethod = 'position';
-      offsetBase   = this.$scrollElement.scrollTop();
+  // main of scroll
+  $(window).scroll(throttle(function (event) {
+    var currentTop = $(this).scrollTop()
+    if (!isMobile()) {
+      // percentage inspired by hexo-theme-next
+      scrollPercent(currentTop)
+      // head position
+      findHeadPosition(currentTop)
     }
-
-    this.$body
-      .find(this.selector)
-      .map(function() {
-        var $el   = $(this);
-        var href  = $el.data('target') || $el.attr('href');
-        var $href = /^#./.test(href) && $(NexT.utils.escapeSelector(href)); // Need to escape selector.
-
-        return ($href
-          && $href.length
-          && $href.is(':visible')
-          && [[$href[offsetMethod]().top + offsetBase, href]]) || null;
-      })
-      .sort(function(a, b) {
-        return a[0] - b[0];
-      })
-      .each(function() {
-        that.offsets.push(this[0]);
-        that.targets.push(this[1]);
-      });
-
-
-  };
-
-  ScrollSpy.prototype.process = function() {
-    var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset;
-    var scrollHeight = this.getScrollHeight();
-    var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height();
-    var offsets      = this.offsets;
-    var targets      = this.targets;
-    var activeTarget = this.activeTarget;
-    var i;
-
-    if (this.scrollHeight !== scrollHeight) {
-      this.refresh();
-    }
-
-    if (scrollTop >= maxScroll) {
-      return activeTarget !== (i = targets[targets.length - 1]) && this.activate(i);
-    }
-
-    if (activeTarget && scrollTop < offsets[0]) {
-      $(this.selector).trigger('clear.bs.scrollspy'); // Add a custom event.
-      this.activeTarget = null;
-      return this.clear();
-    }
-
-    for (i = offsets.length; i--;) {
-      activeTarget !== targets[i]
-        && scrollTop >= offsets[i]
-        && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
-        && this.activate(targets[i]);
-    }
-  };
-
-  ScrollSpy.prototype.activate = function(target) {
-    this.activeTarget = target;
-
-    this.clear();
-
-    var selector = this.selector
-      + '[data-target="' + target + '"],'
-      + this.selector + '[href="' + target + '"]';
-
-    var active = $(selector)
-      .parents('li')
-      .addClass('active');
-
-    if (active.parent('.dropdown-menu').length) {
-      active = active
-        .closest('li.dropdown')
-        .addClass('active');
-    }
-
-    active.trigger('activate.bs.scrollspy');
-  };
-
-  ScrollSpy.prototype.clear = function() {
-    $(this.selector)
-      .parentsUntil(this.options.target, '.active')
-      .removeClass('active');
-  };
-
-  // SCROLLSPY PLUGIN DEFINITION
-  // ===========================
-  function Plugin(option) {
-    return this.each(function() {
-      var $this   = $(this);
-      var data    = $this.data('bs.scrollspy');
-      var options = typeof option === 'object' && option;
-
-      if (!data) $this.data('bs.scrollspy', data = new ScrollSpy(this, options));
-      if (typeof option === 'string') data[option]();
-    });
-  }
-
-  var old = $.fn.scrollspy;
-
-  $.fn.scrollspy             = Plugin;
-  $.fn.scrollspy.Constructor = ScrollSpy;
-
-  // SCROLLSPY NO CONFLICT
-  // =====================
-  $.fn.scrollspy.noConflict = function() {
-    $.fn.scrollspy = old;
-    return this;
-  };
-
-  // SCROLLSPY DATA-API
-  // ==================
-  $(window).on('load.bs.scrollspy.data-api', function() {
-    $('[data-spy="scroll"]').each(function() {
-      var $spy = $(this);
-      Plugin.call($spy, $spy.data());
-    });
-  });
-
-}(jQuery));
-;
-/* global NexT, CONFIG */
-
-$(document).ready(function() {
-
-  function initScrollSpy() {
-    var tocSelector = '.post-toc';
-    var $tocElement = $(tocSelector);
-    var activeCurrentSelector = '.active-current';
-
-    function removeCurrentActiveClass() {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-
-    $tocElement
-      .on('activate.bs.scrollspy', function() {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
-
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
-
-        // Scrolling to center active TOC element if TOC content is taller then viewport.
-        $tocElement.scrollTop($currentActiveElement.offset().top - $tocElement.offset().top + $tocElement.scrollTop() - ($tocElement.height() / 2));
-      })
-      .on('clear.bs.scrollspy', removeCurrentActiveClass);
-
-    $('body').scrollspy({ target: tocSelector });
-  }
-
-  initScrollSpy();
-});
-
-$(document).ready(function() {
-  var html = $('html');
-  var TAB_ANIMATE_DURATION = 200;
-  var hasVelocity = $.isFunction(html.velocity);
-
-  $('.sidebar-nav li').on('click', function() {
-    var item = $(this);
-    var activeTabClassName = 'sidebar-nav-active';
-    var activePanelClassName = 'sidebar-panel-active';
-    if (item.hasClass(activeTabClassName)) {
-      return;
-    }
-
-    var currentTarget = $('.' + activePanelClassName);
-    var target = $('.' + item.data('target'));
-
-    hasVelocity
-      ? currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function() {
-        target
-          .velocity('stop')
-          .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-          .addClass(activePanelClassName);
-      })
-      : currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function() {
-        currentTarget.hide();
-        target
-          .stop()
-          .css({'opacity': 0, 'display': 'block'})
-          .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function() {
-            currentTarget.removeClass(activePanelClassName);
-            target.addClass(activePanelClassName);
-          });
-      });
-
-    item.siblings().removeClass(activeTabClassName);
-    item.addClass(activeTabClassName);
-  });
-
-  // TOC item animation navigate & prevent #item selector in adress bar.
-  $('.post-toc a').on('click', function(e) {
-    e.preventDefault();
-    var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
-    var offset = $(targetSelector).offset().top;
-
-    hasVelocity
-      ? html.velocity('stop').velocity('scroll', {
-        offset  : offset + 'px',
-        mobileHA: false
-      })
-      : $('html, body').stop().animate({
-        scrollTop: offset
-      }, 500);
-  });
-
-  // Expand sidebar on post detail page by default, when post has a toc.
-  var $tocContent = $('.post-toc-content');
-  var display = CONFIG.page.sidebar;
-  if (typeof display !== 'boolean') {
-    // There's no definition sidebar in the page front-matter
-    var isSidebarCouldDisplay = CONFIG.sidebar.display === 'post'
-     || CONFIG.sidebar.display === 'always';
-    var hasTOC = $tocContent.length > 0 && $tocContent.html().trim().length > 0;
-    display = isSidebarCouldDisplay && hasTOC;
-  }
-  if (display) {
-    CONFIG.motion.enable
-      ? NexT.motion.middleWares.sidebar = function() {
-        NexT.utils.displaySidebar();
+    var isUp = scrollDirection(currentTop)
+    if (currentTop > 56) {
+      if (isUp) {
+        $('#page-header').hasClass('visible') ? $('#page-header').removeClass('visible') : console.log()
+      } else {
+        $('#page-header').hasClass('visible') ? console.log() : $('#page-header').addClass('visible')
       }
-      : NexT.utils.displaySidebar();
+      $('#page-header').addClass('fixed')
+      if ($('#go-up').css('opacity') === '0') {
+        $('#go-up').velocity('stop').velocity({
+          translateX: -30,
+          rotateZ: 360,
+          opacity: 1
+        }, {
+          easing: 'easeOutQuart',
+          duration: 200
+        })
+      }
+    } else {
+      if (currentTop === 0) {
+        $('#page-header').removeClass('fixed').removeClass('visible')
+      }
+      $('#go-up').velocity('stop').velocity({
+        translateX: 0,
+        rotateZ: 180,
+        opacity: 0
+      }, {
+        easing: 'linear',
+        duration: 200
+      })
+    }
+  }, 50, 100))
+
+  // go up smooth scroll
+  $('#go-up').on('click', function () {
+    $('body').velocity('stop').velocity('scroll', {
+      duration: 500,
+      easing: 'easeOutQuart'
+    })
+  })
+
+  // head scroll
+  $('#post-content').find('h1,h2,h3,h4,h5,h6').on('click', function (e) {
+    scrollToHead('#' + $(this).attr('id'))
+  })
+
+  // head scroll
+  $('.toc-link').on('click', function (e) {
+    e.preventDefault()
+    scrollToHead($(this).attr('href'))
+  })
+
+  // find the scroll direction
+  function scrollDirection (currentTop) {
+    var result = currentTop > initTop // true is down & false is up
+    initTop = currentTop
+    return result
   }
-});
+
+  // scroll to a head(anchor)
+  function scrollToHead (anchor) {
+    var item
+    try {
+      item = $(anchor)
+    } catch (e) {
+      // fix #286 support hexo v5
+      item = $(decodeURI(anchor))
+    }
+    item.velocity('stop').velocity('scroll', {
+      duration: 500,
+      easing: 'easeInOutQuart'
+    })
+  }
+
+  // expand toc-item
+  function expandToc ($item) {
+    if ($item.is(':visible')) {
+      return
+    }
+    $item.velocity('stop').velocity('transition.fadeIn', {
+      duration: 500,
+      easing: 'easeInQuart'
+    })
+  }
+
+  function scrollPercent (currentTop) {
+    var docHeight = $('#content-outer').height()
+    var winHeight = $(window).height()
+    var contentMath = (docHeight > winHeight) ? (docHeight - winHeight) : ($(document).height() - winHeight)
+    var scrollPercent = (currentTop) / (contentMath)
+    var scrollPercentRounded = Math.round(scrollPercent * 100)
+    var percentage = (scrollPercentRounded > 100) ? 100
+      : (scrollPercentRounded <= 0) ? 0
+        : scrollPercentRounded
+    $('.progress-num').text(percentage)
+    $('.sidebar-toc__progress-bar').velocity('stop')
+      .velocity({
+        width: percentage + '%'
+      }, {
+        duration: 100,
+        easing: 'easeInOutQuart'
+      })
+  }
+
+  function updateAnchor (anchor) {
+    if (window.history.replaceState && anchor !== window.location.hash) {
+      window.history.replaceState(undefined, undefined, anchor)
+    }
+  }
+
+  // find head position & add active class
+  // DOM Hierarchy:
+  // ol.toc > (li.toc-item, ...)
+  // li.toc-item > (a.toc-link, ol.toc-child > (li.toc-item, ...))
+  function findHeadPosition (top) {
+    // assume that we are not in the post page if no TOC link be found,
+    // thus no need to update the status
+    if ($('.toc-link').length === 0) {
+      return false
+    }
+
+    var list = $('#post-content').find('h1,h2,h3,h4,h5,h6')
+    var currentId = ''
+    list.each(function () {
+      var head = $(this)
+      if (top > head.offset().top - 25) {
+        currentId = '#' + $(this).attr('id')
+      }
+    })
+
+    if (currentId === '') {
+      $('.toc-link').removeClass('active')
+      $('.toc-child').hide()
+    }
+
+    // fix #286 since hexo v5.0.0 will
+    // encodeURI the toc-item href
+    var hexoVersion = GLOBAL_CONFIG.hexoVersion[0]
+
+    if (hexoVersion === '5') {
+      currentId = encodeURI(currentId)
+    }
+
+    var currentActive = $('.toc-link.active')
+    if (currentId && currentActive.attr('href') !== currentId) {
+      updateAnchor(currentId)
+
+      $('.toc-link').removeClass('active')
+      var _this = $('.toc-link[href="' + currentId + '"]')
+      _this.addClass('active')
+
+      var parents = _this.parents('.toc-child')
+      // Returned list is in reverse order of the DOM elements
+      // Thus `parents.last()` is the outermost .toc-child container
+      // i.e. list of subsections
+      var topLink = (parents.length > 0) ? parents.last() : _this
+      expandToc(topLink.closest('.toc-item').find('.toc-child'))
+      topLink
+        // Find all top-level .toc-item containers, i.e. sections
+        // excluding the currently active one
+        .closest('.toc-item').siblings('.toc-item')
+        // Hide their respective list of subsections
+        .find('.toc-child').hide()
+    }
+  }
+})
 ;
-/* global NexT, CONFIG */
-
-$(document).ready(function() {
-
-  $(document).trigger('bootstrap:before');
-
-  /**
-   * Register JS handlers by condition option.
-   * Need to add config option in Front-End at 'layout/_partials/head.swig' file.
-   */
-  CONFIG.fastclick && NexT.utils.isMobile() && window.FastClick.attach(document.body);
-  CONFIG.lazyload && NexT.utils.lazyLoadPostsImages();
-
-  NexT.utils.registerESCKeyEvent();
-
-  NexT.utils.registerBackToTop();
-
-  // Mobile top menu bar.
-  $('.site-nav-toggle button').on('click', function() {
-    var $siteNav = $('.site-nav');
-    var ON_CLASS_NAME = 'site-nav-on';
-    var isSiteNavOn = $siteNav.hasClass(ON_CLASS_NAME);
-    var animateAction = isSiteNavOn ? 'slideUp' : 'slideDown';
-    var animateCallback = isSiteNavOn ? 'removeClass' : 'addClass';
-
-    $siteNav.stop()[animateAction]('fast', function() {
-      $siteNav[animateCallback](ON_CLASS_NAME);
-    });
-  });
-
-  /**
-   * Register JS handlers by condition option.
-   * Need to add config option in Front-End at 'layout/_partials/head.swig' file.
-   */
-  CONFIG.fancybox && NexT.utils.wrapImageWithFancyBox();
-  CONFIG.tabs && NexT.utils.registerTabsTag();
-
-  NexT.utils.embeddedVideoTransformer();
-
-  // Define Motion Sequence.
-  NexT.motion.integrator
-    .add(NexT.motion.middleWares.logo)
-    .add(NexT.motion.middleWares.menu)
-    .add(NexT.motion.middleWares.postList)
-    .add(NexT.motion.middleWares.sidebar);
-
-  $(document).trigger('motion:before');
-
-  // Bootstrap Motion.
-  CONFIG.motion.enable && NexT.motion.integrator.bootstrap();
-
-  $(document).trigger('bootstrap:after');
-});
+$(function () {
+  $('.toggle-menu').on('click', function () {
+    if (!$('.menus').is(':visible')) {
+      $('.menus').velocity('stop')
+        .velocity('transition.slideDownIn', { duration: 300 })
+    } else {
+      $('.menus').velocity('stop')
+        .velocity('transition.slideUpOut', { duration: 300 })
+    }
+  })
+  $(document).on('click touchstart', function (e) {
+    var flag = $('.menus')[0].contains(e.target) || $('.toggle-menu')[0].contains(e.target)
+    if (!flag && $('.toggle-menu').is(':visible')) {
+      $('.menus').velocity('stop')
+        .velocity('transition.slideUpOut', { duration: 300 })
+    }
+  })
+  $(window).on('resize', function (e) {
+    if (!$('.toggle-menu').is(':visible')) {
+      if (!$('.menus').is(':visible')) {
+        $('.menus').velocity('stop')
+          .velocity('transition.slideDownIn', { duration: 300 })
+      }
+    }
+  })
+})

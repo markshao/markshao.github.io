@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2021-05-28T14:37:35.293Z</updated>
+  <updated>2021-05-28T17:31:08.235Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://markshao.github.io/2019/10/05/hook-caller-logic/"/>
     <id>http://markshao.github.io/2019/10/05/hook-caller-logic/</id>
     <published>2019-10-05T09:13:32.000Z</published>
-    <updated>2021-05-28T14:37:35.293Z</updated>
+    <updated>2021-05-28T17:31:08.235Z</updated>
     
     <summary type="html">
     
@@ -29,7 +29,7 @@
       
         
         
-          &lt;p&gt;我们知道&lt;code&gt;pm.hook.xxx(**kwargs)&lt;/code&gt;　，最后实际是调用了绑定的 &lt;code&gt;_HookCaller&lt;/code&gt;对象的&lt;code&gt;__call__&lt;/code&gt;方法，那么今天我们来看一下这个方法的逻辑是什么样的，废话少说，先上代码,
+          &lt;p&gt;&amp;#x6211;&amp;#x4EEC;&amp;#x77E5;&amp;#x9053;&lt;code&gt;pm.hook.xxx(**kwargs)&lt;/code&gt;&amp;#x3000;&amp;#xFF0C;&amp;#x6700;&amp;#x540E;&amp;#x5B9E;&amp;#x9645;&amp;#x662F;&amp;#x8C03;&amp;#x7528
         
       
     
@@ -47,7 +47,7 @@
     <link href="http://markshao.github.io/2019/10/03/register-pluggy/"/>
     <id>http://markshao.github.io/2019/10/03/register-pluggy/</id>
     <published>2019-10-03T01:41:56.000Z</published>
-    <updated>2021-05-28T14:37:35.292Z</updated>
+    <updated>2021-05-28T17:31:08.234Z</updated>
     
     <summary type="html">
     
@@ -55,7 +55,7 @@
       
         
         
-          &lt;p&gt;今天我们再仔细分析一下 &lt;code&gt;plugin&lt;/code&gt; 的注册逻辑，这里面包含了&lt;code&gt;pluggy&lt;/code&gt; 框架中的一些核心设计元素。代码在
+          &lt;p&gt;&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4EEC;&amp;#x518D;&amp;#x4ED4;&amp;#x7EC6;&amp;#x5206;&amp;#x6790;&amp;#x4E00;&amp;#x4E0B; &lt;code&gt;plugin&lt;/code&gt;
         
       
     
@@ -73,7 +73,7 @@
     <link href="http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/"/>
     <id>http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/</id>
     <published>2019-10-02T02:04:28.000Z</published>
-    <updated>2021-05-28T14:37:35.290Z</updated>
+    <updated>2021-05-28T17:31:08.234Z</updated>
     
     <summary type="html">
     
@@ -81,7 +81,7 @@
       
         
         
-          &lt;h1 id=&quot;代码结构&quot;&gt;&lt;a href=&quot;#代码结构&quot; class=&quot;headerlink&quot; title=&quot;代码结构&quot;&gt;&lt;/a&gt;代码结构&lt;/h1&gt;&lt;p&gt;&lt;code&gt;pluggy&lt;/code&gt; 的核心代码非常简介，把 &lt;a
+          &lt;h1 id=&quot;&amp;#x4EE3;&amp;#x7801;&amp;#x7ED3;&amp;#x6784;&quot;&gt;&lt;a href=&quot;#&amp;#x4EE3;&amp;#x7801;&amp;#x7ED3;&amp;#x6784;&quot; class=&quot;headerlink&quot;
         
       
     
@@ -99,7 +99,7 @@
     <link href="http://markshao.github.io/2019/10/01/pluggy-guideline/"/>
     <id>http://markshao.github.io/2019/10/01/pluggy-guideline/</id>
     <published>2019-10-01T09:15:25.000Z</published>
-    <updated>2021-05-28T14:37:35.290Z</updated>
+    <updated>2021-05-28T17:31:08.233Z</updated>
     
     <summary type="html">
     
@@ -107,7 +107,7 @@
       
         
         
-          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;
+          &lt;h1 id=&quot;&amp;#x524D;&amp;#x8A00;&quot;&gt;&lt;a href=&quot;#&amp;#x524D;&amp;#x8A00;&quot; class=&quot;headerlink&quot;
         
       
     
@@ -125,7 +125,7 @@
     <link href="http://markshao.github.io/2019/08/10/pytest-source-analysis/"/>
     <id>http://markshao.github.io/2019/08/10/pytest-source-analysis/</id>
     <published>2019-08-10T13:31:41.000Z</published>
-    <updated>2019-10-01T12:15:32.687Z</updated>
+    <updated>2021-05-28T17:31:08.233Z</updated>
     
     <summary type="html">
     
@@ -133,7 +133,7 @@
       
         
         
-          &lt;h3 id=&quot;Pytest-源码解读&quot;&gt;&lt;a href=&quot;#Pytest-源码解读&quot; class=&quot;headerlink&quot; title=&quot;Pytest 源码解读&quot;&gt;&lt;/a&gt;Pytest 源码解读&lt;/h3&gt;&lt;p&gt;之前定的目标，2019 年要完成
+          &lt;h3 id=&quot;Pytest-&amp;#x6E90;&amp;#x7801;&amp;#x89E3;&amp;#x8BFB;&quot;&gt;&lt;a href=&quot;#Pytest-&amp;#x6E90;&amp;#x7801;&amp;#x89E3;&amp;#x8BFB;&quot; class=&quot;headerlink&quot; title=&quot;Pytest
         
       
     
@@ -151,7 +151,7 @@
     <link href="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/"/>
     <id>http://markshao.github.io/2019/04/07/yurenjie-macau-youji/</id>
     <published>2019-04-07T12:52:01.000Z</published>
-    <updated>2019-04-07T13:37:23.345Z</updated>
+    <updated>2021-05-28T17:31:08.222Z</updated>
     
     <summary type="html">
     
@@ -159,7 +159,7 @@
       
         
         
-          &lt;p&gt;借着媳妇儿给老丈人庆祝生日的机会，我也有幸跟着去了一次澳门，也算完成了港澳台观光计划的最后一块拼图。在这里要感谢媳妇儿的辛劳，在繁忙的工作之余还要负责整个旅行攻略的安排。这次的旅行主要是舒适游，毕竟是带着两位老人，所以也没有安排什么一大早的观光，基本就是在酒店吃吃喝喝，当然
+          &lt;p&gt;&amp;#x501F;&amp;#x7740;&amp;#x5AB3;&amp;#x5987;&amp;#x513F;&amp;#x7ED9;&amp;#x8001;&amp;#x4E08;&amp;#x4EBA;&amp;#x5E86;&amp;#x795D;&amp;#x751F;&amp;#x65E5;&amp;#x7684;&amp;#x673A;&amp;#x4F1A;&amp;#xFF0C;&amp;
         
       
     
@@ -175,7 +175,7 @@
     <link href="http://markshao.github.io/2019/03/21/golang-interview-problem-1/"/>
     <id>http://markshao.github.io/2019/03/21/golang-interview-problem-1/</id>
     <published>2019-03-21T06:38:06.000Z</published>
-    <updated>2019-03-21T14:22:42.153Z</updated>
+    <updated>2021-05-28T17:31:08.222Z</updated>
     
     <summary type="html">
     
@@ -183,7 +183,7 @@
       
         
         
-          &lt;p&gt;最近一直在学习 &lt;code&gt;Golang&lt;/code&gt; ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 &lt;code&gt;Golang&lt;/code&gt; 写，在他写的过程中我担心自己没法给他 review code
+          &lt;p&gt;&amp;#x6700;&amp;#x8FD1;&amp;#x4E00;&amp;#x76F4;&amp;#x5728;&amp;#x5B66;&amp;#x4E60; &lt;code&gt;Golang&lt;/code&gt;
         
       
     
@@ -199,7 +199,7 @@
     <link href="http://markshao.github.io/2019/03/17/golang-channel-deadlock/"/>
     <id>http://markshao.github.io/2019/03/17/golang-channel-deadlock/</id>
     <published>2019-03-17T13:57:40.000Z</published>
-    <updated>2019-03-18T00:27:57.976Z</updated>
+    <updated>2021-05-28T17:31:08.221Z</updated>
     
     <summary type="html">
     
@@ -207,7 +207,7 @@
       
         
         
-          &lt;p&gt;最近开启了19年第二个重要任务，&lt;code&gt;Go Lang&lt;/code&gt;的学习，如果之前只是因为个人爱好的话，现在是因为&lt;code&gt;chaos monkey&lt;/code&gt;很多都是用&lt;code&gt;Go
+          &lt;p&gt;&amp;#x6700;&amp;#x8FD1;&amp;#x5F00;&amp;#x542F;&amp;#x4E86;19&amp;#x5E74;&amp;#x7B2C;&amp;#x4E8C;&amp;#x4E2A;&amp;#x91CD;&amp;#x8981;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF0C;&lt;code&gt;Go
         
       
     
@@ -225,7 +225,7 @@
     <link href="http://markshao.github.io/2019/03/12/distributed-code-analysis/"/>
     <id>http://markshao.github.io/2019/03/12/distributed-code-analysis/</id>
     <published>2019-03-12T14:11:38.000Z</published>
-    <updated>2019-03-13T02:11:27.661Z</updated>
+    <updated>2021-05-28T17:31:08.220Z</updated>
     
     <summary type="html">
     
@@ -233,7 +233,7 @@
       
         
         
-          &lt;p&gt;上次我们已经分析了一下&lt;code&gt;JMeter&lt;/code&gt;的分布式架构，今天我们来看一下其中相关的核心类是怎么工作的，我们还是先从Master 开始，Master 是用来接收用户控制的&lt;code&gt;JMeter&lt;/code&gt; Engine， 它接收 GUI 和
+          &lt;p&gt;&amp;#x4E0A;&amp;#x6B21;&amp;#x6211;&amp;#x4EEC;&amp;#x5DF2;&amp;#x7ECF;&amp;#x5206;&amp;#x6790;&amp;#x4E86;&amp;#x4E00;&amp;#x4E0B;&lt;code&gt;JMeter&lt;/code&gt;&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x5F0
         
       
     
@@ -249,7 +249,7 @@
     <link href="http://markshao.github.io/2019/03/12/distributed-architecture/"/>
     <id>http://markshao.github.io/2019/03/12/distributed-architecture/</id>
     <published>2019-03-12T13:47:04.000Z</published>
-    <updated>2019-03-13T01:31:10.730Z</updated>
+    <updated>2021-05-28T17:31:08.218Z</updated>
     
     <summary type="html">
     
@@ -257,7 +257,7 @@
       
         
         
-          &lt;h3 id=&quot;JMeter-分布式模式&quot;&gt;&lt;a href=&quot;#JMeter-分布式模式&quot; class=&quot;headerlink&quot; title=&quot;JMeter 分布式模式&quot;&gt;&lt;/a&gt;JMeter 分布式模式&lt;/h3&gt;&lt;p&gt;JMeter 除了单机模式外，还支持分布式的模式 (&lt;a
+          &lt;h3 id=&quot;JMeter-&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x6A21;&amp;#x5F0F;&quot;&gt;&lt;a href=&quot;#JMeter-&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x6A21;&amp;#x5F0F;&quot; class=&quot;headerlink&quot;
         
       
     
@@ -273,7 +273,7 @@
     <link href="http://markshao.github.io/2019/03/11/install-mysqldb/"/>
     <id>http://markshao.github.io/2019/03/11/install-mysqldb/</id>
     <published>2019-03-11T13:16:37.000Z</published>
-    <updated>2019-03-11T13:49:56.512Z</updated>
+    <updated>2021-05-28T17:31:08.217Z</updated>
     
     <summary type="html">
     
@@ -281,7 +281,7 @@
       
         
         
-          &lt;p&gt;公司的一个项目需要安装&lt;code&gt;mysqlclient==1.3.12&lt;/code&gt;的模块，很久写&lt;code&gt;MySQL&lt;/code&gt; base 的应用了，而且之前2年基本都是在&lt;code&gt;ubuntu
+          &lt;p&gt;&amp;#x516C;&amp;#x53F8;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;&amp;#x9700;&amp;#x8981;&amp;#x5B89;&amp;#x88C5;&lt;code&gt;mysqlclient==1.3.12&lt;/code&gt;&amp;#x7684;&amp;#x6A21;&amp;
         
       
     
@@ -297,7 +297,7 @@
     <link href="http://markshao.github.io/2019/03/10/beanshell-server/"/>
     <id>http://markshao.github.io/2019/03/10/beanshell-server/</id>
     <published>2019-03-10T13:33:17.000Z</published>
-    <updated>2019-03-10T13:52:32.222Z</updated>
+    <updated>2021-05-28T17:31:08.217Z</updated>
     
     <summary type="html">
     
@@ -305,7 +305,7 @@
       
         
         
-          &lt;p&gt;上一次在分析 JMeter 核心类的时候 (&lt;a href=&quot;http://markshao.github.io/2019/03/07/jmeter/&quot;&gt;http://markshao.github.io/2019/03/07/jmeter/&lt;/a&gt;)
+          &lt;p&gt;&amp;#x4E0A;&amp;#x4E00;&amp;#x6B21;&amp;#x5728;&amp;#x5206;&amp;#x6790; JMeter &amp;#x6838;&amp;#x5FC3;&amp;#x7C7B;&amp;#x7684;&amp;#x65F6;&amp;#x5019; (&lt;a
         
       
     
@@ -321,7 +321,7 @@
     <link href="http://markshao.github.io/2019/03/09/green-cover-book/"/>
     <id>http://markshao.github.io/2019/03/09/green-cover-book/</id>
     <published>2019-03-09T09:26:10.000Z</published>
-    <updated>2019-03-09T09:57:02.592Z</updated>
+    <updated>2021-05-28T17:31:08.214Z</updated>
     
     <summary type="html">
     
@@ -329,7 +329,7 @@
       
         
         
-          &lt;p&gt;很久没有看文艺片了，在我这个平时很少看电影人的心里，没有打打杀杀的就可以称之为文艺片了。趁着奥斯卡的余温还在，抓紧时间去家里附近的电影院追了一下&amp;lt;绿皮书&amp;gt;，很多朋友说最后雪利在酒吧里谈钢琴的时候他们都流泪了，我虽然没有像当年看&amp;lt;集结号&amp;gt;那样感动到哭，
+          &lt;p&gt;&amp;#x5F88;&amp;#x4E45;&amp;#x6CA1;&amp;#x6709;&amp;#x770B;&amp;#x6587;&amp;#x827A;&amp;#x7247;&amp;#x4E86;&amp;#xFF0C;&amp;#x5728;&amp;#x6211;&amp;#x8FD9;&amp;#x4E2A;&amp;#x5E73;&amp;#x65F6;&amp;#x5F88;&amp;
         
       
     
@@ -347,7 +347,7 @@
     <link href="http://markshao.github.io/2019/03/08/2019-objectives/"/>
     <id>http://markshao.github.io/2019/03/08/2019-objectives/</id>
     <published>2019-03-08T14:11:42.000Z</published>
-    <updated>2019-03-09T09:58:23.661Z</updated>
+    <updated>2021-05-28T17:31:08.201Z</updated>
     
     <summary type="html">
     
@@ -355,8 +355,7 @@
       
         
         
-          &lt;p&gt;这周在北京和老板对齐了接下来双月的 okr ，突然发现 2019年已经过去了快1/4了。第一次尝试给自己全年的工作和生活定一个目标，记录在博客也是希望可以鞭策和督促自己，等年底的时候再来看看完成的怎么样。&lt;/p&gt;
-&lt;h3 id=&quot;技术&quot;&gt;&lt;a href=&quot;#技术&quot;
+          &lt;p&gt;&amp;#x8FD9;&amp;#x5468;&amp;#x5728;&amp;#x5317;&amp;#x4EAC;&amp;#x548C;&amp;#x8001;&amp;#x677F;&amp;#x5BF9;&amp;#x9F50;&amp;#x4E86;&amp;#x63A5;&amp;#x4E0B;&amp;#x6765;&amp;#x53CC;&amp;#x6708;&amp;#x7684;
         
       
     
@@ -372,7 +371,7 @@
     <link href="http://markshao.github.io/2019/03/08/jmeter-thread-model/"/>
     <id>http://markshao.github.io/2019/03/08/jmeter-thread-model/</id>
     <published>2019-03-08T09:40:31.000Z</published>
-    <updated>2019-03-08T11:42:39.577Z</updated>
+    <updated>2021-05-28T17:31:08.213Z</updated>
     
     <summary type="html">
     
@@ -380,7 +379,7 @@
       
         
         
-          &lt;p&gt;&lt;code&gt;JMeter&lt;/code&gt; 的线程管理主要是通过两个类来进行，一个是&lt;code&gt;ThreadGroup&lt;/code&gt; 顾名思义整个是一个线程的集合，另外一个是&lt;code&gt;JMeterThread&lt;/code&gt;
+          &lt;p&gt;&lt;code&gt;JMeter&lt;/code&gt;
         
       
     
@@ -396,7 +395,7 @@
     <link href="http://markshao.github.io/2019/03/07/StandardJMeterEngine/"/>
     <id>http://markshao.github.io/2019/03/07/StandardJMeterEngine/</id>
     <published>2019-03-07T14:50:48.000Z</published>
-    <updated>2019-03-08T09:40:08.398Z</updated>
+    <updated>2021-05-28T17:31:08.200Z</updated>
     
     <summary type="html">
     
@@ -404,7 +403,7 @@
       
         
         
-          &lt;p&gt;我们越来约越接近 &lt;code&gt;JMeter&lt;/code&gt; 的核心，先来看一下&lt;code&gt;StandardJMeterEngine&lt;/code&gt; 这个类实现了哪些接口，首先是&lt;code&gt;JMeterEngine&lt;/code&gt;, 它定义了 JMeterEngine
+          &lt;p&gt;&amp;#x6211;&amp;#x4EEC;&amp;#x8D8A;&amp;#x6765;&amp;#x7EA6;&amp;#x8D8A;&amp;#x63A5;&amp;#x8FD1; &lt;code&gt;JMeter&lt;/code&gt;
         
       
     
@@ -420,7 +419,7 @@
     <link href="http://markshao.github.io/2019/03/07/jmeter/"/>
     <id>http://markshao.github.io/2019/03/07/jmeter/</id>
     <published>2019-03-07T14:05:13.000Z</published>
-    <updated>2019-03-07T14:40:41.591Z</updated>
+    <updated>2021-05-28T17:31:08.201Z</updated>
     
     <summary type="html">
     
@@ -428,7 +427,7 @@
       
         
         
-          &lt;p&gt;上一篇 &lt;a href=&quot;http://markshao.github.io/2019/03/05/jmeter-new-driver/&quot;&gt;程序入口 NewDriver&lt;/a&gt;
+          &lt;p&gt;&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7; &lt;a href=&quot;http://markshao.github.io/2019/03/05/jmeter-new-driver/&quot;&gt;&amp;#x7A0B;&amp;#x5E8F;&amp;#x5165;&amp;#x53E3;
         
       
     
@@ -444,7 +443,7 @@
     <link href="http://markshao.github.io/2019/03/06/hashtree/"/>
     <id>http://markshao.github.io/2019/03/06/hashtree/</id>
     <published>2019-03-06T14:15:32.000Z</published>
-    <updated>2019-03-06T15:08:14.150Z</updated>
+    <updated>2021-05-28T17:31:08.186Z</updated>
     
     <summary type="html">
     
@@ -452,7 +451,7 @@
       
         
         
-          &lt;h3 id=&quot;HashTree&quot;&gt;&lt;a href=&quot;#HashTree&quot; class=&quot;headerlink&quot; title=&quot;HashTree&quot;&gt;&lt;/a&gt;HashTree&lt;/h3&gt;&lt;p&gt;首先要特别说明一下这里说的&lt;code&gt;HashTree&lt;/code&gt;
+          &lt;h3 id=&quot;HashTree&quot;&gt;&lt;a href=&quot;#HashTree&quot; class=&quot;headerlink&quot;
         
       
     
@@ -470,7 +469,7 @@
     <link href="http://markshao.github.io/2019/03/05/jmeter-new-driver/"/>
     <id>http://markshao.github.io/2019/03/05/jmeter-new-driver/</id>
     <published>2019-03-05T15:37:30.000Z</published>
-    <updated>2019-03-05T16:35:59.273Z</updated>
+    <updated>2021-05-28T17:31:08.185Z</updated>
     
     <summary type="html">
     
@@ -478,7 +477,7 @@
       
         
         
-          &lt;p&gt;&lt;code&gt;NewDriver&lt;/code&gt; 的完整路径是&lt;code&gt;org.apache.jmeter.NewDriver&lt;/code&gt; , 它是整个&lt;code&gt;JMeter&lt;/code&gt; 的入口类，主要的作用是提供了main
+          &lt;p&gt;&lt;code&gt;NewDriver&lt;/code&gt; &amp;#x7684;&amp;#x5B8C;&amp;#x6574;&amp;#x8DEF;&amp;#x5F84;&amp;#x662F;&lt;code&gt;org.apache.jmeter.NewDriver&lt;/code&gt; ,
         
       
     
@@ -494,7 +493,7 @@
     <link href="http://markshao.github.io/2019/03/05/jmeter-directory-structure/"/>
     <id>http://markshao.github.io/2019/03/05/jmeter-directory-structure/</id>
     <published>2019-03-05T15:01:14.000Z</published>
-    <updated>2019-03-05T15:30:24.823Z</updated>
+    <updated>2021-05-28T17:31:08.184Z</updated>
     
     <summary type="html">
     
@@ -502,7 +501,7 @@
       
         
         
-          &lt;p&gt;本来是准备自己写一个关于&lt;code&gt;Jmeter&lt;/code&gt; 目录结构的分析，碰巧看到了这篇  &lt;a href=&quot;https://wiki.apache.org/jmeter/DeveloperManual/DirStructure&quot; target=&quot;_blank&quot;
+          &lt;p&gt;&amp;#x672C;&amp;#x6765;&amp;#x662F;&amp;#x51C6;&amp;#x5907;&amp;#x81EA;&amp;#x5DF1;&amp;#x5199;&amp;#x4E00;&amp;#x4E2A;&amp;#x5173;&amp;#x4E8E;&lt;code&gt;Jmeter&lt;/code&gt;
         
       
     
