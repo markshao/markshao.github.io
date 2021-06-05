@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2021-05-29T15:46:03.898Z</updated>
+  <updated>2021-06-05T08:39:08.826Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Pytest 源码解读 [5] - pytest 是如何测试 pytest 的</title>
+    <link href="http://markshao.github.io/2021/06/05/pytester/"/>
+    <id>http://markshao.github.io/2021/06/05/pytester/</id>
+    <published>2021-06-05T07:18:11.000Z</published>
+    <updated>2021-06-05T08:39:08.826Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x4EC0;&amp;#x4E48;&amp;#x53EB;&amp;#x7528; pytest &amp;#x6765;&amp;#x6D4B;&amp;#x8BD5; pytest
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
   
   <entry>
     <title>Blog 重生记</title>
@@ -483,30 +509,6 @@
     
     
       <category term="设计模式" scheme="http://markshao.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JMeter 源码解读 [3] - 程序入口 NewDriver</title>
-    <link href="http://markshao.github.io/2019/03/05/jmeter-new-driver/"/>
-    <id>http://markshao.github.io/2019/03/05/jmeter-new-driver/</id>
-    <published>2019-03-05T15:37:30.000Z</published>
-    <updated>2021-05-28T17:31:08.185Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&lt;code&gt;NewDriver&lt;/code&gt; &amp;#x7684;&amp;#x5B8C;&amp;#x6574;&amp;#x8DEF;&amp;#x5F84;&amp;#x662F;&lt;code&gt;org.apache.jmeter.NewDriver&lt;/code&gt; ,
-        
-      
-    
-    </summary>
-    
-      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
-    
     
   </entry>
   

@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://markshao.github.io/2021/06/05/pytester/</loc>
+    
+    <lastmod>2021-06-05T08:39:08.826Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://markshao.github.io/2021/05/29/blog-renew-log/</loc>
     
     <lastmod>2021-05-29T15:46:03.898Z</lastmod>
@@ -170,14 +177,14 @@
   </url>
   
   <url>
-    <loc>http://markshao.github.io/2014/03/01/new-testng/</loc>
+    <loc>http://markshao.github.io/2014/01/27/2013-conlusion/</loc>
     
     <lastmod>2021-05-28T17:31:08.158Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://markshao.github.io/2014/01/27/2013-conlusion/</loc>
+    <loc>http://markshao.github.io/2014/03/01/new-testng/</loc>
     
     <lastmod>2021-05-28T17:31:08.158Z</lastmod>
     
