@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2021-06-05T08:39:08.826Z</updated>
+  <updated>2021-06-26T03:48:45.003Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>理解 LSM 树: 用于多写场景下的数据库实现</title>
+    <link href="http://markshao.github.io/2021/06/25/lsm-tree/"/>
+    <id>http://markshao.github.io/2021/06/25/lsm-tree/</id>
+    <published>2021-06-25T14:32:00.000Z</published>
+    <updated>2021-06-26T03:48:45.003Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;&amp;#x672C;&amp;#x6587;&amp;#x7FFB;&amp;#x8BD1;&amp;#x81EA; &amp;#x201C;&lt;a href=&quot;https://yetanotherdevblog.com/dense-vs-sparse-indexes/&quot;&gt;What are
+        
+      
+    
+    </summary>
+    
+      <category term="存储小白" scheme="http://markshao.github.io/categories/%E5%AD%98%E5%82%A8%E5%B0%8F%E7%99%BD/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Pytest 源码解读 [5] - pytest 是如何测试 pytest 的</title>
@@ -483,32 +508,6 @@
     
       <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>JMeter 源码解读 [4] - HashTree</title>
-    <link href="http://markshao.github.io/2019/03/06/hashtree/"/>
-    <id>http://markshao.github.io/2019/03/06/hashtree/</id>
-    <published>2019-03-06T14:15:32.000Z</published>
-    <updated>2021-05-28T17:31:08.186Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h3 id=&quot;HashTree&quot;&gt;&lt;a href=&quot;#HashTree&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
-    
-    
-      <category term="设计模式" scheme="http://markshao.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   

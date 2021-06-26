@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="理解 LSM 树: 用于多写场景下的数据库实现"><meta name="keywords" content=""><meta name="author" content="妞爸爸"><meta name="copyright" content="妞爸爸"><title>理解 LSM 树: 用于多写场景下的数据库实现 | 小法@兵工厂</title><link rel="shortcut icon" href="/melody-favicon.ico"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  hexoVersion: '5.4.0'
+} </script><meta name="generator" content="Hexo 5.4.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');loadCss('https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.0');loadCss('https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css');</script><noscript><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"></noscript></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSTable"><span class="toc-number">1.</span> <span class="toc-text">SSTable</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E6%95%B0%E6%8D%AE"><span class="toc-number">2.</span> <span class="toc-text">写数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%BB%E6%95%B0%E6%8D%AE"><span class="toc-number">3.</span> <span class="toc-text">读数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Compaction"><span class="toc-number">4.</span> <span class="toc-text">Compaction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-number">5.</span> <span class="toc-text">删除数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/sanjing_avatar.jpeg"></div><div class="author-info__name text-center">妞爸爸</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">29</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">7</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">7</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(/img/blog_bg.jpeg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">小法@兵工厂</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">理解 LSM 树: 用于多写场景下的数据库实现</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2021-06-25</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%AD%98%E5%82%A8%E5%B0%8F%E7%99%BD/">存储小白</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><blockquote>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>本文翻译自 “<a target="_blank" rel="noopener" href="https://yetanotherdevblog.com/dense-vs-sparse-indexes/">What are sparse and dense indexes? (yetanotherdevblog.com)</a>“</p>
+</blockquote>
+<p>日志结构的聚合树 (Log-Structured Merge-Tree) 是一种典型用来处理存在很重的写操作的时候的数据结构。任意写的操作被优化成了顺序写。LSM tree 是很多数据库背后的核心数据结构，包括 BigTable， Cassandra，<a href="[ScyllaDB | The Real-Time Big Data Database](https://www.scylladb.com/">Scylla</a>) 和 RockDB 。</p>
+<h1 id="SSTable"><a href="#SSTable" class="headerlink" title="SSTable"></a>SSTable</h1><p>LSM Tree 使用一种可以理解为基于字符串排序的表 (SSTable) 来在磁盘上进行持久化。从字面意思来看，SSTable 是一种用来存储 key-value 键值对的格式，而且它的 key 是已经排序过的。一个 SSTable 有多个排序过文件组成，它们叫做 Segments。这些 Segments 一旦被写入磁盘就不能被修改。一个简单的实例如下图:</p>
+<p><img src="/2021/06/25/lsm-tree/example1.png" alt="example1"></p>
+<p>可以看到每个segment 中的 key-value 对都是基于 key 排序的。我们将在下一章节介绍 segment 到底是什么，以及它是如何生成的。</p>
+<h1 id="写数据"><a href="#写数据" class="headerlink" title="写数据"></a>写数据</h1><p>回忆前文，LSM 树只会进行顺序写。我们可能会怀疑因为实际的数据是无序写入的，我们如何保证顺序写且有序呢？这个问题通过在内存中构建一个树形的数据结构来解决。这个通常被称作 memtable (内部表)，但是它背后的数据结构通常是一个排序树，例如 <code>红黑树</code> 。当数据被写入的时候，它被添加到了红黑树中，</p>
+<p><img src="/2021/06/25/lsm-tree/example2.png" alt="example2"></p>
+<p>我们的写入数据都被存入这棵红黑树中，直到容量达到了我们预设值。一旦红黑树达到了容量上限，它就会把数据通过 segment 以有序的形式刷新到磁盘上。这个允许我们在写入 segment 文件的时候保证单点顺序写即使外部数据进入时候是无需的。</p>
+<p><img src="/2021/06/25/lsm-tree/example3.png" alt="example3"></p>
+<h1 id="读数据"><a href="#读数据" class="headerlink" title="读数据"></a>读数据</h1><p>那我们如何在 SStable 中查找数据的呢？最直观的方式就是直接扫描 segments 文件，寻找需要的 key 。我们可以从最新的 segement 开始寻找，从新到旧直到我们找到那个 key 。这种方式意味着越是最新写入的数据，我们可以更快查询到。一种简单的优化方式是在内存中维护一个稀疏索引 (sparse index)</p>
+<p><img src="/2021/06/25/lsm-tree/example4.png" alt="example4"></p>
+<p>通过这个索引，我们可以快速定位到要插入 value 对应的 key 所处于下标的上下界位置。现在我们只要针对这个区间内的所有 segment 进行小范围的扫描就好了。例如这个场景，我们要寻找 <code>dollar</code> 这个 key 在示例 segment 中的位置。我们可以在稀疏索引中通过二分查找发现 <code>dollar</code> 处于 <code>dog</code> 和 <code>downgrade</code> 之间。现在我们只要遍历下标从 <code>17208</code> 到 <code>19504</code>  就可以找到这个 key 对应的 value (或者判断是否缺失)</p>
+<p>这是一个很不错的优化，但是如果是一个不存在的 key 呢？我们最终可能会去遍历每一个 segment file 但不能找到那个 key 。这里 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/布隆过滤器">布隆过滤器</a> (bloom filter) 可以帮助我们避免这个问题。bloom filter 是一种空间优化的数据结构用来回答数据是否存在于当前数据集的问题。我们可以在每次写入数据的时候把它添加到 bloom filter 中。每次在读开始的时候先检查是否存在从而可以提升对于不存在 key 的响应效率。</p>
+<h1 id="Compaction"><a href="#Compaction" class="headerlink" title="Compaction"></a>Compaction</h1><p>随着系统的持续运行，久而久之系统会积累大量的 segment 文件。这些 segment 文件需要被清理和维护避免数量达到我们无法控制的规模。这个就是一个叫 compaction (精简) 进程的责任。Compaction 是一个后台进程，它持续合并旧的 segment 成新的 segment</p>
+<p><img src="/2021/06/25/lsm-tree/example5.png" alt="example5"></p>
+<p>可以看到上面的例子里，segments 1 和 2 都有一个共同的 key 叫 <code>dog</code> 。相对新一点的 segment (2) 包含最新的值，所以 segment 2 中包含的值会被带入到新的 segment 4 中。一旦 compaction 完成合并的工作，旧的 segment 会被删除。</p>
+<h1 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h1><p>我们已经讲完了读和写入数据，那么如何删除数据呢？因为 Segment file 被认为是不可修改的，我们如何删除 SSTable 中的数据呢？删除实际上和写入是一样的方式。当发生了一个删除的操作，一个叫 <code>tombstone</code> 的标志位会被写入在那个 key 上</p>
+<p><img src="/2021/06/25/lsm-tree/example6.png" alt="example6"></p>
+<p>上面这个例子里可以看到 key <code>dog</code> 有一个历史数据 <code>52</code>, 但是最新的 segment 里有一个 <code>tombstone</code>  的标志位。这个表明如果我们收到一个 <code>dog</code> 的读请求，我们要返回它不存在。这个意味着删除的操作在一开始仍然会占用磁盘的空间，这个可能会让很多开发者觉得惊讶。最终 <code>tombstone</code> 会随着 comaption 被从磁盘上删除。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到这里我们能够理解一个基本的 LSM tree 存储引擎的工作原理了</p>
+<ol>
+<li>写操作被存储在一个内存的树结构中 (也叫做 memtable) 。 支撑性的数据结构 (布隆过滤器 bloom filter 和 稀疏索引 sparse index) 也会被同步更新。</li>
+<li>当 memtable 变得太大就会被按有序 key 的方式刷入磁盘</li>
+<li>当来了一个读请求，我们会先检查 bloom filter。 如果 bloom filter 显示不存在，我们就会返回给客户端 key not found 。如果 bloom filter 提示存在，我们就根据 segment 文件从新到旧来遍历查询。</li>
+<li>每个 segment file，我们先查询稀疏索引，然后在 key 所在的范围，根据下标来遍历直到我们找到那个 key，最终把 value 返回给到客户端。 </li>
+</ol>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">妞爸爸</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://markshao.github.io/2021/06/25/lsm-tree/">http://markshao.github.io/2021/06/25/lsm-tree/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"></div><nav id="pagination"><div class="next-post pull-right"><a href="/2021/06/05/pytester/"><span>Pytest 源码解读 [5] - pytest 是如何测试 pytest 的</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: 'ba9291d9491f0876b53f',
+  clientSecret: '9a98de1ef34e7a2d3b170215a21217bdbd09da95',
+  repo: 'blogcomment',
+  owner: 'markshao',
+  admin: 'markshao',
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN'
+})
+gitalk.render('gitalk-container')</script></div></div><footer class="footer-bg" style="background-image: url(/img/blog_bg.jpeg)"><div class="layout" id="footer"><div class="copyright">©2013 - 2021 By 妞爸爸</div><div class="framework-info"><span>Driven - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --><script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+};
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>
