@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://markshao.github.io/"/>
-  <updated>2021-06-26T03:55:19.184Z</updated>
+  <updated>2021-07-05T14:26:35.654Z</updated>
   <id>http://markshao.github.io/</id>
   
   <author>
@@ -17,11 +17,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>分析一个 rate-limiter 漏桶算法的实现机制</title>
+    <link href="http://markshao.github.io/2021/07/05/leaky-bucket/"/>
+    <id>http://markshao.github.io/2021/07/05/leaky-bucket/</id>
+    <published>2021-07-05T14:15:11.000Z</published>
+    <updated>2021-07-05T14:26:35.654Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x670D;&amp;#x52A1;&amp;#x6CBB;&amp;#x7406;&amp;#x7684;&amp;#x9762;&amp;#x8BD5;&amp;#x4E2D;&amp;#x5E38;&amp;#x88AB;&amp;#x95EE;&amp;#x5230;&amp;#xFF0C;&amp;#x9762;&amp;#x5BF9;&amp;#x7A81;&amp;#x53D1;&amp;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="服务治理" scheme="http://markshao.github.io/tags/%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
     <title>理解 LSM 树: 用于多写场景下的数据库实现</title>
     <link href="http://markshao.github.io/2021/06/25/lsm-tree/"/>
     <id>http://markshao.github.io/2021/06/25/lsm-tree/</id>
     <published>2021-06-25T14:32:00.000Z</published>
-    <updated>2021-06-26T03:55:19.184Z</updated>
+    <updated>2021-06-26T06:31:47.521Z</updated>
     
     <summary type="html">
     
@@ -477,30 +501,6 @@
         
         
           &lt;p&gt;&amp;#x6211;&amp;#x4EEC;&amp;#x8D8A;&amp;#x6765;&amp;#x7EA6;&amp;#x8D8A;&amp;#x63A5;&amp;#x8FD1; &lt;code&gt;JMeter&lt;/code&gt;
-        
-      
-    
-    </summary>
-    
-      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>JMeter 源码解读 [5] - 核心类 org.apache.jmeter.JMeter</title>
-    <link href="http://markshao.github.io/2019/03/07/jmeter/"/>
-    <id>http://markshao.github.io/2019/03/07/jmeter/</id>
-    <published>2019-03-07T14:05:13.000Z</published>
-    <updated>2021-05-28T17:31:08.201Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&amp;#x4E0A;&amp;#x4E00;&amp;#x7BC7; &lt;a href=&quot;http://markshao.github.io/2019/03/05/jmeter-new-driver/&quot;&gt;&amp;#x7A0B;&amp;#x5E8F;&amp;#x5165;&amp;#x53E3;
         
       
     
