@@ -44,6 +44,8 @@
     <!-- rss -->
     
     
+      <link rel="alternate" href="/enable" title="小法@兵工厂" type="application/atom+xml">
+    
 	<!-- mathjax -->
 	
 <meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
@@ -153,25 +155,44 @@
   <div class="content" itemprop="articleBody">
     <p>上一次在分析 JMeter 核心类的时候 (<a href="http://markshao.github.io/2019/03/07/jmeter/">http://markshao.github.io/2019/03/07/jmeter/</a>) 讲到了无论是单机还是分布式模式下都会调用 <code>startOptionServer</code>, 我们来看一下到底是启动了那个server</p>
 <p><code>startOptionServer</code> 的逻辑很简单，先简单看一眼</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">startOptionalServers</span><span class="params">()</span> {</span><br><span class="line">        <span class="type">int</span> <span class="variable">bshport</span> <span class="operator">=</span> JMeterUtils.getPropDefault(<span class="string">"beanshell.server.port"</span>, <span class="number">0</span>);<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">bshfile</span> <span class="operator">=</span> JMeterUtils.getPropDefault(<span class="string">"beanshell.server.file"</span>, <span class="string">""</span>);<span class="comment">// $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line">        <span class="keyword">if</span> (bshport &gt; <span class="number">0</span>) {</span><br><span class="line">            log.info(<span class="string">"Starting Beanshell server ({},{})"</span>, bshport, bshfile);</span><br><span class="line">            <span class="type">Runnable</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanShellServer</span>(bshport, bshfile);</span><br><span class="line">            t.run(); <span class="comment">// NOSONAR we just evaluate some code here</span></span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        runInitScripts();</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> mirrorPort=JMeterUtils.getPropDefault(<span class="string">"mirror.server.port"</span>, <span class="number">0</span>);<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">        <span class="keyword">if</span> (mirrorPort &gt; <span class="number">0</span>){</span><br><span class="line">            log.info(<span class="string">"Starting Mirror server ({})"</span>, mirrorPort);</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                <span class="type">Object</span> <span class="variable">instance</span> <span class="operator">=</span> ClassTools.construct(</span><br><span class="line">                        <span class="string">"org.apache.jmeter.protocol.http.control.HttpMirrorControl"</span>,<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                        mirrorPort);</span><br><span class="line">                ClassTools.invoke(instance,<span class="string">"startHttpMirror"</span>);</span><br><span class="line">            } <span class="keyword">catch</span> (JMeterException e) {</span><br><span class="line">                log.warn(<span class="string">"Could not start Mirror server"</span>,e);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">startOptionalServers</span><span class="params">()</span> {</span><br><span class="line">        <span class="type">int</span> <span class="variable">bshport</span> <span class="operator">=</span> JMeterUtils.getPropDefault(<span class="string">"beanshell.server.port"</span>, <span class="number">0</span>);<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">bshfile</span> <span class="operator">=</span> JMeterUtils.getPropDefault(<span class="string">"beanshell.server.file"</span>, <span class="string">""</span>);<span class="comment">// $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line">        <span class="keyword">if</span> (bshport &gt; <span class="number">0</span>) {</span><br><span class="line">            log.info(<span class="string">"Starting Beanshell server ({},{})"</span>, bshport, bshfile);</span><br><span class="line">            <span class="type">Runnable</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanShellServer</span>(bshport, bshfile);</span><br><span class="line">            t.run(); <span class="comment">// NOSONAR we just evaluate some code here</span></span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        runInitScripts();</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> mirrorPort=JMeterUtils.getPropDefault(<span class="string">"mirror.server.port"</span>, <span class="number">0</span>);<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">        <span class="keyword">if</span> (mirrorPort &gt; <span class="number">0</span>){</span><br><span class="line">            log.info(<span class="string">"Starting Mirror server ({})"</span>, mirrorPort);</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                <span class="type">Object</span> <span class="variable">instance</span> <span class="operator">=</span> ClassTools.construct(</span><br><span class="line">                        <span class="string">"org.apache.jmeter.protocol.http.control.HttpMirrorControl"</span>,<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                        mirrorPort);</span><br><span class="line">                ClassTools.invoke(instance,<span class="string">"startHttpMirror"</span>);</span><br><span class="line">            } <span class="keyword">catch</span> (JMeterException e) {</span><br><span class="line">                log.warn(<span class="string">"Could not start Mirror server"</span>,e);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
 <p>核心的逻辑就是现在配置文件中读取相关 <code>beanshell</code> 的配置文件，然后调用<code>Runnable t = new BeanShellServer(bshport, bshfile);</code> 来启动一个BeanShell服务</p>
 <p>什么是<code>BeanShell</code>呢，它的官方介绍在这里 <a target="_blank" rel="noopener" href="http://www.beanshell.org/bshservlet.html%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8B%E6%9D%A5%E5%B0%B1%E6%98%AF%E4%B8%80%E4%B8%AA">http://www.beanshell.org/bshservlet.html，总结下来就是一个</a> Java Runtime 的一个hook服务，提供类似 oo 的 script 脚本作为interface和外部交互，实际的作用就是可以用来对于 runtime 的 jvm 做一些动态的挑战，例如获取一些jmeter中的变量，或者修改一些变量来改变最后的JMeter 的运行行为等</p>
 <p><code>BeanShellServer</code> 是一个对于 beanshell 服务的封装，它实现了<code>Runnable</code>接口，但是从<code>startOptionServer</code>的代码里来看，没看到有 Thread 的调用</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="type">Runnable</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanShellServer</span>(bshport, bshfile);</span><br><span class="line">t.run(); <span class="comment">// NOSONAR we just evaluate some code here</span></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Runnable</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanShellServer</span>(bshport, bshfile);</span><br><span class="line">t.run(); <span class="comment">// NOSONAR we just evaluate some code here</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>我们在<code>BeanShellServer</code>中的<code>run</code>函数看到，它是通过反射来调用<code>bsh</code>的服务，可能在这里会有一个 thread 的处理吧</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line">Class&lt;?&gt; interpreter = loader.loadClass(<span class="string">"bsh.Interpreter"</span>);<span class="comment">//$NON-NLS-1$</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">instance</span> <span class="operator">=</span> interpreter.getDeclaredConstructor().newInstance();</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; interpreter = loader.loadClass(<span class="string">"bsh.Interpreter"</span>);<span class="comment">//$NON-NLS-1$</span></span><br><span class="line"><span class="type">Object</span> <span class="variable">instance</span> <span class="operator">=</span> interpreter.getDeclaredConstructor().newInstance();</span><br></pre></td></tr></tbody></table></figure>
 
 
 
   </div>
 </article>
 
-    <div class="blog-post-comments">
+    <!-- <div class="blog-post-comments">
         <div id="disqus_thread">
             <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
         </div>
-    </div>
+    </div> -->
+    <div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cloud-dev.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
 
@@ -339,7 +360,7 @@
         })();
         ;
 
-        var disqus_shortname = 'zaibaba';
+        var disqus_shortname = 'cloud-dev';
 
         (function(){
             var dsq = document.createElement('script');
