@@ -1,0 +1,391 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="JMeter &amp;#x7684;&amp;#x7EBF;&amp;#x7A0B;&amp;#x7BA1;&amp;#x7406;&amp;#x4E3B;&amp;#x8981;&amp;#x662F;&amp;#x901A;&amp;#x8FC7;&amp;#x4E24;&amp;#x4E2A;&amp;#x7C7B;&amp;#x6765;&amp;#x8FDB;&amp;#x884C;&amp;#xFF0C;&amp;#x4E00;&amp;#x4E2A;&amp;#x662F;ThreadGroup &amp;#x987E;&amp;#x540D;&amp;#x60">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMeter 源码解读 [7] - JMeter 线程模型">
+<meta property="og:url" content="http://markshao.github.io/2019/03/08/jmeter-thread-model/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="JMeter &amp;#x7684;&amp;#x7EBF;&amp;#x7A0B;&amp;#x7BA1;&amp;#x7406;&amp;#x4E3B;&amp;#x8981;&amp;#x662F;&amp;#x901A;&amp;#x8FC7;&amp;#x4E24;&amp;#x4E2A;&amp;#x7C7B;&amp;#x6765;&amp;#x8FDB;&amp;#x884C;&amp;#xFF0C;&amp;#x4E00;&amp;#x4E2A;&amp;#x662F;ThreadGroup &amp;#x987E;&amp;#x540D;&amp;#x60">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-08T09:40:31.000Z">
+<meta property="article:modified_time" content="2022-05-18T08:55:05.889Z">
+<meta property="article:author" content="妞爸爸">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JMeter 源码解读 [7] - JMeter 线程模型</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/03/08/2019-objectives/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/03/07/StandardJMeterEngine/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/08/jmeter-thread-model/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;text=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;is_video=false&amp;description=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JMeter 源码解读 [7] - JMeter 线程模型&amp;body=Check out this article: http://markshao.github.io/2019/03/08/jmeter-thread-model/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;name=JMeter 源码解读 [7] - JMeter 线程模型&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;t=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadGroup-start"><span class="toc-number">1.</span> <span class="toc-text">ThreadGroup.start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E5%86%8D%E7%9C%8B%E4%B8%80%E4%B8%8BstartNewThread-%E6%98%AF%E6%80%8E%E4%B9%88%E5%90%AF%E5%8A%A8%E7%BA%BF%E7%A8%8B%E7%9A%84"><span class="toc-number">2.</span> <span class="toc-text">我们再看一下startNewThread 是怎么启动线程的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMeterThread"><span class="toc-number">3.</span> <span class="toc-text">JMeterThread</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%9B%B4%E5%A4%9A%E6%80%9D%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">线程设计模型的更多思考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JMeter 源码解读 [7] - JMeter 线程模型
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-08T09:40:31.000Z" itemprop="datePublished">2019-03-08</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">JMeter 源码解读</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><code>JMeter</code> 的线程管理主要是通过两个类来进行，一个是<code>ThreadGroup</code> 顾名思义整个是一个线程的集合，另外一个是<code>JMeterThread</code> 整个可以理解为是一个工作线程，用来做实际请求发送的工作。上一次分析<code>StandardJMeterEngine</code>t提到它最后实际是构造了一个<code>ThreadGroup</code>的对象，然后通过调用<code>startThreadGroup</code>方法来启动线程组，实际内部就调用<code>ThreadGroup</code>自身的<code>start</code>方法，那么我们来看一下这个方法的核心在做什么</p>
+<h3 id="ThreadGroup-start"><a href="#ThreadGroup-start" class="headerlink" title="ThreadGroup.start"></a>ThreadGroup.start</h3><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line">delayedStartup = isDelayedStartup(); <span class="comment">// Fetch once; needs to stay constant</span></span><br><span class="line">        log.info(<span class="string">"Starting thread group... number={} threads={} ramp-up={} perThread={} delayedStart={}"</span>, groupNumber,</span><br><span class="line">                numThreads, rampUpPeriodInSeconds, perThreadDelayInMillis, delayedStartup);</span><br><span class="line">        <span class="keyword">if</span> (delayedStartup) {</span><br><span class="line">            threadStarter = <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">ThreadStarter</span>(notifier, threadGroupTree, engine), getName()+<span class="string">"-ThreadStarter"</span>);</span><br><span class="line">            threadStarter.setDaemon(<span class="literal">true</span>);</span><br><span class="line">            threadStarter.start();</span><br><span class="line">            <span class="comment">// N.B. we don't wait for the thread to complete, as that would prevent parallel TGs</span></span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            <span class="type">long</span> <span class="variable">now</span> <span class="operator">=</span> System.currentTimeMillis(); <span class="comment">// needs to be same time for all threads in the group</span></span><br><span class="line">            <span class="keyword">final</span> <span class="type">JMeterContext</span> <span class="variable">context</span> <span class="operator">=</span> JMeterContextService.getContext();</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">threadNum</span> <span class="operator">=</span> <span class="number">0</span>; running &amp;&amp; threadNum &lt; numThreads; threadNum++) {</span><br><span class="line">                startNewThread(notifier, threadGroupTree, engine, threadNum, context, now, (<span class="type">int</span>)(threadNum * perThreadDelayInMillis));</span><br><span class="line">            }</span><br><span class="line">        }</span><br></pre></td></tr></tbody></table></figure>
+
+<ol>
+<li>首先是获取一个delayedStartup 的状态，这个表示的启动线程组的方式，是否是立即启动全部，还是说通过一个period 的周期来启动整个线程组</li>
+<li>如果delayedStartup是true 的话，那么就会先启动过一个叫<code>ThreadStarter</code> 的线程，通过它来启动过线程组</li>
+<li>反之就直接通过循环调用<code>startNewThread</code> 这个函数的方式来启动线程组</li>
+</ol>
+<p>###看一下 ThreadStarter 线程是怎么启动线程组的</p>
+<p>我们知道<code>JMeter</code>在启动线程组的时候是有设置<code>Ramp up period</code>的模式，整个就是通过<code>ThreadStarter</code>线程来实现的，我么简单看一下它的<code>run()</code> 函数是咋么工作的</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">int</span> <span class="variable">perThreadDelayInMillis</span> <span class="operator">=</span> Math.round((<span class="type">float</span>) (getRampUp() * <span class="number">1000</span>) / (<span class="type">float</span>) numThreads);</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">threadNumber</span> <span class="operator">=</span> <span class="number">0</span>; running &amp;&amp; threadNumber &lt; numThreads; threadNumber++) {</span><br><span class="line">                    <span class="keyword">if</span> (threadNumber &gt; <span class="number">0</span>) {</span><br><span class="line">                        pause(perThreadDelayInMillis); <span class="comment">// ramp-up delay (except first)</span></span><br><span class="line">                    }</span><br><span class="line">                    <span class="keyword">if</span> (usingScheduler &amp;&amp; System.currentTimeMillis() &gt; endtime) {</span><br><span class="line">                        <span class="keyword">break</span>; <span class="comment">// no point continuing beyond the end time</span></span><br><span class="line">                    }</span><br><span class="line">                    <span class="type">JMeterThread</span> <span class="variable">jmThread</span> <span class="operator">=</span> makeThread(notifier, threadGroupTree, engine, threadNumber, context);</span><br><span class="line">                    jmThread.setInitialDelay(<span class="number">0</span>);   <span class="comment">// Already waited</span></span><br></pre></td></tr></tbody></table></figure>
+
+<ol>
+<li>首先计算一下每个线程启动的时间等待间隔，<code>final int perThreadDelayInMillis = Math.round((float) (getRampUp() * 1000) / (float) numThreads);</code></li>
+<li>然后就是每次启动一个线程的时候，等待一下 <code> pause(perThreadDelayInMillis)</code></li>
+</ol>
+<h3 id="我们再看一下startNewThread-是怎么启动线程的"><a href="#我们再看一下startNewThread-是怎么启动线程的" class="headerlink" title="我们再看一下startNewThread 是怎么启动线程的"></a>我们再看一下startNewThread 是怎么启动线程的</h3><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> JMeterThread <span class="title function_">startNewThread</span><span class="params">(ListenerNotifier notifier, ListedHashTree threadGroupTree, StandardJMeterEngine engine,</span></span><br><span class="line"><span class="params">            <span class="type">int</span> threadNum, <span class="keyword">final</span> JMeterContext context, <span class="type">long</span> now, <span class="type">int</span> delay)</span> {</span><br><span class="line">        <span class="type">JMeterThread</span> <span class="variable">jmThread</span> <span class="operator">=</span> makeThread(notifier, threadGroupTree, engine, threadNum, context);</span><br><span class="line">        scheduleThread(jmThread, now); <span class="comment">// set start and end time</span></span><br><span class="line">        jmThread.setInitialDelay(delay);</span><br><span class="line">        <span class="type">Thread</span> <span class="variable">newThread</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(jmThread, jmThread.getThreadName());</span><br><span class="line">        registerStartedThread(jmThread, newThread);</span><br><span class="line">        newThread.start();</span><br><span class="line">        <span class="keyword">return</span> jmThread;</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>非常直观，创建一个<code>JMeterThread</code> 对象，做一些设置，然后放到一个<code>Thread</code> 里面跑就好了，<code>registerStartedThread(jmThread, newThread);</code> 这个调用是在<code>ThreadGroup</code>的一个Map 里把<code>JMeterThread</code>和真实的<code>Thread</code>关系存一下，方便后面的查找</p>
+<h3 id="JMeterThread"><a href="#JMeterThread" class="headerlink" title="JMeterThread"></a>JMeterThread</h3><p>最后我们来看一下核心的<code>JMeterThread</code> 工作线程是怎么work的。首先我们要找一个答案，它怎么处理‘Loop Count / Forever’ 的运行模式的</p>
+<p>我之前在设计依图自身的性能测试框架的时候对快问题采用的设计方式是通过<code>producer / consumer</code>的方式把系统解耦，通过一个 <code>Queue</code>来出来，所以对于<code>JMeter</code>的处理方式很好奇。看了代码发现 <code>JMeter</code>的实现非常简答，我们看一下<code>run</code> 函数头部的几个循环判断条件就能找到答案了</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> {</span><br><span class="line">        <span class="comment">// threadContext is not thread-safe, so keep within thread</span></span><br><span class="line">        <span class="type">JMeterContext</span> <span class="variable">threadContext</span> <span class="operator">=</span> JMeterContextService.getContext();</span><br><span class="line">        <span class="type">LoopIterationListener</span> <span class="variable">iterationListener</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            iterationListener = initRun(threadContext);</span><br><span class="line">            <span class="keyword">while</span> (running) {</span><br><span class="line">                <span class="type">Sampler</span> <span class="variable">sam</span> <span class="operator">=</span> threadGroupLoopController.next();</span><br><span class="line">                <span class="keyword">while</span> (running &amp;&amp; sam != <span class="literal">null</span>) {</span><br><span class="line">                    processSampler(sam, <span class="literal">null</span>, threadContext);</span><br><span class="line">                    threadContext.cleanAfterSample();</span><br></pre></td></tr></tbody></table></figure>
+
+<ol>
+<li><code>Sampler</code> 表示一次请求，每次通过<code>threadGroupLoopController.next()</code> 这个迭代器来获取下一个Sampler对象，当 sampler 不为空的时候就继续发请求</li>
+<li><code>threadGroupLoopController</code> 这个对象实际是一个<code>Controller</code>接口的具体实现, Controller 的实现有很多类型，我们可以在界面上选择，也可以在配置文件里面修改, 下面就是用了一个 <code>LoopController</code></li>
+</ol>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">elementProp</span> <span class="attr">name</span>=<span class="string">"ThreadGroup.main_controller"</span> <span class="attr">elementType</span>=<span class="string">"LoopController"</span> <span class="attr">guiclass</span>=<span class="string">"LoopControlPanel"</span> <span class="attr">testclass</span>=<span class="string">"LoopController"</span> <span class="attr">testname</span>=<span class="string">"Loop Controller"</span> <span class="attr">enabled</span>=<span class="string">"true"</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="3">
+<li>当controller对象的isDone判定为真的时候，就把<code>running</code>状态设置成False，那么这个<code>JMeterThread</code> 也就结束生命了</li>
+</ol>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">if (threadGroupLoopController.isDone()) {</span><br><span class="line">                    running = false;</span><br><span class="line">                    log.info("Thread is done: {}", threadName);</span><br><span class="line">                }</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="线程设计模型的更多思考"><a href="#线程设计模型的更多思考" class="headerlink" title="线程设计模型的更多思考"></a>线程设计模型的更多思考</h3><p>参考之前<code>Gatling</code>的使用来看，它对于并发模型本身的支持粒度非常细，例如支持恒定并发，恒定 QPS 等不同并发场景的设计</p>
+<p>我在自己设计 <code>Atom Integraion</code>的时候也希望这个框架能在并发模型支持的灵获性上做的更好，通过引入Queue 把 Scheduler 和 Load Generator 分离，我就可以通过写入 Queue 的速度来控制最终 Load Generator 的并发模型</p>
+<p>从以前使用 <code>JMeter</code>的经验来看，它对于并发模型的支持是比较有限的，从它目前的设计来看，整个系统的解耦做的是不太好的，首先每个<code>JMeterThread</code>的工作是独立的 , 虽然它们是共享同一个<code>threadGroupLoopController</code>对象，但是通过一个迭代器来控制并发的粒度，实在是有点难，不知道未来<code>JMeter</code> 开发团队对于并发模型支持这块会不会有更多的计划 。 这里只是我的一些愚见， 也欢迎大家留言和我讨论。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadGroup-start"><span class="toc-number">1.</span> <span class="toc-text">ThreadGroup.start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E5%86%8D%E7%9C%8B%E4%B8%80%E4%B8%8BstartNewThread-%E6%98%AF%E6%80%8E%E4%B9%88%E5%90%AF%E5%8A%A8%E7%BA%BF%E7%A8%8B%E7%9A%84"><span class="toc-number">2.</span> <span class="toc-text">我们再看一下startNewThread 是怎么启动线程的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMeterThread"><span class="toc-number">3.</span> <span class="toc-text">JMeterThread</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%9B%B4%E5%A4%9A%E6%80%9D%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">线程设计模型的更多思考</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/08/jmeter-thread-model/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;text=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;is_video=false&amp;description=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JMeter 源码解读 [7] - JMeter 线程模型&amp;body=Check out this article: http://markshao.github.io/2019/03/08/jmeter-thread-model/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;title=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;name=JMeter 源码解读 [7] - JMeter 线程模型&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/08/jmeter-thread-model/&amp;t=JMeter 源码解读 [7] - JMeter 线程模型"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+        var disqus_shortname = 'zaibaba';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>

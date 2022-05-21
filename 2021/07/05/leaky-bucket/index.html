@@ -1,0 +1,384 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="&amp;#x670D;&amp;#x52A1;&amp;#x6CBB;&amp;#x7406;&amp;#x7684;&amp;#x9762;&amp;#x8BD5;&amp;#x4E2D;&amp;#x5E38;&amp;#x88AB;&amp;#x95EE;&amp;#x5230;&amp;#xFF0C;&amp;#x9762;&amp;#x5BF9;&amp;#x7A81;&amp;#x53D1;&amp;#x6D41;&amp;#x91CF;&amp;#x5982;&amp;#x4F55;&amp;#x5E94;&amp;#x5BF9;&amp;#xFF0C;&amp;#x901A;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分析一个 rate-limiter 漏桶算法的实现机制">
+<meta property="og:url" content="http://markshao.github.io/2021/07/05/leaky-bucket/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="&amp;#x670D;&amp;#x52A1;&amp;#x6CBB;&amp;#x7406;&amp;#x7684;&amp;#x9762;&amp;#x8BD5;&amp;#x4E2D;&amp;#x5E38;&amp;#x88AB;&amp;#x95EE;&amp;#x5230;&amp;#xFF0C;&amp;#x9762;&amp;#x5BF9;&amp;#x7A81;&amp;#x53D1;&amp;#x6D41;&amp;#x91CF;&amp;#x5982;&amp;#x4F55;&amp;#x5E94;&amp;#x5BF9;&amp;#xFF0C;&amp;#x901A;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://markshao.github.io/2021/07/05/leaky-bucket/leaky-bucket.png">
+<meta property="og:image" content="http://markshao.github.io/2021/07/05/leaky-bucket/leaky_bucket_theory.png">
+<meta property="article:published_time" content="2021-07-05T14:15:11.000Z">
+<meta property="article:modified_time" content="2022-05-18T08:55:05.900Z">
+<meta property="article:author" content="妞爸爸">
+<meta property="article:tag" content="服务治理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://markshao.github.io/2021/07/05/leaky-bucket/leaky-bucket.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>分析一个 rate-limiter 漏桶算法的实现机制</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/06/25/lsm-tree/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2021/07/05/leaky-bucket/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;text=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;is_video=false&amp;description=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=分析一个 rate-limiter 漏桶算法的实现机制&amp;body=Check out this article: http://markshao.github.io/2021/07/05/leaky-bucket/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;name=分析一个 rate-limiter 漏桶算法的实现机制&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;t=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">漏桶算法原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%A6%81%E7%B4%A0"><span class="toc-number">2.</span> <span class="toc-text">核心要素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Time-%E6%97%B6%E5%BA%8F"><span class="toc-number">2.1.</span> <span class="toc-text">Time 时序</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E8%AF%B4%E6%98%8E"><span class="toc-number">3.1.</span> <span class="toc-text">原理说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        分析一个 rate-limiter 漏桶算法的实现机制
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-07-05T14:15:11.000Z" itemprop="datePublished">2021-07-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86/" rel="tag">服务治理</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>服务治理的面试中常被问到，面对突发流量如何应对，通常都是回答限流或则降级。再追问一句限流算法有哪些，通常都是会说令牌桶或者漏桶算法。原理说说容易，但到了实现层面，大多是找一个现成的开源实现，例如 <a target="_blank" rel="noopener" href="https://github.com/uber-go/ratelimit">uber-go/ratelimit: A Golang blocking leaky-bucket rate limit implementation (github.com)</a> 。今天花了一点时间认真研究了一个限流算法的实现，记录下来免得日后忘了。</p>
+<h3 id="漏桶算法原理"><a href="#漏桶算法原理" class="headerlink" title="漏桶算法原理"></a>漏桶算法原理</h3><p><code>漏桶算法</code> 原理本身非常好理解，有一个用来盛水的桶，下面有一个开口。上方自来水龙头表示 <code>请求</code>，请求可以任意速率加入到桶里，但下面的小空保证了桶内的水会以恒定的速率往下漏 (表示具体访问到业务层) 。 如果自来水的流水速度超过了下漏的速率，就会从桶溢出 (表示抛弃这个请求)，具体看下图</p>
+<p><img src="/2021/07/05/leaky-bucket/leaky-bucket.png" alt="leak-bucket"></p>
+<p>漏桶算法的主要作用是削峰，无论外部请求以怎样的速率 (QPS) 进来，总是能够以恒定的速率来访问下游的服务，起到对服务保护的作用。</p>
+<h3 id="核心要素"><a href="#核心要素" class="headerlink" title="核心要素"></a>核心要素</h3><p>在分析具体实现前，我们先看下漏桶算法的核心要素有哪些。首先有2个关键的系数，<code>capacity</code>  表示桶的容量，当<code>capacity </code> 满了的时候，就会抛弃这些请求。另外一个是 <code>leak_rate</code>  下漏的速率，通常单位可以是 req/s ，表示每秒放过多少 request 到下游</p>
+<h4 id="Time-时序"><a href="#Time-时序" class="headerlink" title="Time 时序"></a>Time 时序</h4><p>除了 <code>capacity</code>  和 <code>leak_rate</code> , 有一个最容易遗漏的概念就是 (timestamp)，<code>漏桶算法</code> 的背后也是一个时序 (time-series) 的模型，因为请求是按照时间先后进来的，漏出自然也会根据时间先后来漏出。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>这里全程都用 python 来做代码实现。假设我们在一个 python 的 webserver 上希望通过漏桶算法实现限流，大概的实现是这样的:</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">request_handler</span>(<span class="params">self</span>):</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> leak_bucket.acquire():</span><br><span class="line">        <span class="comment"># "漏出" 通过，开始处理业务</span></span><br><span class="line">        <span class="comment"># 桶没有满，先阻塞排队等 "漏出"</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 桶满了，直接抛弃当前请求</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>今天这个实现会比较特殊，不考虑 <code>capacity</code>  的情况，分两个场景</p>
+<ol>
+<li>可以漏出</li>
+<li>不能漏出，阻塞继续排队等或者直接抛弃</li>
+</ol>
+<p>先来看这个 <code>LeakBucket </code>  的设计</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LeakyBucket</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, leaky_rate</span>):</span><br><span class="line">        self.leaky_rate = <span class="built_in">float</span>(leaky_rate)  <span class="comment"># 漏出速度</span></span><br><span class="line">        self._que = []  <span class="comment"># 请求时间队列</span></span><br><span class="line">        self._lock = threading.RLock()</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里主要是用了 self._que 来存储请求时间的队列，按照请求时间的先后顺序依次插入。加了一个<code>self._lock</code> 用来处理多线程场景下的数据一致性。</p>
+<h4 id="原理说明"><a href="#原理说明" class="headerlink" title="原理说明"></a>原理说明</h4><p>先看下核心函数 <code>acquire</code> 的实现,</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">acquire</span>(<span class="params">self, block=<span class="literal">True</span></span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    args:</span></span><br><span class="line"><span class="string">        block: 是否阻塞直到可以请求</span></span><br><span class="line"><span class="string">    returns:</span></span><br><span class="line"><span class="string">        - 是否可以请求</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    now = time()</span><br><span class="line">    volume = self.size()</span><br><span class="line">    <span class="keyword">with</span> self._lock:</span><br><span class="line">        <span class="keyword">if</span> volume &gt;= self.leaky_rate:  <span class="comment"># 容量已满需要清理已漏出请求</span></span><br><span class="line">            pre_tick = now - <span class="number">1</span>  <span class="comment"># 上一个时间窗口, 默认单位为秒</span></span><br><span class="line">            item_count, remaining_time = self.inspect_expired_items(pre_tick)</span><br><span class="line">            <span class="keyword">if</span> item_count &gt;= self.leaky_rate:  <span class="comment"># 上个周期请求已超限</span></span><br><span class="line">                <span class="keyword">if</span> block:</span><br><span class="line">                    sleep(remaining_time)  <span class="comment"># 等到出现一个空位</span></span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">'Bucket Full, sleep {} seconds'</span>.<span class="built_in">format</span>(remaining_time))</span><br><span class="line">                    <span class="keyword">return</span> self.acquire()  <span class="comment"># 再次尝试</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">            self._que[:volume - item_count] = []  <span class="comment"># 清除上个周期数据</span></span><br><span class="line">        self._que.append(now)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>再结合下面这个原理图，尝试做下分析。</p>
+<p><img src="/2021/07/05/leaky-bucket/leaky_bucket_theory.png" alt="leak-bucket-theory"></p>
+<p>因为是一个新的请求，所以它的时序就是 <code>now</code> 当前最新时间。<code>volume</code> 表示当前 <code>queue</code>  的长度。这里加了一把锁是用于多线程的场景，锁的粒度有点大，先不管了。</p>
+<p>首先看判断 <code>if volume &gt;= self.leaky_rate</code>, 如果 volume  没有 leaky_rate 大，表示当前桶没满，且可以字节漏出，那就在第22行，把自己 append 到 queue 中，然后直接返回 <code>True</code>  就好了。</p>
+<p>反之，表示容量是超过漏出的速率的，我们看到这个时候，是通过 <code>pre_tick</code> 来获取前一秒时间窗口，通过 <code>self.inspect_expired_items(pre_tick)</code>  这个函数来获取哪些请求已经漏出了，这里我们看下 <code>inspect_expired_items</code>  这个函数的实现</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">inspect_expired_items</span>(<span class="params">self, time: <span class="built_in">int</span></span>):</span><br><span class="line">    <span class="string">"""检查已经漏出的请求</span></span><br><span class="line"><span class="string">    args:</span></span><br><span class="line"><span class="string">        time: 上一个时间窗口, 默认是秒</span></span><br><span class="line"><span class="string">    returns:</span></span><br><span class="line"><span class="string">        item_count: 已漏出的请求个数</span></span><br><span class="line"><span class="string">        remaining_time: 第一个未漏出请求的剩余时间</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    volume = self.size()</span><br><span class="line">    item_count, remaining_time = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> log_idx, log_item <span class="keyword">in</span> <span class="built_in">enumerate</span>(self._que):</span><br><span class="line">        <span class="keyword">if</span> log_item &gt; time:</span><br><span class="line">            item_count = volume - log_idx</span><br><span class="line">            remaining_time = log_item - time</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> item_count, remaining_time</span><br></pre></td></tr></tbody></table></figure>
+
+<p>它的主要作用就是遍历整个 queue 找到时序比传入的时间参数大的第一个请求，通过 <code>volume - log_idx</code> 计算有多少个请求应该漏出了 (注意这里是应该，而不是已经)，另外第一个未漏出请求的剩余时间。(这里大家可能会和我有一样的质疑，为啥 &gt; time 就表示还未漏出，这里后面会介绍)。</p>
+<p>再回到 <code>acquire</code>  函数的第15行，如果 <code>item_count &gt; leak_rate</code>  表示这些应该漏出的请求也还在排队，那我们就等一个最小时间 <code>remaining_time</code>, 然后继续通过递归来判断是否可以漏出了。</p>
+<p>我们最后看下 22 行，这里是当我们判断可以漏出的时候，会把之前的数据清除掉，这就回答了前面的问题，为啥在<code>inspect_expired_items</code> 里只要判断时序大于参数 time 就可以表示应该漏出了。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>写的听绕的，😅</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">漏桶算法原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%A6%81%E7%B4%A0"><span class="toc-number">2.</span> <span class="toc-text">核心要素</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Time-%E6%97%B6%E5%BA%8F"><span class="toc-number">2.1.</span> <span class="toc-text">Time 时序</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E8%AF%B4%E6%98%8E"><span class="toc-number">3.1.</span> <span class="toc-text">原理说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2021/07/05/leaky-bucket/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;text=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;is_video=false&amp;description=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=分析一个 rate-limiter 漏桶算法的实现机制&amp;body=Check out this article: http://markshao.github.io/2021/07/05/leaky-bucket/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;title=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;name=分析一个 rate-limiter 漏桶算法的实现机制&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2021/07/05/leaky-bucket/&amp;t=分析一个 rate-limiter 漏桶算法的实现机制"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+        var disqus_shortname = 'zaibaba';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>

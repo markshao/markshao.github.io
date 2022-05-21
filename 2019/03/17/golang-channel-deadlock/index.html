@@ -1,0 +1,405 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x5F00;&amp;#x542F;&amp;#x4E86;19&amp;#x5E74;&amp;#x7B2C;&amp;#x4E8C;&amp;#x4E2A;&amp;#x91CD;&amp;#x8981;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF0C;Go Lang&amp;#x7684;&amp;#x5B66;&amp;#x4E60;&amp;#xFF0C;&amp;#x5982;&amp;#x679C;&amp;#x4E4B;&amp;#x524D;&amp;#x53EA;&amp;#x662F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang channel 使用不当导致的 deadlock">
+<meta property="og:url" content="http://markshao.github.io/2019/03/17/golang-channel-deadlock/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x5F00;&amp;#x542F;&amp;#x4E86;19&amp;#x5E74;&amp;#x7B2C;&amp;#x4E8C;&amp;#x4E2A;&amp;#x91CD;&amp;#x8981;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF0C;Go Lang&amp;#x7684;&amp;#x5B66;&amp;#x4E60;&amp;#xFF0C;&amp;#x5982;&amp;#x679C;&amp;#x4E4B;&amp;#x524D;&amp;#x53EA;&amp;#x662F">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-17T13:57:40.000Z">
+<meta property="article:modified_time" content="2022-05-18T08:55:05.890Z">
+<meta property="article:author" content="妞爸爸">
+<meta property="article:tag" content="goroutine">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>golang channel 使用不当导致的 deadlock</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/03/21/golang-interview-problem-1/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/03/12/distributed-code-analysis/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/17/golang-channel-deadlock/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;text=golang channel 使用不当导致的 deadlock"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;is_video=false&amp;description=golang channel 使用不当导致的 deadlock"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=golang channel 使用不当导致的 deadlock&amp;body=Check out this article: http://markshao.github.io/2019/03/17/golang-channel-deadlock/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;name=golang channel 使用不当导致的 deadlock&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;t=golang channel 使用不当导致的 deadlock"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">主函数</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%91"><span class="toc-number"></span> <span class="toc-text">坑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#all-goroutines-are-asleep-deadlock"><span class="toc-number">1.</span> <span class="toc-text">all goroutines are asleep - deadlock!</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%88%90%E4%B8%A4%E4%B8%AAgoroutine-%E7%9A%84%E6%A8%A1%E5%BC%8F%E5%B0%B1%E6%B2%A1%E9%97%AE%E9%A2%98%E4%BA%86"><span class="toc-number">2.</span> <span class="toc-text">修改成两个goroutine 的模式就没问题了</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%8F%88hang%E4%BD%8F%E4%BA%86"><span class="toc-number">3.</span> <span class="toc-text">程序又hang住了</span></a></li></ol>
+    </li></div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        golang channel 使用不当导致的 deadlock
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-17T13:57:40.000Z" itemprop="datePublished">2019-03-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/golang/">golang</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/goroutine/" rel="tag">goroutine</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近开启了19年第二个重要任务，<code>Go Lang</code>的学习，如果之前只是因为个人爱好的话，现在是因为<code>chaos monkey</code>很多都是用<code>Go Lang</code>写的，不得不要抓紧完成这块知识的短板了</p>
+<p>今天尝试用<code>goroutine</code> + <code>channel</code>的方式实现一个简单的下载豆瓣图书图片的工作，好像我特别喜欢拿豆瓣来做实验，哈哈，希望豆瓣的同学看到了不要生气</p>
+<p>##实现逻辑</p>
+<p>代码逻辑其实非常简单，这个要感谢豆瓣的非常 Restful 的 url , 让我可以不用通过 parse HTML 来获取图片链接，直接遍历 id 即可 ,因 为 url 都非常简单 [<a target="_blank" rel="noopener" href="https://img1.doubanio.com/view/subject/l/public/s10000000.jpg]">https://img1.doubanio.com/view/subject/l/public/s10000000.jpg]</a> , 这里再次感谢豆瓣，哈。</p>
+<h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><p>main 的处理逻辑如下</p>
+<ol>
+<li>创建 N 个 go routine</li>
+<li>通过 一个 task channel ，来创建不同的下载任务，实际就是自增的方式生成新的下载 url</li>
+<li>通过一个 result 的channel ，获取 go routine 的任务执行结果</li>
+<li>等所有任务结束后，通过一个</li>
+</ol>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> {</span><br><span class="line">	<span class="comment">//fmt.Println("start crawl the douban site")</span></span><br><span class="line">	init_directory()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// init the main process variables</span></span><br><span class="line">	quit := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, goRoutineSize)</span><br><span class="line">	task := <span class="built_in">make</span>(<span class="keyword">chan</span> ImageTask, goRoutineSize)</span><br><span class="line">	result := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, taskNumber)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// init the goroutine</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; goRoutineSize; i++ {</span><br><span class="line">		spider(task, result, quit)</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="comment">// init the task</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; taskNumber; i++ {</span><br><span class="line">		taskId := taskOffsize + i</span><br><span class="line">		url := fmt.Sprintf(<span class="string">"https://img1.doubanio.com/view/subject/l/public/s%d.jpg"</span>, taskId)</span><br><span class="line">		task &lt;- ImageTask{url: url, tid: taskId}</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="comment">// wait all the goroutine done</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; taskNumber; i++ {</span><br><span class="line">		&lt;-result</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; goRoutineSize; i++ {</span><br><span class="line">		quit &lt;- <span class="number">1</span></span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="built_in">close</span>(quit)</span><br><span class="line">	<span class="built_in">close</span>(result)</span><br><span class="line">	<span class="built_in">close</span>(task)</span><br><span class="line">	fmt.Println(<span class="string">"finish the task"</span>)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>看似简单的代码，实际上在<code>channel</code>上👎了很多次坑</p>
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><h3 id="all-goroutines-are-asleep-deadlock"><a href="#all-goroutines-are-asleep-deadlock" class="headerlink" title="all goroutines are asleep - deadlock!"></a>all goroutines are asleep - deadlock!</h3><p>一开始没有用带buffer 的channel ，就发生了<code>all goroutines are asleep - deadlock!</code>, 感觉很奇怪，google 了半边天发现这个是一个典型的<code>channel</code>用法错误，尝试做一个非常简单的实验，看起来是不会有任何问题的代码</p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> {</span><br><span class="line">	fmt.Println(<span class="string">"start main2"</span>)</span><br><span class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	ch &lt;- <span class="number">1</span></span><br><span class="line">	fmt.Println(&lt;-ch)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>运行的结果还是老样子</p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line">fatal <span class="type">error</span>: all goroutines are asleep - deadlock!</span><br><span class="line"></span><br><span class="line">goroutine <span class="number">1</span> [<span class="keyword">chan</span> send]:</span><br><span class="line">main.main()</span><br><span class="line">	/Users/ylshao/code/lab/douban_spider/src/github.com/markshao/main2.<span class="keyword">go</span>:<span class="number">9</span> +<span class="number">0xbc</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后发现[这篇文章][<a target="_blank" rel="noopener" href="https://my.oschina.net/u/157514/blog/149192]%E8%A7%A3%E9%87%8A%E7%9A%84%E6%AF%94%E8%BE%83%E6%B8%85,%E8%BF%99%E9%87%8C%E7%9A%84%E9%97%AE%E9%A2%98%E5%B0%B1%E6%98%AF%E5%A4%84%E5%9C%A8%E6%B2%A1%E6%9C%89buffer">https://my.oschina.net/u/157514/blog/149192]解释的比较清,这里的问题就是处在没有buffer</a> 的channel 上，上面这个例子里，没有buffer 的channel 当你写入的时候，它就会block，直到有另外一个线程拿走这个item，由于我们没有用goroutine，等于说master 的goroutine 就被整个锁住了，也就为什么go runtime 会报 deadlock的问题，</p>
+<h3 id="修改成两个goroutine-的模式就没问题了"><a href="#修改成两个goroutine-的模式就没问题了" class="headerlink" title="修改成两个goroutine 的模式就没问题了"></a>修改成两个goroutine 的模式就没问题了</h3><figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> {</span><br><span class="line">	fmt.Println(<span class="string">"start main2"</span>)</span><br><span class="line">	ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> {</span><br><span class="line">		ch &lt;- <span class="number">1</span></span><br><span class="line">	}()</span><br><span class="line"></span><br><span class="line">	fmt.Println(&lt;-ch)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">start main2</span><br><span class="line">1</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="程序又hang住了"><a href="#程序又hang住了" class="headerlink" title="程序又hang住了"></a>程序又hang住了</h3><p>上面一个问题解了以后，我把channel改成了这样</p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">// goRoutineSize = 10</span></span><br><span class="line"><span class="comment">// taskNumber = 50</span></span><br><span class="line">quit := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, goRoutineSize) </span><br><span class="line">task := <span class="built_in">make</span>(<span class="keyword">chan</span> ImageTask, goRoutineSize)</span><br><span class="line">result := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, goRoutineSize)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里<code>goRoutineSize</code>表示创建的协程数量，另外还有一个<code>taskNumber</code>表示任务数量，但是一运行又hang住了，我怀疑还是hang 在了channel 上面，先看一下 worker 的<code>go routine</code>的逻辑</p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">spider</span><span class="params">(task <span class="keyword">chan</span> ImageTask, result, quit <span class="keyword">chan</span> <span class="type">int</span>)</span></span> {</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> {</span><br><span class="line">		<span class="keyword">for</span> {</span><br><span class="line">			<span class="keyword">select</span> {</span><br><span class="line">			<span class="keyword">case</span> t := &lt;-task:</span><br><span class="line">				downloadImage(t)</span><br><span class="line">				result &lt;- <span class="number">1</span></span><br><span class="line">				fmt.Printf(<span class="string">"finish downloa the task %v \n"</span>, t)</span><br><span class="line">			<span class="keyword">case</span> &lt;-quit:</span><br><span class="line">				fmt.Println(<span class="string">"finish the go routine"</span>)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				time.Sleep(<span class="number">50</span> * time.Microsecond)</span><br><span class="line">			}</span><br><span class="line">		}</span><br><span class="line">	}()</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>怀疑是<code>result &lt;- 1 </code>这里block了，尝试分解一下程序的运行</p>
+<ol>
+<li>先创建10 个 <code>go routine</code>, task channel 的 buffer 就是 10</li>
+<li>然后master goroutine 朝 task 里面写入 50 个task，实际是要等 worker 分批拿走任务才能再写入的</li>
+<li><strong>worker 做完任务后，会写入 result ，但是这里 result 的buffer 是 10，所以一旦写满，worker 就会block 在 <code>result &lt;- 1</code> 上，这样他们就不会去获取<code>task</code> , 然后外部就会block 在 <code>task &lt;- …</code>上，整体就hang住了</strong></li>
+</ol>
+<p>修改的方式就很简单了,result 的 buffer size 改成 taskNumber 就好了</p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line">quit := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, goRoutineSize)</span><br><span class="line">	task := <span class="built_in">make</span>(<span class="keyword">chan</span> ImageTask, goRoutineSize)</span><br><span class="line">	result := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, taskNumber)</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>所以说虽然都说go 的并发好写，但是要把channel 理解好，用好，真是任重道远 </p>
+<p>[<a target="_blank" rel="noopener" href="https://my.oschina.net/u/157514/blog/149192%EF%BC%89]">https://my.oschina.net/u/157514/blog/149192）]</a>: </p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">主函数</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%91"><span class="toc-number"></span> <span class="toc-text">坑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#all-goroutines-are-asleep-deadlock"><span class="toc-number">1.</span> <span class="toc-text">all goroutines are asleep - deadlock!</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%88%90%E4%B8%A4%E4%B8%AAgoroutine-%E7%9A%84%E6%A8%A1%E5%BC%8F%E5%B0%B1%E6%B2%A1%E9%97%AE%E9%A2%98%E4%BA%86"><span class="toc-number">2.</span> <span class="toc-text">修改成两个goroutine 的模式就没问题了</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%8F%88hang%E4%BD%8F%E4%BA%86"><span class="toc-number">3.</span> <span class="toc-text">程序又hang住了</span></a></li></ol>
+    </li></div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/17/golang-channel-deadlock/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;text=golang channel 使用不当导致的 deadlock"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;is_video=false&amp;description=golang channel 使用不当导致的 deadlock"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=golang channel 使用不当导致的 deadlock&amp;body=Check out this article: http://markshao.github.io/2019/03/17/golang-channel-deadlock/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;title=golang channel 使用不当导致的 deadlock"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;name=golang channel 使用不当导致的 deadlock&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/17/golang-channel-deadlock/&amp;t=golang channel 使用不当导致的 deadlock"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+        var disqus_shortname = 'zaibaba';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>

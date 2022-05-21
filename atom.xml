@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>小法@兵工厂</title>
+  
+  <subtitle>记录工作生活中的点滴思考</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://markshao.github.io/"/>
+  <updated>2022-05-18T08:55:05.900Z</updated>
+  <id>http://markshao.github.io/</id>
+  
+  <author>
+    <name>妞爸爸</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>分析一个 rate-limiter 漏桶算法的实现机制</title>
+    <link href="http://markshao.github.io/2021/07/05/leaky-bucket/"/>
+    <id>http://markshao.github.io/2021/07/05/leaky-bucket/</id>
+    <published>2021-07-05T14:15:11.000Z</published>
+    <updated>2022-05-18T08:55:05.900Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x670D;&amp;#x52A1;&amp;#x6CBB;&amp;#x7406;&amp;#x7684;&amp;#x9762;&amp;#x8BD5;&amp;#x4E2D;&amp;#x5E38;&amp;#x88AB;&amp;#x95EE;&amp;#x5230;&amp;#xFF0C;&amp;#x9762;&amp;#x5BF9;&amp;#x7A81;&amp;#x53D1;&amp;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="服务治理" scheme="http://markshao.github.io/tags/%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解 LSM 树: 用于多写场景下的数据库实现</title>
+    <link href="http://markshao.github.io/2021/06/25/lsm-tree/"/>
+    <id>http://markshao.github.io/2021/06/25/lsm-tree/</id>
+    <published>2021-06-25T14:32:00.000Z</published>
+    <updated>2022-05-18T08:55:05.895Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;&amp;#x672C;&amp;#x6587;&amp;#x7FFB;&amp;#x8BD1;&amp;#x81EA; &amp;#x201C;&lt;a href=&quot;https://yetanotherdevblog.com/dense-vs-sparse-indexes/&quot;&gt;What are
+        
+      
+    
+    </summary>
+    
+      <category term="存储小白" scheme="http://markshao.github.io/categories/%E5%AD%98%E5%82%A8%E5%B0%8F%E7%99%BD/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [5] - pytest 是如何测试 pytest 的</title>
+    <link href="http://markshao.github.io/2021/06/05/pytester/"/>
+    <id>http://markshao.github.io/2021/06/05/pytester/</id>
+    <published>2021-06-05T07:18:11.000Z</published>
+    <updated>2022-05-18T08:55:05.895Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x4EC0;&amp;#x4E48;&amp;#x53EB;&amp;#x7528; pytest &amp;#x6765;&amp;#x6D4B;&amp;#x8BD5; pytest
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Blog 重生记</title>
+    <link href="http://markshao.github.io/2021/05/29/blog-renew-log/"/>
+    <id>http://markshao.github.io/2021/05/29/blog-renew-log/</id>
+    <published>2021-05-29T15:04:41.000Z</published>
+    <updated>2022-05-18T08:55:05.893Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x200B;	19&amp;#x5E74;&amp;#x7B97;&amp;#x662F;&amp;#x535A;&amp;#x5BA2;&amp;#x6700;&amp;#x9AD8;&amp;#x4EA7;&amp;#x7684;&amp;#x4E00;&amp;#x5E74;&amp;#x4E86;&amp;#xFF0C;&amp;#x6709;&amp;#x4E9B;&amp;#x4E1
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [4] - pluggy &quot;_HookCall&quot; 调用链分析</title>
+    <link href="http://markshao.github.io/2019/10/05/hook-caller-logic/"/>
+    <id>http://markshao.github.io/2019/10/05/hook-caller-logic/</id>
+    <published>2019-10-05T09:13:32.000Z</published>
+    <updated>2022-05-18T08:55:05.893Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x6211;&amp;#x4EEC;&amp;#x77E5;&amp;#x9053;&lt;code&gt;pm.hook.xxx(**kwargs)&lt;/code&gt;&amp;#x3000;&amp;#xFF0C;&amp;#x6700;&amp;#x540E;&amp;#x5B9E;&amp;#x9645;&amp;#x662F;&amp;#x8C03;&amp;#x7528
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [3] - [pluggy] plugin 注册逻辑分析</title>
+    <link href="http://markshao.github.io/2019/10/03/register-pluggy/"/>
+    <id>http://markshao.github.io/2019/10/03/register-pluggy/</id>
+    <published>2019-10-03T01:41:56.000Z</published>
+    <updated>2022-05-18T08:55:05.893Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4EEC;&amp;#x518D;&amp;#x4ED4;&amp;#x7EC6;&amp;#x5206;&amp;#x6790;&amp;#x4E00;&amp;#x4E0B; &lt;code&gt;plugin&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构</title>
+    <link href="http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/"/>
+    <id>http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/</id>
+    <published>2019-10-02T02:04:28.000Z</published>
+    <updated>2022-05-18T08:55:05.893Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;&amp;#x4EE3;&amp;#x7801;&amp;#x7ED3;&amp;#x6784;&quot;&gt;&lt;a href=&quot;#&amp;#x4EE3;&amp;#x7801;&amp;#x7ED3;&amp;#x6784;&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [1] - [pluggy] 插件框架介绍</title>
+    <link href="http://markshao.github.io/2019/10/01/pluggy-guideline/"/>
+    <id>http://markshao.github.io/2019/10/01/pluggy-guideline/</id>
+    <published>2019-10-01T09:15:25.000Z</published>
+    <updated>2022-05-18T08:55:05.893Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;&amp;#x524D;&amp;#x8A00;&quot;&gt;&lt;a href=&quot;#&amp;#x524D;&amp;#x8A00;&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [0] - Kickoff 篇</title>
+    <link href="http://markshao.github.io/2019/08/10/pytest-source-analysis/"/>
+    <id>http://markshao.github.io/2019/08/10/pytest-source-analysis/</id>
+    <published>2019-08-10T13:31:41.000Z</published>
+    <updated>2022-05-18T08:55:05.893Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;Pytest-&amp;#x6E90;&amp;#x7801;&amp;#x89E3;&amp;#x8BFB;&quot;&gt;&lt;a href=&quot;#Pytest-&amp;#x6E90;&amp;#x7801;&amp;#x89E3;&amp;#x8BFB;&quot; class=&quot;headerlink&quot; title=&quot;Pytest
+        
+      
+    
+    </summary>
+    
+      <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+      <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>愚人节澳门游记</title>
+    <link href="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/"/>
+    <id>http://markshao.github.io/2019/04/07/yurenjie-macau-youji/</id>
+    <published>2019-04-07T12:52:01.000Z</published>
+    <updated>2022-05-18T08:55:05.890Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x501F;&amp;#x7740;&amp;#x5AB3;&amp;#x5987;&amp;#x513F;&amp;#x7ED9;&amp;#x8001;&amp;#x4E08;&amp;#x4EBA;&amp;#x5E86;&amp;#x795D;&amp;#x751F;&amp;#x65E5;&amp;#x7684;&amp;#x673A;&amp;#x4F1A;&amp;#xFF0C;&amp;
+        
+      
+    
+    </summary>
+    
+      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>第一次用 Golang 出面试题小记</title>
+    <link href="http://markshao.github.io/2019/03/21/golang-interview-problem-1/"/>
+    <id>http://markshao.github.io/2019/03/21/golang-interview-problem-1/</id>
+    <published>2019-03-21T06:38:06.000Z</published>
+    <updated>2022-05-18T08:55:05.890Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x6700;&amp;#x8FD1;&amp;#x4E00;&amp;#x76F4;&amp;#x5728;&amp;#x5B66;&amp;#x4E60; &lt;code&gt;Golang&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="golang" scheme="http://markshao.github.io/categories/golang/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>golang channel 使用不当导致的 deadlock</title>
+    <link href="http://markshao.github.io/2019/03/17/golang-channel-deadlock/"/>
+    <id>http://markshao.github.io/2019/03/17/golang-channel-deadlock/</id>
+    <published>2019-03-17T13:57:40.000Z</published>
+    <updated>2022-05-18T08:55:05.890Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x6700;&amp;#x8FD1;&amp;#x5F00;&amp;#x542F;&amp;#x4E86;19&amp;#x5E74;&amp;#x7B2C;&amp;#x4E8C;&amp;#x4E2A;&amp;#x91CD;&amp;#x8981;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF0C;&lt;code&gt;Go
+        
+      
+    
+    </summary>
+    
+      <category term="golang" scheme="http://markshao.github.io/categories/golang/"/>
+    
+    
+      <category term="goroutine" scheme="http://markshao.github.io/tags/goroutine/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JMeter 源码解读 [10] - 分布式核心类</title>
+    <link href="http://markshao.github.io/2019/03/12/distributed-code-analysis/"/>
+    <id>http://markshao.github.io/2019/03/12/distributed-code-analysis/</id>
+    <published>2019-03-12T14:11:38.000Z</published>
+    <updated>2022-05-18T08:55:05.890Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x4E0A;&amp;#x6B21;&amp;#x6211;&amp;#x4EEC;&amp;#x5DF2;&amp;#x7ECF;&amp;#x5206;&amp;#x6790;&amp;#x4E86;&amp;#x4E00;&amp;#x4E0B;&lt;code&gt;JMeter&lt;/code&gt;&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x5F0
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JMeter 源码解读 [9] - 分布式架构</title>
+    <link href="http://markshao.github.io/2019/03/12/distributed-architecture/"/>
+    <id>http://markshao.github.io/2019/03/12/distributed-architecture/</id>
+    <published>2019-03-12T13:47:04.000Z</published>
+    <updated>2022-05-18T08:55:05.890Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;JMeter-&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x6A21;&amp;#x5F0F;&quot;&gt;&lt;a href=&quot;#JMeter-&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x6A21;&amp;#x5F0F;&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>macOS Mojave 上安装 python mysql module 遇到小坑</title>
+    <link href="http://markshao.github.io/2019/03/11/install-mysqldb/"/>
+    <id>http://markshao.github.io/2019/03/11/install-mysqldb/</id>
+    <published>2019-03-11T13:16:37.000Z</published>
+    <updated>2022-05-18T08:55:05.890Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x516C;&amp;#x53F8;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x9879;&amp;#x76EE;&amp;#x9700;&amp;#x8981;&amp;#x5B89;&amp;#x88C5;&lt;code&gt;mysqlclient==1.3.12&lt;/code&gt;&amp;#x7684;&amp;#x6A21;&amp;
+        
+      
+    
+    </summary>
+    
+      <category term="技术大杂烩" scheme="http://markshao.github.io/categories/%E6%8A%80%E6%9C%AF%E5%A4%A7%E6%9D%82%E7%83%A9/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JMeter 源码解读 [8] - BeanShell Server</title>
+    <link href="http://markshao.github.io/2019/03/10/beanshell-server/"/>
+    <id>http://markshao.github.io/2019/03/10/beanshell-server/</id>
+    <published>2019-03-10T13:33:17.000Z</published>
+    <updated>2022-05-18T08:55:05.890Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x4E0A;&amp;#x4E00;&amp;#x6B21;&amp;#x5728;&amp;#x5206;&amp;#x6790; JMeter &amp;#x6838;&amp;#x5FC3;&amp;#x7C7B;&amp;#x7684;&amp;#x65F6;&amp;#x5019; (&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>&lt;绿皮书&gt; 观后小感</title>
+    <link href="http://markshao.github.io/2019/03/09/green-cover-book/"/>
+    <id>http://markshao.github.io/2019/03/09/green-cover-book/</id>
+    <published>2019-03-09T09:26:10.000Z</published>
+    <updated>2022-05-18T08:55:05.889Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x5F88;&amp;#x4E45;&amp;#x6CA1;&amp;#x6709;&amp;#x770B;&amp;#x6587;&amp;#x827A;&amp;#x7247;&amp;#x4E86;&amp;#xFF0C;&amp;#x5728;&amp;#x6211;&amp;#x8FD9;&amp;#x4E2A;&amp;#x5E73;&amp;#x65F6;&amp;#x5F88;&amp;
+        
+      
+    
+    </summary>
+    
+      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="电影" scheme="http://markshao.github.io/tags/%E7%94%B5%E5%BD%B1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019 生活 OKR</title>
+    <link href="http://markshao.github.io/2019/03/08/2019-objectives/"/>
+    <id>http://markshao.github.io/2019/03/08/2019-objectives/</id>
+    <published>2019-03-08T14:11:42.000Z</published>
+    <updated>2022-05-18T08:55:05.886Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x8FD9;&amp;#x5468;&amp;#x5728;&amp;#x5317;&amp;#x4EAC;&amp;#x548C;&amp;#x8001;&amp;#x677F;&amp;#x5BF9;&amp;#x9F50;&amp;#x4E86;&amp;#x63A5;&amp;#x4E0B;&amp;#x6765;&amp;#x53CC;&amp;#x6708;&amp;#x7684;
+        
+      
+    
+    </summary>
+    
+      <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JMeter 源码解读 [7] - JMeter 线程模型</title>
+    <link href="http://markshao.github.io/2019/03/08/jmeter-thread-model/"/>
+    <id>http://markshao.github.io/2019/03/08/jmeter-thread-model/</id>
+    <published>2019-03-08T09:40:31.000Z</published>
+    <updated>2022-05-18T08:55:05.889Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;code&gt;JMeter&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JMeter 源码解读 [6] - 核心类 org.apache.jmeter.engine.StandardJMeterEngine</title>
+    <link href="http://markshao.github.io/2019/03/07/StandardJMeterEngine/"/>
+    <id>http://markshao.github.io/2019/03/07/StandardJMeterEngine/</id>
+    <published>2019-03-07T14:50:48.000Z</published>
+    <updated>2022-05-18T08:55:05.886Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&amp;#x6211;&amp;#x4EEC;&amp;#x8D8A;&amp;#x6765;&amp;#x7EA6;&amp;#x8D8A;&amp;#x63A5;&amp;#x8FD1; &lt;code&gt;JMeter&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+</feed>

@@ -1,0 +1,376 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="&amp;#x4E0A;&amp;#x6B21;&amp;#x6211;&amp;#x4EEC;&amp;#x5DF2;&amp;#x7ECF;&amp;#x5206;&amp;#x6790;&amp;#x4E86;&amp;#x4E00;&amp;#x4E0B;JMeter&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x67B6;&amp;#x6784;&amp;#xFF0C;&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4EEC;&amp;#x6765;&amp;#x770B;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMeter 源码解读 [10] - 分布式核心类">
+<meta property="og:url" content="http://markshao.github.io/2019/03/12/distributed-code-analysis/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="&amp;#x4E0A;&amp;#x6B21;&amp;#x6211;&amp;#x4EEC;&amp;#x5DF2;&amp;#x7ECF;&amp;#x5206;&amp;#x6790;&amp;#x4E86;&amp;#x4E00;&amp;#x4E0B;JMeter&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x67B6;&amp;#x6784;&amp;#xFF0C;&amp;#x4ECA;&amp;#x5929;&amp;#x6211;&amp;#x4EEC;&amp;#x6765;&amp;#x770B;&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-12T14:11:38.000Z">
+<meta property="article:modified_time" content="2022-05-18T08:55:05.890Z">
+<meta property="article:author" content="妞爸爸">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JMeter 源码解读 [10] - 分布式核心类</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/03/17/golang-channel-deadlock/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/03/12/distributed-architecture/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/12/distributed-code-analysis/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;text=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;is_video=false&amp;description=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JMeter 源码解读 [10] - 分布式核心类&amp;body=Check out this article: http://markshao.github.io/2019/03/12/distributed-code-analysis/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;name=JMeter 源码解读 [10] - 分布式核心类&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;t=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JMeter 源码解读 [10] - 分布式核心类
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-12T14:11:38.000Z" itemprop="datePublished">2019-03-12</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">JMeter 源码解读</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>上次我们已经分析了一下<code>JMeter</code>的分布式架构，今天我们来看一下其中相关的核心类是怎么工作的，我们还是先从Master 开始，Master 是用来接收用户控制的<code>JMeter</code> Engine， 它接收 GUI 和 NoneGUI 两种运行模式，我们先来看一下 <code>JMete.java</code> 里面是怎么处理分布式模式的, 看一下<code>start</code>  函数是怎么工作的</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (parser.getArgumentById(SERVER_OPT) != <span class="literal">null</span>) {</span><br><span class="line">                <span class="comment">// Start the server</span></span><br><span class="line">                <span class="keyword">try</span> {</span><br><span class="line">                    RemoteJMeterEngineImpl.startServer(RmiUtils.getRmiRegistryPort()); <span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                    startOptionalServers();</span><br><span class="line">                } <span class="keyword">catch</span> (Exception ex) {</span><br><span class="line">                    System.err.println(<span class="string">"Server failed to start: "</span>+ex);<span class="comment">//NOSONAR</span></span><br><span class="line">                    log.error(<span class="string">"Giving up, as server failed with:"</span>, ex);</span><br><span class="line">                    <span class="keyword">throw</span> ex;</span><br><span class="line">                }</span><br></pre></td></tr></tbody></table></figure>
+<p>当命令行包含一个<code>-s</code>参数的时候，表示我们要启动一个<code>Slave Server</code> , 实际启动的工作是交给<code>RemoteJMeterEngineImpl</code>的</p>
+<p>###RemoteJMeterEngineImpl<br>RemoteJMeterEngineImpl 这个类实现了<code>RemoteJMeterEngine</code>接口，而<code>RemoteJMeterEngine</code>接口继承自 <code>Remote</code> 接口，我们知道在 <code>RMI</code> 通信框架里提供的 <code>Remote</code> 接口，就是用来声明继承这个接口的interface 定义的方法是用来远程调用的，RemoteJMeterEngine 定义的接口和<code>JMeterEngine</code>定义的一样，唯一的区别是每个方法前多了一个<code>r</code>,例如在 JMeterEngine 里定义的叫 <code>configure</code>的方法在<code>RemoteJMeterEngine</code>里定义的是<code>rconfigure</code></p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">RemoteJMeterEngine</span> <span class="keyword">extends</span> <span class="title class_">Remote</span> {</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">rconfigure</span><span class="params">(HashTree testTree, String host, File jmxBase, String scriptName)</span> <span class="keyword">throws</span> RemoteException;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">rrunTest</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException, JMeterEngineException;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">rstopTest</span><span class="params">(<span class="type">boolean</span> now)</span> <span class="keyword">throws</span> RemoteException;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">rreset</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">rsetProperties</span><span class="params">(HashMap&lt;String,String&gt; p)</span> <span class="keyword">throws</span> RemoteException;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">rexit</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们在来看 RemoteJMeterEngineImpl 的实现，首先在上次的分析中谈过，真正的执行逻辑是通过在内部自带的一个 <code>JMeterEngine</code> 来实现，可以理解为一个 JMeter Slave 就是一个不提供外部交互interface， 只允许通过 RMI 协议来访问的特殊 JMeter， 它自身的处理逻辑就是一个标准的 <code>JMeterEngine</code>, 我们简单看一个 <code>RemoteJMeterEngine</code> 的接口实现，我们看一下<code>rexit</code>的实现</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rexit</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException {</span><br><span class="line">        log.info(<span class="string">"Exiting"</span>);</span><br><span class="line">        <span class="comment">// Bug 59400 - allow rexit() to return</span></span><br><span class="line">        <span class="type">Thread</span> <span class="variable">et</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; {</span><br><span class="line">            log.info(<span class="string">"Stopping the backing engine"</span>);</span><br><span class="line">            backingEngine.exit();</span><br><span class="line">        });</span><br><span class="line">        et.setDaemon(<span class="literal">false</span>);</span><br><span class="line">        <span class="comment">// Tidy up any objects we created</span></span><br><span class="line">        <span class="type">Registry</span> <span class="variable">reg</span> <span class="operator">=</span> LocateRegistry.getRegistry(</span><br><span class="line">                RmiUtils.getRmiHost().getHostName(),</span><br><span class="line">                <span class="built_in">this</span>.rmiRegistryPort,</span><br><span class="line">                RmiUtils.createClientSocketFactory());        </span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            reg.unbind(JMETER_ENGINE_RMI_NAME);</span><br><span class="line">        } <span class="keyword">catch</span> (NotBoundException e) {</span><br><span class="line">            log.warn(<span class="string">"{} is not bound"</span>, JMETER_ENGINE_RMI_NAME, e);</span><br><span class="line">        }</span><br><span class="line">        log.info(<span class="string">"Unbound from registry"</span>);</span><br><span class="line">        <span class="comment">// Help with garbage control</span></span><br><span class="line">        JMeterUtils.helpGC();</span><br><span class="line">        et.start();</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
+<p>它的处理逻辑分几步</p>
+<ol>
+<li>启动一个线程，调用 StandardJMeterEngine 自身的方法<code>backingEngine.exit();</code>来关闭 JMeter , 然后把自己从 RMI Service 中注销掉 <code>reg.unbind(JMETER_ENGINE_RMI_NAME);</code></li>
+</ol>
+<p>###DistributedRunner<br>刚刚谈了 Slave 的运行逻辑，再来看看 Master JMeter 怎么工作的，Master 在整个 RMI 通信框架中实际是一个 Client， 我们先还是从用户入口代码来看，看一下 JMeter 的 <code>runNonGui</code> 函数，在最下面有这么几行代码</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line">java.util.<span class="type">StringTokenizer</span> <span class="variable">st</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.util.StringTokenizer(remoteHostsString, <span class="string">","</span>);<span class="comment">//$NON-NLS-1$</span></span><br><span class="line">               List&lt;String&gt; hosts = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">               <span class="keyword">while</span> (st.hasMoreElements()) {</span><br><span class="line">                   hosts.add((String) st.nextElement());</span><br><span class="line">               }</span><br><span class="line">               </span><br><span class="line">               DistributedRunner distributedRunner=<span class="keyword">new</span> <span class="title class_">DistributedRunner</span>(<span class="built_in">this</span>.remoteProps);</span><br><span class="line">               distributedRunner.setStdout(System.out); <span class="comment">// NOSONAR</span></span><br><span class="line">               distributedRunner.setStdErr(System.err); <span class="comment">// NOSONAR</span></span><br><span class="line">               distributedRunner.init(hosts, clonedTree);</span><br><span class="line">               engines.addAll(distributedRunner.getEngines());</span><br><span class="line">               distributedRunner.start();</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里创建了一个 DistributeRunner ，看起来是一个 远程调用的 stub ，先看一下 <code>distributedRunner.init</code> 在干什么</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (idx &lt; addrs.size()) {</span><br><span class="line">                <span class="type">String</span> <span class="variable">address</span> <span class="operator">=</span> addrs.get(idx);</span><br><span class="line">                println(<span class="string">"Configuring remote engine: "</span> + address);</span><br><span class="line">                <span class="type">JMeterEngine</span> <span class="variable">engine</span> <span class="operator">=</span> getClientEngine(address.trim(), tree);</span><br><span class="line">                <span class="keyword">if</span> (engine != <span class="literal">null</span>) {</span><br><span class="line">                    engines.put(address, engine);</span><br><span class="line">                    addrs.remove(address);</span><br><span class="line">                } <span class="keyword">else</span> {</span><br><span class="line">                    println(<span class="string">"Failed to configure "</span> + address);</span><br><span class="line">                    idx++;</span><br><span class="line">                }</span><br><span class="line">            }</span><br></pre></td></tr></tbody></table></figure>
+<p>它接收输入的多组Slave 的IP 和 Port ，然后会创建对应的（1:1）的 ClientJMeterEngine，并保存在 <code>engines</code> 这个容器里，等实际<code>runTest</code>的时候，是通过内部调用其自身的 <code>start(List&lt;String&gt; addresses) </code>方法，遍历每个<code>ClientJMeterEngine</code> 并通过RMI Call来调用Slave 来运行测试</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">start</span><span class="params">(List&lt;String&gt; addresses)</span> {</span><br><span class="line">        println(<span class="string">"Starting remote engines"</span>);</span><br><span class="line">        <span class="type">long</span> <span class="variable">now</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        println(<span class="string">"Starting the test @ "</span> + <span class="keyword">new</span> <span class="title class_">Date</span>(now) + <span class="string">" ("</span> + now + <span class="string">")"</span>);</span><br><span class="line">        <span class="keyword">for</span> (String address : addresses) {</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                <span class="keyword">if</span> (engines.containsKey(address)) {</span><br><span class="line">                    engines.get(address).runTest();</span><br><span class="line">                } <span class="keyword">else</span> {</span><br><span class="line">                    log.warn(HOST_NOT_FOUND_MESSAGE, address);</span><br><span class="line">                }</span><br><span class="line">            } <span class="keyword">catch</span> (IllegalStateException | JMeterEngineException e) { <span class="comment">// NOSONAR already reported to user</span></span><br><span class="line">                JMeterUtils.reportErrorToUser(e.getMessage(), JMeterUtils.getResString(<span class="string">"remote_error_starting"</span>)); <span class="comment">// $NON-NLS-1$  </span></span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        println(<span class="string">"Remote engines have been started"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>###ClientJMeterEngine<br>最后我们来看一下<code>ClientJMeterEngine</code>怎么工作的，它是一个<code>JMeterEngine</code>接口的实现，但是内部是一个RMI Client。首先是在构造函数的时候来创建一个<code>RMI Client</code></p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="type">Registry</span> <span class="variable">registry</span> <span class="operator">=</span> LocateRegistry.getRegistry(</span><br><span class="line">               host, </span><br><span class="line">               port,</span><br><span class="line">               RmiUtils.createClientSocketFactory());</span><br><span class="line">        <span class="type">Remote</span> <span class="variable">remobj</span> <span class="operator">=</span> registry.lookup(name);</span><br><span class="line">        <span class="keyword">if</span> (remobj <span class="keyword">instanceof</span> RemoteJMeterEngine){</span><br><span class="line">            <span class="keyword">final</span> <span class="type">RemoteJMeterEngine</span> <span class="variable">rje</span> <span class="operator">=</span> (RemoteJMeterEngine) remobj;</span><br><span class="line">            <span class="keyword">if</span> (remobj <span class="keyword">instanceof</span> RemoteObject){</span><br><span class="line">                <span class="type">RemoteObject</span> <span class="variable">robj</span> <span class="operator">=</span> (RemoteObject) remobj;</span><br><span class="line">                System.out.println(<span class="string">"Using remote object: "</span>+robj.getRef().remoteToString()); <span class="comment">// NOSONAR</span></span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">return</span> rje;</span><br><span class="line">        }</span><br></pre></td></tr></tbody></table></figure>
+<p>然后我们再看一下它怎么实现<code>JMeterEngine</code>中定义的方法就一目了然了，我们看一个<code>stopTest()</code>方法，其实就是通过 RMI Client 来调用远程的方法</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">stopTest</span><span class="params">(<span class="type">boolean</span> now)</span> {</span><br><span class="line">        log.info(<span class="string">"About to {} remote test on {}"</span>, now ? <span class="string">"stop"</span> : <span class="string">"shutdown"</span>, hostAndPort);</span><br><span class="line">        <span class="keyword">try</span> {</span><br><span class="line">            remote.rstopTest(now);</span><br><span class="line">        } <span class="keyword">catch</span> (Exception ex) {</span><br><span class="line">            log.error(<span class="string">""</span>, ex); <span class="comment">// $NON-NLS-1$</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
+
+<p>分布式的内容差不多就介绍到这里</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/12/distributed-code-analysis/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;text=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;is_video=false&amp;description=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JMeter 源码解读 [10] - 分布式核心类&amp;body=Check out this article: http://markshao.github.io/2019/03/12/distributed-code-analysis/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;title=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;name=JMeter 源码解读 [10] - 分布式核心类&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/12/distributed-code-analysis/&amp;t=JMeter 源码解读 [10] - 分布式核心类"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+        var disqus_shortname = 'zaibaba';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="&amp;#x524D;&amp;#x8A00;&amp;#x4ECA;&amp;#x5929;&amp;#x662F;&amp;#x7956;&amp;#x56FD;&amp;#x6BCD;&amp;#x4EB2;&amp;#x7684;70&amp;#x534E;&amp;#x8BDE;&amp;#xFF0C;&amp;#x65E9;&amp;#x4E0A;&amp;#x5728;&amp;#x5BB6;&amp;#x91CC;&amp;#x548C;&amp;#x5AB3;&amp;#x5987;&amp;#x4E00;&amp;#x8D77;&amp;#x770B;&amp;#x4E8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytest 源码解读 [1] - [pluggy] 插件框架介绍">
+<meta property="og:url" content="http://markshao.github.io/2019/10/01/pluggy-guideline/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="&amp;#x524D;&amp;#x8A00;&amp;#x4ECA;&amp;#x5929;&amp;#x662F;&amp;#x7956;&amp;#x56FD;&amp;#x6BCD;&amp;#x4EB2;&amp;#x7684;70&amp;#x534E;&amp;#x8BDE;&amp;#xFF0C;&amp;#x65E9;&amp;#x4E0A;&amp;#x5728;&amp;#x5BB6;&amp;#x91CC;&amp;#x548C;&amp;#x5AB3;&amp;#x5987;&amp;#x4E00;&amp;#x8D77;&amp;#x770B;&amp;#x4E8">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-01T09:15:25.000Z">
+<meta property="article:modified_time" content="2022-05-18T08:55:05.893Z">
+<meta property="article:author" content="妞爸爸">
+<meta property="article:tag" content="pytest">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Pytest 源码解读 [1] - [pluggy] 插件框架介绍</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/10/02/pytest-core-design-and-code-structure/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/08/10/pytest-source-analysis/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/10/01/pluggy-guideline/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;text=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;is_video=false&amp;description=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pytest 源码解读 [1] - [pluggy] 插件框架介绍&amp;body=Check out this article: http://markshao.github.io/2019/10/01/pluggy-guideline/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;name=Pytest 源码解读 [1] - [pluggy] 插件框架介绍&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;t=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84Demo"><span class="toc-number">2.</span> <span class="toc-text">一个简单的Demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hook-%E5%92%8C-plugin-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">3.</span> <span class="toc-text">hook 和 plugin 的关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#plugin-%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">plugin 调用顺序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HookimplMarker-%E8%A3%85%E9%A5%B0%E5%99%A8%E5%8F%82%E6%95%B0"><span class="toc-number">4.1.</span> <span class="toc-text">HookimplMarker 装饰器参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tryfirst"><span class="toc-number">4.1.1.</span> <span class="toc-text">tryfirst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hookwrapper"><span class="toc-number">4.1.2.</span> <span class="toc-text">hookwrapper</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HookspecMarker-%E8%A3%85%E9%A5%B0%E5%99%A8%E5%8F%82%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">HookspecMarker 装饰器参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#firstresult"><span class="toc-number">4.2.1.</span> <span class="toc-text">firstresult</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Pytest 源码解读 [1] - [pluggy] 插件框架介绍
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-10-01T09:15:25.000Z" itemprop="datePublished">2019-10-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">pytest 源码解读</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/pytest/" rel="tag">pytest</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天是祖国母亲的70华诞，早上在家里和媳妇一起看了令人激动的阅兵，真心为自己做位一个中国人而自豪。国庆的上海天气有点操蛋，受到台风的影响外面是大风大雨，不过因为媳妇怀孕的原因本来也没计划出去玩，趁着难得的假期，在家喝喝茶，吃吃东西，写写博客，把的之前拖欠的 <code>Pytest 源码解读</code> 给完成。</p>
+<p>言归正传，上次说了 <code>Pytest</code> 的核心是基于<code>Pluggy</code>这个 Python Plugin 框架，这次先介绍一下  <code>Pluggy</code> 的核心功能</p>
+<h1 id="一个简单的Demo"><a href="#一个简单的Demo" class="headerlink" title="一个简单的Demo"></a>一个简单的Demo</h1><p><code>Pluggy</code> 已经从之前的 <code>Pytest</code>源码中独立出了一个单独的 <a target="_blank" rel="noopener" href="https://github.com/pytest-dev/pluggy">Repo</a> , 对于 <code>Pytest</code>自身也是把它作为一个外部的依赖来使用，我们这里就用一个独立的 Python 项目来 Demo，先看代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pluggy <span class="keyword">import</span> HookspecMarker, HookimplMarker, PluginManager</span><br><span class="line"></span><br><span class="line">spec = HookspecMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">impl = HookimplMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HookSpec</span>:</span><br><span class="line"><span class="meta">    @spec(<span class="params">historic=<span class="literal">True</span></span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HookImpl1</span>:</span><br><span class="line"><span class="meta">    @impl</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line">pm = PluginManager(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">pm.add_hookspecs(HookSpec)</span><br><span class="line">pm.register(HookImpl1())</span><br><span class="line">pm.hook.calculate(a=<span class="number">1</span>, b=<span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>Output</strong></p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">[3]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>解释</p>
+<ul>
+<li><code>Pluggy</code>的核心就是三个类 <code>HookspecMarker</code>, <code>HookimplMarker</code>,<code>PluginManager</code>，核心的插件逻辑就是定义了一组 hook 的方法，然后 plugin 是hook 方法的具体实现</li>
+<li>整个 Project 需要用一个全局唯一的 Project Name ，这里是 <code>pluggy_demo_1</code></li>
+<li><code>HookSpec</code>是一个申明 hook method 的 class ，每一个 hook method 需要用<code>spec</code>的装饰器来装饰</li>
+<li><code>HookImpl1</code> 是一个 plugin 的实现，需要完整实现对应的hook方法，并且通过<code>impl</code>装饰器来装饰</li>
+<li>核心代码的调用逻辑就是先创建一个<code>PluginManager</code>对象，注册 Spec 和对应的 plugin 对象，然后通过 <code>PluginManager</code>自带的 hook 变量来调用对应的hook方法，传入相关的参数即可。<strong>切记在调用 hook 的时候参数必须是通过关键字的方式来传递</strong></li>
+</ul>
+<h1 id="hook-和-plugin-的关系"><a href="#hook-和-plugin-的关系" class="headerlink" title="hook 和 plugin 的关系"></a>hook 和 plugin 的关系</h1><p>hook 和 plugin 的对应关系是 <code>1:N</code>，如果说注册了多个实现了同一个 hook 的 plugin ，会返回多个结果，我们来看这个例子</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pluggy <span class="keyword">import</span> HookspecMarker, HookimplMarker, PluginManager</span><br><span class="line"></span><br><span class="line">spec = HookspecMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">impl = HookimplMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HookSpec</span>:</span><br><span class="line"><span class="meta">    @spec</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HookImpl1</span>:</span><br><span class="line"><span class="meta">    @impl</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HookImpl2</span>:</span><br><span class="line"><span class="meta">    @impl</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">return</span> a * b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pm = PluginManager(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">pm.add_hookspecs(HookSpec)</span><br><span class="line">pm.register(HookImpl1())</span><br><span class="line">pm.register(HookImpl2())</span><br><span class="line"><span class="built_in">print</span>(pm.hook.calculate(a=<span class="number">1</span>, b=<span class="number">2</span>))</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>Output</strong></p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">[2,3]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>解释</p>
+<ul>
+<li><p>在这里我们注册了两个 plugin , <code>HookImpl1</code>和 <code>HookImpl2</code>，分别对应了加法和乘法的两个不同逻辑</p>
+</li>
+<li><p>一次 hook 的调用返回了2个plugin 执行的结果，<strong>注意一下</strong>这里是先执行后注册的 <code>HookImpl2</code>，再执行先注册的<code>HookImpl1</code>, 下次具体分析 <code>pluggy</code> 实现的时候会解释</p>
+</li>
+</ul>
+<h1 id="plugin-调用顺序"><a href="#plugin-调用顺序" class="headerlink" title="plugin 调用顺序"></a>plugin 调用顺序</h1><h2 id="HookimplMarker-装饰器参数"><a href="#HookimplMarker-装饰器参数" class="headerlink" title="HookimplMarker 装饰器参数"></a>HookimplMarker 装饰器参数</h2><p><code>HookimplMarker</code> 装饰器支持一些特定的参数</p>
+<ul>
+<li>tryfirst - 顾名思义就是这个 plugin 在 <code>1:N</code> 的执行链路中先执行</li>
+<li>trylast - 顾名思义后执行</li>
+<li>hookwrapper - 基于 <code>yield</code> 实现的一个wrapper，先执行 wrapper plugin 的一部分逻辑，然后执行其他 plugin，最后执行剩余的 wrapper plugin 逻辑</li>
+</ul>
+<h3 id="tryfirst"><a href="#tryfirst" class="headerlink" title="tryfirst"></a>tryfirst</h3><p>我们修改一下刚才那个demo，把<code>HookImpl1</code>加上<code>tryfirst</code>参数, 执行的顺序就变了</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HookImpl1</span>:</span><br><span class="line"><span class="meta">    @impl(<span class="params">tryfirst=<span class="literal">True</span></span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">return</span> a + b    </span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>Output</strong></p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">[3,2]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>HookspecMarker 装饰器参数</p>
+<h3 id="hookwrapper"><a href="#hookwrapper" class="headerlink" title="hookwrapper"></a>hookwrapper</h3><p>这里我们实现一个特殊 plugin <code>ImplWrapper</code>，先看代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pluggy <span class="keyword">import</span> HookspecMarker, HookimplMarker, PluginManager</span><br><span class="line"></span><br><span class="line">spec = HookspecMarker(<span class="string">"plugin_demo_2"</span>)</span><br><span class="line">impl = HookimplMarker(<span class="string">"plugin_demo_2"</span>)</span><br><span class="line">pm = PluginManager(<span class="string">"plugin_demo_2"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Spec</span>:</span><br><span class="line"><span class="meta">    @spec</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Impl1</span>:</span><br><span class="line"><span class="meta">    @impl</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Impl2</span>:</span><br><span class="line"><span class="meta">    @impl(<span class="params">tryfirst=<span class="literal">True</span></span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">return</span> a + b + <span class="number">2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ImplWrapper</span>:</span><br><span class="line"><span class="meta">    @impl(<span class="params">hookwrapper=<span class="literal">True</span></span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"before logic"</span>)</span><br><span class="line">        outcome = <span class="keyword">yield</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"Get Result %s"</span> % outcome.result)</span><br><span class="line">        <span class="keyword">return</span> a * b * <span class="number">10</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pm.add_hookspecs(Spec)</span><br><span class="line">pm.register(Impl1())</span><br><span class="line">pm.register(Impl2())</span><br><span class="line">pm.register(ImplWrapper())</span><br><span class="line"><span class="built_in">print</span>(pm.hook.calculate(a=<span class="number">1</span>, b=<span class="number">2</span>))</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>Output</strong></p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">before logic</span><br><span class="line">Get Result [5, 3]</span><br><span class="line">[5, 3]</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>解释</p>
+<ul>
+<li><code>ImplWrapper</code> 是一个类似 <code>coroutine</code>的 生成器，它有两段逻辑，用<code>outcome = yield</code>来分割</li>
+<li>outcome 通过 <code>yield</code>来获取，它是<code>_Result</code>对象，包含了非wrapper 的 plugin 的执行结果，这里就是 <code>Impl1</code> 和 <code>Impl2</code>，从实际的output来看，<code>Get Result [5,3]</code>就是获取了返回值</li>
+<li>wrapper plugin 的返回值是会被 ignore 的，具体的原因下次分析源码的时候会给解释</li>
+</ul>
+<h2 id="HookspecMarker-装饰器参数"><a href="#HookspecMarker-装饰器参数" class="headerlink" title="HookspecMarker 装饰器参数"></a>HookspecMarker 装饰器参数</h2><p><code>HookspckMarker</code>装饰器也支持一些参数，主要是</p>
+<ul>
+<li>firstresult - 获取第一个plugin 执行结果后就中断后续执行</li>
+<li>historic - 表示这个 hook 是需要保存call history 的，当有新的 plugin 注册的时候，需要回放历史</li>
+</ul>
+<h3 id="firstresult"><a href="#firstresult" class="headerlink" title="firstresult"></a>firstresult</h3><p>调整一下 <code>HookSpec</code>，添加 <code>firstresult</code>参数，我们看一下执行结果</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">class Spec:</span><br><span class="line">    @spec(firstresult)</span><br><span class="line">    def calculate(self, a, b):</span><br><span class="line">        pass</span><br><span class="line">        </span><br><span class="line">class HookImpl1:</span><br><span class="line">    @impl(tryfirst=True)</span><br><span class="line">    def calculate(self, a, b):</span><br><span class="line">        return a + b  </span><br></pre></td></tr></tbody></table></figure>
+
+<p> <strong>Output</strong></p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">[2]</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>关于 <code>plugin</code>的基本使用就先介绍到这里了，大家有有兴趣可以看这篇文章，介绍的很细致 <a target="_blank" rel="noopener" href="https://buildmedia.readthedocs.org/media/pdf/pluggy/latest/pluggy.pdf">https://buildmedia.readthedocs.org/media/pdf/pluggy/latest/pluggy.pdf</a> </p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84Demo"><span class="toc-number">2.</span> <span class="toc-text">一个简单的Demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hook-%E5%92%8C-plugin-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">3.</span> <span class="toc-text">hook 和 plugin 的关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#plugin-%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">plugin 调用顺序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HookimplMarker-%E8%A3%85%E9%A5%B0%E5%99%A8%E5%8F%82%E6%95%B0"><span class="toc-number">4.1.</span> <span class="toc-text">HookimplMarker 装饰器参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tryfirst"><span class="toc-number">4.1.1.</span> <span class="toc-text">tryfirst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hookwrapper"><span class="toc-number">4.1.2.</span> <span class="toc-text">hookwrapper</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HookspecMarker-%E8%A3%85%E9%A5%B0%E5%99%A8%E5%8F%82%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">HookspecMarker 装饰器参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#firstresult"><span class="toc-number">4.2.1.</span> <span class="toc-text">firstresult</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/10/01/pluggy-guideline/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;text=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;is_video=false&amp;description=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pytest 源码解读 [1] - [pluggy] 插件框架介绍&amp;body=Check out this article: http://markshao.github.io/2019/10/01/pluggy-guideline/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;title=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;name=Pytest 源码解读 [1] - [pluggy] 插件框架介绍&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/10/01/pluggy-guideline/&amp;t=Pytest 源码解读 [1] - [pluggy] 插件框架介绍"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+        var disqus_shortname = 'zaibaba';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>

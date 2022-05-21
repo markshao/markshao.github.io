@@ -1,0 +1,410 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="&amp;#x4EC0;&amp;#x4E48;&amp;#x53EB;&amp;#x7528; pytest &amp;#x6765;&amp;#x6D4B;&amp;#x8BD5; pytest &amp;#x5462;&amp;#xFF1F;&amp;#x5176;&amp;#x5B9E;&amp;#x5C31;&amp;#x662F;&amp;#x6784;&amp;#x5EFA;&amp;#x4E00;&amp;#x4E2A; mini &amp;#x7684; pytest &amp;#x96C6;&amp;#x6210;&amp;#x6D4B;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytest 源码解读 [5] - pytest 是如何测试 pytest 的">
+<meta property="og:url" content="http://markshao.github.io/2021/06/05/pytester/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="&amp;#x4EC0;&amp;#x4E48;&amp;#x53EB;&amp;#x7528; pytest &amp;#x6765;&amp;#x6D4B;&amp;#x8BD5; pytest &amp;#x5462;&amp;#xFF1F;&amp;#x5176;&amp;#x5B9E;&amp;#x5C31;&amp;#x662F;&amp;#x6784;&amp;#x5EFA;&amp;#x4E00;&amp;#x4E2A; mini &amp;#x7684; pytest &amp;#x96C6;&amp;#x6210;&amp;#x6D4B;&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-05T07:18:11.000Z">
+<meta property="article:modified_time" content="2022-05-18T08:55:05.895Z">
+<meta property="article:author" content="妞爸爸">
+<meta property="article:tag" content="pytest">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Pytest 源码解读 [5] - pytest 是如何测试 pytest 的</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2021/06/25/lsm-tree/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/05/29/blog-renew-log/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2021/06/05/pytester/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2021/06/05/pytester/&amp;text=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2021/06/05/pytester/&amp;is_video=false&amp;description=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的&amp;body=Check out this article: http://markshao.github.io/2021/06/05/pytester/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2021/06/05/pytester/&amp;name=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2021/06/05/pytester/&amp;t=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#TestDir"><span class="toc-number">1.</span> <span class="toc-text">TestDir</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">测试代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inline-run-%E7%9A%84%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">inline_run 的执行方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%99%E6%9C%89%E5%8F%A6%E5%A4%96%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">3.1.</span> <span class="toc-text">这有另外一个问题</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Pytest 源码解读 [5] - pytest 是如何测试 pytest 的
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-06-05T07:18:11.000Z" itemprop="datePublished">2021-06-05</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">pytest 源码解读</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/pytest/" rel="tag">pytest</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>什么叫用 pytest 来测试 pytest 呢？其实就是构建一个 mini 的 pytest 集成测试环境。我们要对一个测试框架做端到端的测试，最基本的就是写一些测试用例，然后用测试框架来执行它们看是否符合预期。另外 pytest 本身是一个插件化的架构，尤其在我们写一些第三方插件的时候，我们也需要构建一个 pytest 集成测试环境，帮助我们来测试自己编写的插件逻辑是否正确。<code>pytest</code>  的作者在实现的时候考虑到了这一点，体用了一个自带的mini 集成测试框架，叫 <code>pytester</code> ，摘抄下 <code>pytester.py</code>  的模块注释上的说明</p>
+<blockquote>
+<p>(disabled by default) support for testing pytest and pytest plugins.”””</p>
+</blockquote>
+<p>这里我们先来看一个例子，看看 <code>pytester</code> 是如何帮助我们构建这个集成测试环境的。我们以 <code>pytest</code>  自身的测试代码 <code>test_marker.py</code>  为例，这个是用来测试 mark (标签) 插件的。我们看其中的一个测试用例</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">test_marked_class_run_twice</span>(<span class="params">testdir</span>):</span><br><span class="line">    <span class="string">"""Test fails file is run twice that contains marked class.</span></span><br><span class="line"><span class="string">    See issue#683.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    py_file = testdir.makepyfile(</span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">    import pytest</span></span><br><span class="line"><span class="string">    @pytest.mark.parametrize('abc', [1, 2, 3])</span></span><br><span class="line"><span class="string">    class Test1(object):</span></span><br><span class="line"><span class="string">        def test_1(self, abc):</span></span><br><span class="line"><span class="string">            assert abc in [1, 2, 3]</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    )</span><br><span class="line">    file_name = os.path.basename(py_file.strpath)</span><br><span class="line">    rec = testdir.inline_run(file_name, file_name)</span><br><span class="line">    rec.assertoutcome(passed=<span class="number">6</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里有几个关键词，我们依次来做下分析介绍，帮助大家理解其中的执行逻辑</p>
+<ul>
+<li><code>testdir</code>  这个 fixture</li>
+<li>用 “”” 注释的一段测试用例代码</li>
+<li><code>rec = testdir.inline_run</code>  这个函数调用</li>
+</ul>
+<h3 id="TestDir"><a href="#TestDir" class="headerlink" title="TestDir"></a>TestDir</h3><p><code>testdir</code>  是在 <code>pytester</code> 插件实现中定义的一个 <code>fixture</code></p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@pytest.fixture</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">testdir</span>(<span class="params">request: FixtureRequest, tmpdir_factory</span>) -&gt; <span class="string">"Testdir"</span>:</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    A :class: `TestDir` instance, that can be used to run and test pytest itself.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    It is particularly useful for testing plugins. It is similar to the `tmpdir` fixture</span></span><br><span class="line"><span class="string">    but provides methods which aid in testing pytest itself.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> Testdir(request, tmpdir_factory)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>它依赖的另外一个叫 <code>tmpdir_factory</code>  的 <code>fixture</code> ,  这个是在 <code>tmpdir</code>  这个插件的实现中定义的</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@pytest.fixture(<span class="params">scope=<span class="string">"session"</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">tmpdir_factory</span>(<span class="params">request: FixtureRequest</span>) -&gt; TempdirFactory:</span><br><span class="line">    <span class="string">"""Return a :class:`_pytest.tmpdir.TempdirFactory` instance for the test session.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># Set dynamically by pytest_configure() above.</span></span><br><span class="line">    <span class="keyword">return</span> request.config._tmpdirhandler  <span class="comment"># type: ignore</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们最后回来看下 <code>TestDir</code> 这个类型的定义，它是在 <code>pytester.py</code> 中实现的 ，参考 <a target="_blank" rel="noopener" href="https://docs.pytest.org/en/6.2.x/_modules/_pytest/pytester.html">pytester.py 源码</a> 。这里截取一段过去版本的模块注释</p>
+<blockquote>
+<p>This is based on the <code>tmpdir</code> fixture but provides a number of methods which aid with testing pytest itself.  Unless :py:meth:<code>chdir</code> is used all methods will use :py:attr:<code>tmpdir</code> as their current working directory.</p>
+</blockquote>
+<p>我们大概可以猜到它的工作逻辑，通过一个临时目录，在里面存放一些测试用例，再用 pytest 来执行它们，来验证 pytest 测试框架或者插件的正确性。</p>
+<h3 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h3><p>我们简单看下这段代码中 <code>testdir.makepyfile</code> 的具体实现,  <code>makepyfile</code>  是 <code>TestDir</code>  类型的一个实例方法</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">makepyfile</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        <span class="string">"""Shortcut for .makefile() with a .py extension."""</span></span><br><span class="line">        <span class="keyword">return</span> self._makefile(<span class="string">".py"</span>, args, kwargs)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>进一步跟进到 <code>self._makefile</code> 函数</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_makefile</span>(<span class="params">self, ext, lines, files, encoding=<span class="string">"utf-8"</span></span>):</span><br><span class="line">        items = <span class="built_in">list</span>(files.items())</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">to_text</span>(<span class="params">s</span>):</span><br><span class="line">            <span class="keyword">return</span> s.decode(encoding) <span class="keyword">if</span> <span class="built_in">isinstance</span>(s, <span class="built_in">bytes</span>) <span class="keyword">else</span> <span class="built_in">str</span>(s)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> lines:</span><br><span class="line">            source = <span class="string">"\n"</span>.join(to_text(x) <span class="keyword">for</span> x <span class="keyword">in</span> lines)</span><br><span class="line">            basename = self._name</span><br><span class="line">            items.insert(<span class="number">0</span>, (basename, source))</span><br><span class="line"></span><br><span class="line">        ret = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">for</span> basename, value <span class="keyword">in</span> items:</span><br><span class="line">            p = self.tmpdir.join(basename).new(ext=ext)</span><br><span class="line">            p.dirpath().ensure_dir()</span><br><span class="line">            source = Source(value)</span><br><span class="line">            source = <span class="string">"\n"</span>.join(to_text(line) <span class="keyword">for</span> line <span class="keyword">in</span> source.lines)</span><br><span class="line">            p.write(source.strip().encode(encoding), <span class="string">"wb"</span>)</span><br><span class="line">            <span class="keyword">if</span> ret <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                ret = p</span><br><span class="line">        <span class="keyword">return</span> ret</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们看到第14行，就是在之前创建的临时目录里创建一个 python 文件，并写入相关的内容。</p>
+<h3 id="inline-run-的执行方式"><a href="#inline-run-的执行方式" class="headerlink" title="inline_run 的执行方式"></a>inline_run 的执行方式</h3><p>最后在来看下 <code>inline_run</code>是如何来运行前面存放在临时目录里的一些测试用例的。首先我们知道 pytest 的运行方式是在当前要执行的测试目录下运行 <code>pytest </code> 的，这里怎么做目录切换呢？</p>
+<p>我们看到 <code>TestDir</code> 类的初始化函数里就有一行这个 <code>self.chdir()</code> , 看了下具体的实现，原来在初始化 <code>TestDir</code>  实例的时候，就已经完成了当前目录的切换了。</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">chdir</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">"""Cd into the temporary directory.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        This is done automatically upon instantiation.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.tmpdir.chdir(</span><br></pre></td></tr></tbody></table></figure>
+
+<p>我们最后回来看下 <code>inline_run</code>  的实现，它前面一大部分逻辑是用来处理 plugin 的加载和环境的 snapshot 的，这里先不啰嗦介绍了，最关键的代码就这行, 用来执行测试，看起来到这里就完成整体逻辑了</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">ret = pytest.main(<span class="built_in">list</span>(args), plugins=plugins)</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="这有另外一个问题"><a href="#这有另外一个问题" class="headerlink" title="这有另外一个问题"></a>这有另外一个问题</h4><p>我们看下 <code>main</code>这个函数签名，</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>(<span class="params">args=<span class="literal">None</span>, plugins=<span class="literal">None</span></span>) -&gt; <span class="type">Union</span>[<span class="built_in">int</span>, ExitCode]:</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>main</code> 就只返回一个退出码，那我们的测试代码怎么拿这个结果来做一个比较详细的断言分析呢？这里我我们再仔细挖掘下 <code>inline_run</code> 中的实现，我们看到这段代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">rec = []</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Collect</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">pytest_configure</span>(<span class="params">x, config</span>):</span><br><span class="line">		rec.append(self.make_hook_recorder(config.pluginmanager))</span><br><span class="line"></span><br><span class="line">plugins.append(Collect())</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此处定义了一个新的 plugin 叫 Collect , 它的作用是在 <code>pytest_configure</code> 阶段注入了一段 recorder 逻辑，我们再来看下 <code>self.make_hook_recorder</code> 的实现</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">make_hook_recorder</span>(<span class="params">self, pluginmanager</span>):</span><br><span class="line">        <span class="string">"""Create a new :py:class:`HookRecorder` for a PluginManager."""</span></span><br><span class="line">        pluginmanager.reprec = reprec = HookRecorder(pluginmanager)</span><br><span class="line">        self.request.addfinalizer(reprec.finish_recording)</span><br><span class="line">        <span class="keyword">return</span> repre</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里提到了，它给 <code>PluginManager</code> 创建了一个 <code>HookRecorder</code> 对象，我们最后看下 <code>HookRecorder</code> 对象是做什么的</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HookRecorder</span>:</span><br><span class="line">    <span class="string">"""Record all hooks called in a plugin manager.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    This wraps all the hook calls in the plugin manager, recording each call</span></span><br><span class="line"><span class="string">    before propagating the normal calls.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, pluginmanager</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">        self._pluginmanager = pluginmanager</span><br><span class="line">        self.calls = []  <span class="comment"># type: <span class="type">List</span>[ParsedCall]</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">before</span>(<span class="params">hook_name: <span class="built_in">str</span>, hook_impls, kwargs</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">            self.calls.append(ParsedCall(hook_name, kwargs))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">after</span>(<span class="params">outcome, hook_name: <span class="built_in">str</span>, hook_impls, kwargs</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">        self._undo_wrapping = pluginmanager.add_hookcall_monitoring(before, after</span><br></pre></td></tr></tbody></table></figure>
+
+<p>看到最后一段代码，它给 <code>PluginManager</code> 添加了一个 monitoring ，用来记录所有的 hookcall 的执行上下文，通过把测试执行过程的所有上下文 snapshot 下来，给到最终测试代码来做校验，所以 <code>inline_run</code> 没有返回错误码，而是返回了 <code>HookRecorder</code> 对象 ，最后看一下 <code>inline_run</code>  的返回逻辑，是返回了一个 <code>List[HookRecorder]</code>  中的对象。</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">rec = []</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Collect</span>:</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">pytest_configure</span>(<span class="params">x, config</span>):</span><br><span class="line">		rec.append(self.make_hook_recorder(config.pluginmanager))</span><br><span class="line"></span><br><span class="line">plugins.append(Collect())</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(rec) == <span class="number">1</span>:</span><br><span class="line">    reprec = rec.pop()</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> reprec</span><br></pre></td></tr></tbody></table></figure>
+
+<p>好了，今天的介绍就到这里，希望可以帮助大家更好的编写和测试自己的 pytest 插件</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#TestDir"><span class="toc-number">1.</span> <span class="toc-text">TestDir</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">测试代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inline-run-%E7%9A%84%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">inline_run 的执行方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%99%E6%9C%89%E5%8F%A6%E5%A4%96%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">3.1.</span> <span class="toc-text">这有另外一个问题</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2021/06/05/pytester/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2021/06/05/pytester/&amp;text=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2021/06/05/pytester/&amp;is_video=false&amp;description=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的&amp;body=Check out this article: http://markshao.github.io/2021/06/05/pytester/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2021/06/05/pytester/&amp;title=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2021/06/05/pytester/&amp;name=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2021/06/05/pytester/&amp;t=Pytest 源码解读 [5] - pytest 是如何测试 pytest 的"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+        var disqus_shortname = 'zaibaba';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="NewDriver &amp;#x7684;&amp;#x5B8C;&amp;#x6574;&amp;#x8DEF;&amp;#x5F84;&amp;#x662F;org.apache.jmeter.NewDriver , &amp;#x5B83;&amp;#x662F;&amp;#x6574;&amp;#x4E2A;JMeter &amp;#x7684;&amp;#x5165;&amp;#x53E3;&amp;#x7C7B;&amp;#xFF0C;&amp;#x4E3B;&amp;#x8981;&amp;#x7684;&amp;#x4F5C;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMeter 源码解读 [3] - 程序入口 NewDriver">
+<meta property="og:url" content="http://markshao.github.io/2019/03/05/jmeter-new-driver/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="NewDriver &amp;#x7684;&amp;#x5B8C;&amp;#x6574;&amp;#x8DEF;&amp;#x5F84;&amp;#x662F;org.apache.jmeter.NewDriver , &amp;#x5B83;&amp;#x662F;&amp;#x6574;&amp;#x4E2A;JMeter &amp;#x7684;&amp;#x5165;&amp;#x53E3;&amp;#x7C7B;&amp;#xFF0C;&amp;#x4E3B;&amp;#x8981;&amp;#x7684;&amp;#x4F5C;&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-05T15:37:30.000Z">
+<meta property="article:modified_time" content="2022-05-18T08:55:05.880Z">
+<meta property="article:author" content="妞爸爸">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JMeter 源码解读 [3] - 程序入口 NewDriver</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/03/06/hashtree/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/03/05/jmeter-directory-structure/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/05/jmeter-new-driver/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;text=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;is_video=false&amp;description=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JMeter 源码解读 [3] - 程序入口 NewDriver&amp;body=Check out this article: http://markshao.github.io/2019/03/05/jmeter-new-driver/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;name=JMeter 源码解读 [3] - 程序入口 NewDriver&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;t=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JMeter 源码解读 [3] - 程序入口 NewDriver
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-05T15:37:30.000Z" itemprop="datePublished">2019-03-05</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">JMeter 源码解读</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><code>NewDriver</code> 的完整路径是<code>org.apache.jmeter.NewDriver</code> , 它是整个<code>JMeter</code> 的入口类，主要的作用是提供了main 函数用于启动<code>JMeter</code>.</p>
+<p>不过在启动程序 main 函数之前，<code>NewDriver</code>会做一些运行环境的检查和初始化，主要通过 <code>static initializer</code> 的方式来做，我们先来看一些代码初始化的代码</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">JAVA_CLASS_PATH</span> <span class="operator">=</span> <span class="string">"java.class.path"</span>;<span class="comment">// $NON-NLS-1$</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 其他省略了一些代码不贴这里了，否则太长了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这个就是静态初始化的代码块</span></span><br><span class="line"><span class="keyword">static</span> {</span><br><span class="line">        <span class="keyword">final</span> List&lt;URL&gt; jars = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">final</span> <span class="type">String</span> <span class="variable">initiaClasspath</span> <span class="operator">=</span> System.getProperty(JAVA_CLASS_PATH);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Find JMeter home dir from the initial classpath</span></span><br><span class="line">        String tmpDir;</span><br><span class="line">        <span class="type">StringTokenizer</span> <span class="variable">tok</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringTokenizer</span>(initiaClasspath, File.pathSeparator);</span><br><span class="line">        <span class="keyword">if</span> (tok.countTokens() == <span class="number">1</span></span><br><span class="line">                || (tok.countTokens()  == <span class="number">2</span> <span class="comment">// Java on Mac OS can add a second entry to the initial classpath</span></span><br><span class="line">                    &amp;&amp; OS_NAME_LC.startsWith(<span class="string">"mac os x"</span>)<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                   )</span><br><span class="line">           ) {</span><br><span class="line">            <span class="type">File</span> <span class="variable">jar</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(tok.nextToken());</span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                tmpDir = jar.getCanonicalFile().getParentFile().getParent();</span><br><span class="line">            } <span class="keyword">catch</span> (IOException e) {</span><br><span class="line">                tmpDir = <span class="literal">null</span>;</span><br><span class="line">            }</span><br><span class="line">        } <span class="keyword">else</span> {<span class="comment">// e.g. started from IDE with full classpath</span></span><br><span class="line">            tmpDir = System.getProperty(<span class="string">"jmeter.home"</span>,<span class="string">"/Users/ylshao/code/github/jmeter"</span>);<span class="comment">// Allow override $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line">            <span class="keyword">if</span> (tmpDir.length() == <span class="number">0</span>) {</span><br><span class="line">                <span class="type">File</span> <span class="variable">userDir</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(System.getProperty(<span class="string">"user.dir"</span>));<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                tmpDir = userDir.getAbsoluteFile().getParent();</span><br><span class="line">            }</span><br><span class="line">      }</span><br><span class="line">        JMETER_INSTALLATION_DIRECTORY=tmpDir; <span class="comment">// 获取 jmeter 当前安装目录</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个是静态初始化代码的一部分，我们看到主要的作用是判断 JMeter 的安装目录，对于通过<code>jmeter.sh</code> 运行的方式是通过 classpath 来推导 parent ，否则就通过读取系统变量 <code>jmeter.home</code> 来获取，最后把tmpDir 赋值给 <code>JMETER_INSTALLATION_DIRECTORY</code> 变量，<code>JMETER_INSTALLATION_DIRECTORY</code> 这个变量还是很很重要的，用来推导整个jmeter 后续的目录结构, 看下面的代码</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">// Add standard jar locations to initial classpath</span></span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">classpath</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        File[] libDirs = <span class="keyword">new</span> <span class="title class_">File</span>[] { <span class="keyword">new</span> <span class="title class_">File</span>(JMETER_INSTALLATION_DIRECTORY + File.separator + <span class="string">"lib"</span>),<span class="comment">// $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">File</span>(JMETER_INSTALLATION_DIRECTORY + File.separator + <span class="string">"lib"</span> + File.separator + <span class="string">"ext"</span>),<span class="comment">// $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">File</span>(JMETER_INSTALLATION_DIRECTORY + File.separator + <span class="string">"lib"</span> + File.separator + <span class="string">"junit"</span>)};<span class="comment">// $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>通过上面计算出来的<code>JMETER_INSTALLATION_DIRECTORY</code>,可以获取相关 lib 和其子目录的路径，并读取到他们下面所有的jar 文件，最后的目的是通过这些 jar 文件创建一个 <code>classloader</code></p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (File libJar : libJars) {</span><br><span class="line">                <span class="keyword">try</span> {</span><br><span class="line">                    <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> libJar.getPath();</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// Fix path to allow the use of UNC URLs</span></span><br><span class="line">                    <span class="keyword">if</span> (usesUNC) {</span><br><span class="line">                        <span class="keyword">if</span> (s.startsWith(<span class="string">"\\\\"</span>) &amp;&amp; !s.startsWith(<span class="string">"\\\\\\"</span>)) {<span class="comment">// $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line">                            s = <span class="string">"\\\\"</span> + s;<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                        } <span class="keyword">else</span> <span class="keyword">if</span> (s.startsWith(<span class="string">"//"</span>) &amp;&amp; !s.startsWith(<span class="string">"///"</span>)) {<span class="comment">// $NON-NLS-1$ $NON-NLS-2$</span></span><br><span class="line">                            s = <span class="string">"//"</span> + s;<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                        }</span><br><span class="line">                    } <span class="comment">// usesUNC</span></span><br><span class="line"></span><br><span class="line">                    jars.add(<span class="keyword">new</span> <span class="title class_">File</span>(s).toURI().toURL());<span class="comment">// See Java bug 4496398</span></span><br><span class="line">                    classpath.append(CLASSPATH_SEPARATOR);</span><br><span class="line">                    classpath.append(s);</span><br><span class="line">                   } <span class="keyword">catch</span> (MalformedURLException e) { <span class="comment">// NOSONAR</span></span><br><span class="line">                    EXCEPTIONS_IN_INIT.add(<span class="keyword">new</span> <span class="title class_">Exception</span>(<span class="string">"Error adding jar:"</span>+libJar.getAbsolutePath(), e));</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ClassFinder needs the classpath</span></span><br><span class="line">        System.setProperty(JAVA_CLASS_PATH, initiaClasspath + classpath.toString());</span><br><span class="line">		<span class="comment">// ### 创建自定义的classloader</span></span><br><span class="line">        loader = AccessController.doPrivileged(</span><br><span class="line">                (PrivilegedAction&lt;DynamicClassLoader&gt;) () -&gt;</span><br><span class="line">                        <span class="keyword">new</span> <span class="title class_">DynamicClassLoader</span>(jars.toArray(<span class="keyword">new</span> <span class="title class_">URL</span>[jars.size()]))</span><br><span class="line">        );</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>直到创建了 <code>loader</code> 这个自定义的 <code>classloader</code> 后，整个静态初始化才算结束</p>
+<p>最后我们来看一些 main 函数，逻辑就比较简单了</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="keyword">if</span>(!EXCEPTIONS_IN_INIT.isEmpty()) {</span><br><span class="line">            System.err.println(<span class="string">"Con figuration error during init, see exceptions:"</span>+exceptionsToString(EXCEPTIONS_IN_INIT)); <span class="comment">// NOSONAR Intentional System.err use</span></span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            Thread.currentThread().setContextClassLoader(loader);</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line">            setLoggingProperties(args);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> {</span><br><span class="line">                <span class="comment">// Only set property if it has not been set explicitely </span></span><br><span class="line">                <span class="keyword">if</span>(System.getProperty(HEADLESS_MODE_PROPERTY) == <span class="literal">null</span> &amp;&amp; shouldBeHeadless(args)) {</span><br><span class="line">                    System.setProperty(HEADLESS_MODE_PROPERTY, <span class="string">"true"</span>);</span><br><span class="line">                }</span><br><span class="line">                Class&lt;?&gt; initialClass = loader.loadClass(<span class="string">"org.apache.jmeter.JMeter"</span>);<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                <span class="type">Object</span> <span class="variable">instance</span> <span class="operator">=</span> initialClass.getDeclaredConstructor().newInstance();</span><br><span class="line">                <span class="type">Method</span> <span class="variable">startup</span> <span class="operator">=</span> initialClass.getMethod(<span class="string">"start"</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[] { <span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">0</span>].getClass() });<span class="comment">// $NON-NLS-1$</span></span><br><span class="line">                startup.invoke(instance, <span class="keyword">new</span> <span class="title class_">Object</span>[] { args });</span><br><span class="line">            } <span class="keyword">catch</span>(Throwable e){ <span class="comment">// NOSONAR We want to log home directory in case of exception</span></span><br><span class="line">                e.printStackTrace(); <span class="comment">// NOSONAR No logger at this step</span></span><br><span class="line">                System.err.println(<span class="string">"JMeter home directory was detected as: "</span>+JMETER_INSTALLATION_DIRECTORY); <span class="comment">// NOSONAR Intentional System.err use</span></span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
+
+<ol>
+<li>先判断一下<code>EXCEPTIONS_IN_INIT</code> 是否为空，如果不为空就表示静态初始化有异常，直接退出进程并打印错误信息</li>
+<li>初始化一些基本的日志配置</li>
+<li>用刚才初始化的 <code>classloader</code> 加载类 <code>org.apache.jmeter.JMeter</code> 然后通过 java 反射的方式来调用 <code>org.apache.jmeter.JMeter</code> 的 <code>start</code> 方法，正式完成 JMeter 的启动</li>
+</ol>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/05/jmeter-new-driver/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;text=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;is_video=false&amp;description=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JMeter 源码解读 [3] - 程序入口 NewDriver&amp;body=Check out this article: http://markshao.github.io/2019/03/05/jmeter-new-driver/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;title=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;name=JMeter 源码解读 [3] - 程序入口 NewDriver&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/05/jmeter-new-driver/&amp;t=JMeter 源码解读 [3] - 程序入口 NewDriver"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+        var disqus_shortname = 'zaibaba';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>

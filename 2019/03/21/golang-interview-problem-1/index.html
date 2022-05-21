@@ -1,0 +1,390 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x4E00;&amp;#x76F4;&amp;#x5728;&amp;#x5B66;&amp;#x4E60; Golang ,&amp;#x6B63;&amp;#x597D;&amp;#x4ECA;&amp;#x5929;&amp;#x9047;&amp;#x5230;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E03;&amp;#x725B;&amp;#x7684;&amp;#x5019;&amp;#x9009;&amp;#x4EBA;&amp;#xFF0C;&amp;#x5C31;&amp;#x987A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一次用 Golang 出面试题小记">
+<meta property="og:url" content="http://markshao.github.io/2019/03/21/golang-interview-problem-1/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x4E00;&amp;#x76F4;&amp;#x5728;&amp;#x5B66;&amp;#x4E60; Golang ,&amp;#x6B63;&amp;#x597D;&amp;#x4ECA;&amp;#x5929;&amp;#x9047;&amp;#x5230;&amp;#x4E00;&amp;#x4E2A;&amp;#x4E03;&amp;#x725B;&amp;#x7684;&amp;#x5019;&amp;#x9009;&amp;#x4EBA;&amp;#xFF0C;&amp;#x5C31;&amp;#x987A">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-21T06:38:06.000Z">
+<meta property="article:modified_time" content="2022-05-18T08:55:05.890Z">
+<meta property="article:author" content="妞爸爸">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>第一次用 Golang 出面试题小记</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/04/07/yurenjie-macau-youji/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/03/17/golang-channel-deadlock/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/21/golang-interview-problem-1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;text=第一次用 Golang 出面试题小记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;is_video=false&amp;description=第一次用 Golang 出面试题小记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=第一次用 Golang 出面试题小记&amp;body=Check out this article: http://markshao.github.io/2019/03/21/golang-interview-problem-1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;name=第一次用 Golang 出面试题小记&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;t=第一次用 Golang 出面试题小记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%80%83%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">考题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Goroutine-%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">Goroutine 代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">解释一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E5%92%8C%E6%94%B9%E8%BF%9B"><span class="toc-number">4.</span> <span class="toc-text">问题排查和改进</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#deadlock-bug-fix"><span class="toc-number">4.1.</span> <span class="toc-text">deadlock bug fix</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sync-WaitGroup"><span class="toc-number">4.2.</span> <span class="toc-text">sync.WaitGroup</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        第一次用 Golang 出面试题小记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-21T06:38:06.000Z" itemprop="datePublished">2019-03-21</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/golang/">golang</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近一直在学习 <code>Golang</code> ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 <code>Golang</code> 写，在他写的过程中我担心自己没法给他 review code （我也是个新手），就在自己的电脑上尝试了一把，rush 的比较快，但是还是遇到了 <code>docklock</code>的问题，在这里记录一下</p>
+<h3 id="考题"><a href="#考题" class="headerlink" title="考题"></a>考题</h3><p>用两个<code>goroutine</code>分别打印奇数和偶数的方式，输出1~10</p>
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><p>这个就是考核一下线程切换的，在<code>java</code>基本就是靠<code>object.wait</code> 和 <code>object.notifyAll</code>来实现，不够用<code>Golang</code>的channel 感受上会不太一样</p>
+<p>这个题目的关键点有3个</p>
+<ol>
+<li>确保奇数的<code>goroutine</code>是一定在偶数之前运行的</li>
+<li>奇数和偶数的交替输出</li>
+<li>程序正常退出</li>
+</ol>
+<p>想法上就是弄4个<code>channel</code></p>
+<ol>
+<li><code>startChan</code> 负责保证奇数一定先开始</li>
+<li><code>notifyEven</code>和 <code>notifyOdd</code> 用来做线程切换</li>
+<li><code>done</code> 用来做任务退出</li>
+</ol>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line">startChan := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">notifyEven := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">1</span>)</span><br><span class="line">notifyOdd := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">1</span>)</span><br><span class="line">done := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>buffer 的设计主要是<code>done</code>, 因为有2个<code>goroutine</code>, 防止在写入的时候block，给了2的buffer</p>
+<hr>
+<h3 id="Goroutine-代码"><a href="#Goroutine-代码" class="headerlink" title="Goroutine 代码"></a>Goroutine 代码</h3><p>####奇数代码</p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> {</span><br><span class="line">		<span class="comment">// pending on startChan</span></span><br><span class="line">		&lt;-startChan</span><br><span class="line">		<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">10</span>; i += <span class="number">2</span> {</span><br><span class="line">			fmt.Println(i)</span><br><span class="line">			notifyEven &lt;- <span class="number">1</span></span><br><span class="line">			&lt;-notifyOdd</span><br><span class="line">		}</span><br><span class="line">		</span><br><span class="line">		done &lt;- <span class="number">1</span></span><br><span class="line">	}()</span><br></pre></td></tr></tbody></table></figure>
+
+<p>####偶数代码</p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> {</span><br><span class="line">		<span class="comment">// pending on startChan</span></span><br><span class="line">		&lt;-notifyEven</span><br><span class="line">		<span class="keyword">for</span> i := <span class="number">2</span>; i &lt;= <span class="number">10</span>; i += <span class="number">2</span> {</span><br><span class="line">			fmt.Println(i)</span><br><span class="line">			notifyOdd &lt;- <span class="number">1</span></span><br><span class="line">			&lt;-notifyEven</span><br><span class="line">		}</span><br><span class="line">		done &lt;- <span class="number">1</span></span><br><span class="line">	}()</span><br></pre></td></tr></tbody></table></figure>
+
+<p>####主函数代码</p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line">startChan &lt;- <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i:=<span class="number">0</span>; i&lt;<span class="number">2</span>; i++ {</span><br><span class="line">  &lt;-done</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="解释一下"><a href="#解释一下" class="headerlink" title="解释一下"></a>解释一下</h4><ol>
+<li>奇数线程pending 在<code>&lt;-startChan</code>上，等主线程<code>startChan &lt;- 1</code>来唤醒</li>
+<li>奇数偶数之间互现唤醒和沉睡，做完全部工作后，调用<code>done &lt;- 1</code></li>
+<li>主线程 block 在 <code>&lt;-done</code>上，等所有工作线程做完了，主线程组再推出</li>
+</ol>
+<p>一切看似很快就写完了，但是一运行，还是遇到了<code>deadlock</code>问题</p>
+<hr>
+<h3 id="问题排查和改进"><a href="#问题排查和改进" class="headerlink" title="问题排查和改进"></a>问题排查和改进</h3><h4 id="deadlock-bug-fix"><a href="#deadlock-bug-fix" class="headerlink" title="deadlock bug fix"></a>deadlock bug fix</h4><p>怎么会<code>deadlock</code>呢，想了一下，哦，原来奇数再打印了9以后就推出了，但是这个时候偶数还block在<code>&lt;-notifyEven</code>上，所以就死锁了饿，Fix 非常简单，退出的时候通过<code>notifyEven &lt;- 1</code>把偶数唤醒就好了</p>
+<h4 id="sync-WaitGroup"><a href="#sync-WaitGroup" class="headerlink" title="sync.WaitGroup"></a>sync.WaitGroup</h4><p><code>done</code> 这个事情看起来就是以前 java 里面的<code>join</code>在做的事情，这种common的事情还要自己写，太low了，查了一下原来golang是有一个<code>sync</code>库做类似的事情，用<code>waitGroup</code>替换<code>done</code>就好了，最后贴一下现在的代码</p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"> startChan := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">notifyEven := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">1</span>)</span><br><span class="line">notifyOdd := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line"><span class="comment">//done := make(chan int, 2)</span></span><br><span class="line">wg.Add(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> {</span><br><span class="line">	<span class="comment">// pending on startChan</span></span><br><span class="line">	&lt;-startChan</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">10</span>; i += <span class="number">2</span> {</span><br><span class="line">		fmt.Println(i)</span><br><span class="line">		notifyEven &lt;- <span class="number">1</span></span><br><span class="line">		&lt;-notifyOdd</span><br><span class="line">	}</span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	notifyEven &lt;- <span class="number">1</span></span><br><span class="line">	<span class="comment">//done &lt;- 1</span></span><br><span class="line">	wg.Done()</span><br><span class="line">}()</span><br><span class="line"></span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> {</span><br><span class="line">	<span class="comment">// pending on startChan</span></span><br><span class="line">	&lt;-notifyEven</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">2</span>; i &lt;= <span class="number">10</span>; i += <span class="number">2</span> {</span><br><span class="line">		fmt.Println(i)</span><br><span class="line">		notifyOdd &lt;- <span class="number">1</span></span><br><span class="line">		&lt;-notifyEven</span><br><span class="line">	}</span><br><span class="line">	<span class="comment">//done &lt;- 1</span></span><br><span class="line">	wg.Done()</span><br><span class="line">}()</span><br><span class="line"></span><br><span class="line">startChan &lt;- <span class="number">1</span></span><br><span class="line"></span><br><span class="line">wg.Wait()</span><br><span class="line">fmt.Println(<span class="string">"done test"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此刻我想说一句，go写并发真有趣</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%80%83%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">考题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Goroutine-%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">Goroutine 代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%E4%B8%80%E4%B8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">解释一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E5%92%8C%E6%94%B9%E8%BF%9B"><span class="toc-number">4.</span> <span class="toc-text">问题排查和改进</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#deadlock-bug-fix"><span class="toc-number">4.1.</span> <span class="toc-text">deadlock bug fix</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sync-WaitGroup"><span class="toc-number">4.2.</span> <span class="toc-text">sync.WaitGroup</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/03/21/golang-interview-problem-1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;text=第一次用 Golang 出面试题小记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;is_video=false&amp;description=第一次用 Golang 出面试题小记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=第一次用 Golang 出面试题小记&amp;body=Check out this article: http://markshao.github.io/2019/03/21/golang-interview-problem-1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;title=第一次用 Golang 出面试题小记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;name=第一次用 Golang 出面试题小记&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/03/21/golang-interview-problem-1/&amp;t=第一次用 Golang 出面试题小记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+        var disqus_shortname = 'zaibaba';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>

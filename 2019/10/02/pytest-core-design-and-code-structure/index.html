@@ -1,0 +1,418 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="&amp;#x4EE3;&amp;#x7801;&amp;#x7ED3;&amp;#x6784;pluggy &amp;#x7684;&amp;#x6838;&amp;#x5FC3;&amp;#x4EE3;&amp;#x7801;&amp;#x975E;&amp;#x5E38;&amp;#x7B80;&amp;#x4ECB;&amp;#xFF0C;&amp;#x628A; repo &amp;#x514B;&amp;#x9686;&amp;#x5230;&amp;#x672C;&amp;#x5730;&amp;#x76EE;&amp;#x5F55;&amp;#x540E;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构">
+<meta property="og:url" content="http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="&amp;#x4EE3;&amp;#x7801;&amp;#x7ED3;&amp;#x6784;pluggy &amp;#x7684;&amp;#x6838;&amp;#x5FC3;&amp;#x4EE3;&amp;#x7801;&amp;#x975E;&amp;#x5E38;&amp;#x7B80;&amp;#x4ECB;&amp;#xFF0C;&amp;#x628A; repo &amp;#x514B;&amp;#x9686;&amp;#x5230;&amp;#x672C;&amp;#x5730;&amp;#x76EE;&amp;#x5F55;&amp;#x540E;&amp;#x">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-02T02:04:28.000Z">
+<meta property="article:modified_time" content="2022-05-18T08:55:05.893Z">
+<meta property="article:author" content="妞爸爸">
+<meta property="article:tag" content="pytest">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2019/10/03/register-pluggy/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2019/10/01/pluggy-guideline/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;text=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;is_video=false&amp;description=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构&amp;body=Check out this article: http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;name=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;t=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">代码结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">核心设计理念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pluggy-%E6%98%AF%E6%80%8E%E4%B9%88%E7%9F%A5%E9%81%93-Spec-%E9%87%8C%E9%9D%A2%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95%E6%98%AF%E5%AE%9A%E4%B9%89%E7%9A%84-hook-%EF%BC%9F"><span class="toc-number">2.1.</span> <span class="toc-text">pluggy 是怎么知道 Spec 里面哪些方法是定义的 hook ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pluggy-%E6%98%AF%E6%80%8E%E4%B9%88%E6%8A%8A-Plugin-%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%92%8C-hook-%E5%81%9A%E5%85%B3%E8%81%94%E7%9A%84"><span class="toc-number">2.2.</span> <span class="toc-text">pluggy 是怎么把 Plugin 的具体实现和 hook 做关联的 ?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E8%B0%83%E7%94%A8%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8Cpm-hook-%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%9C%80%E7%BB%88%E7%9A%84-plugin-%E8%B0%83%E7%94%A8%E7%9A%84"><span class="toc-number">2.3.</span> <span class="toc-text">实际调用的时候，pm.hook 是个什么, 如何实现最终的 plugin 调用的</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-10-02T02:04:28.000Z" itemprop="datePublished">2019-10-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">pytest 源码解读</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/pytest/" rel="tag">pytest</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h1><p><code>pluggy</code> 的核心代码非常简介，把 <a target="_blank" rel="noopener" href="https://github.com/pytest-dev/pluggy">repo</a> 克隆到本地目录后，它的核心代码就是在 <code>src</code>目录下的4个文件</p>
+<ul>
+<li><code>_tracing.py</code> - 调试作用，把 hookspec 和 plugin 调用链路的分析打印出来，一般不开启</li>
+<li><code>callers.py </code> - 主要是 <code>_multicall</code> 这个方法，用来实现对于 plugin 的调用逻辑</li>
+<li><code>hooks.py</code> -  核心是 <code>HookspeckMarker</code> 和 <code>HookimplMarker</code>, 用来装饰 hook 和 plugin 的方法</li>
+<li><code>manager.py</code> - <code>PluginManager</code>  是整个 pluggy 的核心类，负责 hook 和 plugin 的管理和核心调用逻辑</li>
+</ul>
+<h1 id="核心设计理念"><a href="#核心设计理念" class="headerlink" title="核心设计理念"></a>核心设计理念</h1><p>整个 <code>pluggy</code> 的核心逻辑就是这么几行代码</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">pm = PluginManager(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">pm.add_hookspecs(HookSpec)</span><br><span class="line">pm.register(HookImpl1())</span><br><span class="line">pm.register(HookImpl2())</span><br><span class="line"><span class="built_in">print</span>(pm.hook.calculate(a=<span class="number">1</span>, b=<span class="number">2</span>))</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>创建一个 <code>PluginManager</code> 对象</li>
+<li>调用 <code>add_hookspecs</code>，注册一个新的 hook object</li>
+<li>调用 <code>register</code> 注册一个新的 plugin object</li>
+<li>通过 <code>pm.hook.calculate</code> 来实现对 plugin 的调用</li>
+</ul>
+<p>这里就有几个核心设计的问题，通过解答这些问题可以帮助我们对于整个 <code>pluggy</code>的核心设计原理有进一步的了解</p>
+<ol>
+<li><p><code>pluggy</code> 是怎么知道 Spec 里面哪些方法是定义的 hook ？</p>
+</li>
+<li><p><code>pluggy</code> 是怎么把 Plugin 的具体实现和 hook 做关联的</p>
+</li>
+<li><p>实际调用的时候，<code>pm.hook</code> 是个什么, 如何实现最终的 plugin 调用的</p>
+</li>
+</ol>
+<h2 id="pluggy-是怎么知道-Spec-里面哪些方法是定义的-hook-？"><a href="#pluggy-是怎么知道-Spec-里面哪些方法是定义的-hook-？" class="headerlink" title="pluggy 是怎么知道 Spec 里面哪些方法是定义的 hook ？"></a><code>pluggy</code> 是怎么知道 Spec 里面哪些方法是定义的 hook ？</h2><p>这个就要全靠 <code>HookspecMarker</code> 和 <code>HookimplMarker</code> 这两个装饰器了，因为两者的实现逻辑类似，这里就只解释一下<code>HookspecMarker</code>, 我们先看上篇博文的demo中，我们一开始就定义了2个装饰器，并用他们来注释了 hook的方法</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">spec = HookspecMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line">impl = HookimplMarker(<span class="string">"pluggy_demo_1"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HookSpec</span>:</span><br><span class="line"><span class="meta">    @spec(<span class="params">firstresult=<span class="literal">True</span></span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate</span>(<span class="params">self, a, b</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里<code>HookspecMarker</code>是一个基于class实现的装饰器，我们看一下代码里它的具体实现逻辑 , <code>__call__</code>方法，</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params"></span></span><br><span class="line"><span class="params">    self, function=<span class="literal">None</span>, firstresult=<span class="literal">False</span>, historic=<span class="literal">False</span>, warn_on_impl=<span class="literal">None</span></span></span><br><span class="line"><span class="params"></span>):</span><br><span class="line">    <span class="string">""" if passed a function, directly sets attributes on the function</span></span><br><span class="line"><span class="string">    which will make it discoverable to add_hookspecs().  If passed no</span></span><br><span class="line"><span class="string">    function, returns a decorator which can be applied to a function</span></span><br><span class="line"><span class="string">    later using the attributes supplied.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    If firstresult is True the 1:N hook call (N being the number of registered</span></span><br><span class="line"><span class="string">    hook implementation functions) will stop at I&lt;=N when the I'th function</span></span><br><span class="line"><span class="string">    returns a non-None result.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    If historic is True calls to a hook will be memorized and replayed</span></span><br><span class="line"><span class="string">    on later registered plugins.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setattr_hookspec_opts</span>(<span class="params">func</span>):</span><br><span class="line">        <span class="keyword">if</span> historic <span class="keyword">and</span> firstresult:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"cannot have a historic firstresult hook"</span>)</span><br><span class="line">        <span class="built_in">setattr</span>(</span><br><span class="line">            func,</span><br><span class="line">            self.project_name + <span class="string">"_spec"</span>,</span><br><span class="line">            <span class="built_in">dict</span>(</span><br><span class="line">                firstresult=firstresult,</span><br><span class="line">                historic=historic,</span><br><span class="line">                warn_on_impl=warn_on_impl,</span><br><span class="line">            ),</span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">return</span> func</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> function <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span> setattr_hookspec_opts(function)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> setattr_hookspec_opts</span><br></pre></td></tr></tbody></table></figure>
+
+<p>原来主要的功能就是给被装饰的函数增加一个特别的属性, 属性的名字是 <code>Project_name + _spec</code>, 属性的value 就是装饰器的参数取值，</p>
+<p>这样在<code>PluginManger</code>的 <code>add_hookspecs</code>函数的逻辑中，我们就可以看到通过遍历对象的所以属性，找到含有这这个特殊的attribute 的方法就好了</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> <span class="built_in">dir</span>(module_or_class):</span><br><span class="line">    spec_opts = self.parse_hookspec_opts(module_or_class, name)</span><br><span class="line">    <span class="keyword">if</span> spec_opts <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br></pre></td></tr></tbody></table></figure>
+
+<p>当然这里就有一个前提，全局的project_name 必须是一致的且唯一，因为这个key是拼出来的，如果不一致就找不到 对应的 hook 和 impl 定义了</p>
+<h2 id="pluggy-是怎么把-Plugin-的具体实现和-hook-做关联的"><a href="#pluggy-是怎么把-Plugin-的具体实现和-hook-做关联的" class="headerlink" title="pluggy 是怎么把 Plugin 的具体实现和 hook 做关联的 ?"></a><code>pluggy</code> 是怎么把 Plugin 的具体实现和 hook 做关联的 ?</h2><p>首先我们先看一下 <code>pm.hook</code>, 这个 hook 是个什么东西，我们在 <code>PluginManager</code> 的构造函数看到了<code>hook</code>的定义</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">self.hook = _HookRelay()</span><br></pre></td></tr></tbody></table></figure>
+
+<p>看了一下<code>_HookReplay</code> 的代码，只有一个类的定义，看起来就是一个<code>桩</code> ，这里可以猜测一下，当我们真实调用<code>pm.hook.calculate(a=1,b=2)</code> 的时候，实际的调用可能是这样的</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">getattr</span>(pm.hook, <span class="string">"calculate"</span>)(a=<span class="number">1</span>, b=<span class="number">2</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>为了印证我的猜测，我在 <code>PluginManager</code> 的 <code>register</code>方法这找到了这段逻辑</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> <span class="built_in">dir</span>(plugin):</span><br><span class="line">    hookimpl_opts = self.parse_hookimpl_opts(plugin, name)</span><br><span class="line">    <span class="keyword">if</span> hookimpl_opts <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        normalize_hookimpl_opts(hookimpl_opts)</span><br><span class="line">        method = <span class="built_in">getattr</span>(plugin, name)</span><br><span class="line">        hookimpl = HookImpl(plugin, plugin_name, method, hookimpl_opts)</span><br><span class="line">        hook = <span class="built_in">getattr</span>(self.hook, name, <span class="literal">None</span>)</span><br><span class="line">        <span class="keyword">if</span> hook <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            hook = _HookCaller(name, self._hookexec)</span><br><span class="line">            <span class="built_in">setattr</span>(self.hook, name, hook)</span><br><span class="line">        <span class="keyword">elif</span> hook.has_spec():</span><br><span class="line">            self._verify_hook(hook, hookimpl)</span><br><span class="line">            hook._maybe_apply_history(hookimpl)</span><br><span class="line">        hook._add_hookimpl(hookimpl)</span><br><span class="line">        hookcallers.append(hook)</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>遍历 plugin 对象的所有属性（method）, 通过<code> self.parse_hookimpl_opts</code>这个方法找到含有特殊 attribute 的方法，就是被 <code>impl</code>　装饰器装饰过的方法</li>
+<li>然后再把一个<code>_HookCaller</code>的对象添加到<code>hook</code>对象中, <code>setattr(self.hook, name, hook)</code>, 所以看起来真实的调用是 <code>_HookCaller(a=1, b=2)</code>,　具体我们下次再分析</li>
+<li>如何实现<code>1:N</code>的调用关系呢，实际上一个hook 可以添加多个 <code>hookimpl</code>, 看这行代码就清楚了，它是在找到了 <code>hook</code> 绑定后调用的 <code>hook._add_hookimpl(hookimpl)</code></li>
+</ul>
+<h2 id="实际调用的时候，pm-hook-是个什么-如何实现最终的-plugin-调用的"><a href="#实际调用的时候，pm-hook-是个什么-如何实现最终的-plugin-调用的" class="headerlink" title="实际调用的时候，pm.hook 是个什么, 如何实现最终的 plugin 调用的"></a>实际调用的时候，<code>pm.hook</code> 是个什么, 如何实现最终的 plugin 调用的</h2><p>前面说了实际上 <code>pm.hook.calculate</code>获取的是一个 <code>_HookCaller</code>对象，所以真实的是调用了它的<code>__call__</code>方法，我们简单看一下它的逻辑</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">    <span class="keyword">if</span> args:</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">"hook calling supports only keyword arguments"</span>)</span><br><span class="line">    <span class="keyword">assert</span> <span class="keyword">not</span> self.is_historic()</span><br><span class="line">    <span class="keyword">if</span> self.spec <span class="keyword">and</span> self.spec.argnames:</span><br><span class="line">        notincall = (</span><br><span class="line">            <span class="built_in">set</span>(self.spec.argnames) - <span class="built_in">set</span>([<span class="string">"__multicall__"</span>]) - <span class="built_in">set</span>(kwargs.keys())</span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">if</span> notincall:</span><br><span class="line">            warnings.warn(</span><br><span class="line">                <span class="string">"Argument(s) {} which are declared in the hookspec "</span></span><br><span class="line">                <span class="string">"can not be found in this hook call"</span>.<span class="built_in">format</span>(<span class="built_in">tuple</span>(notincall)),</span><br><span class="line">                stacklevel=<span class="number">2</span>,</span><br><span class="line">            )</span><br><span class="line">    <span class="keyword">return</span> self._hookexec(self, self.get_hookimpls(), kwargs)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>核心代码就是最后一行, <code>self._hookexec</code> ，把具体的<code>kwargs</code>传入，来调用实际的 plugin 实现，具体的这个 <code>self._hookexec</code>方法，是在构造<code>_HookCaller</code>的时候作为一个参数传入的，它的定义看起来也只是一个封装</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_hookexec</span>(<span class="params">self, hook, methods, kwargs</span>):</span><br><span class="line">    <span class="comment"># called from all hookcaller instances.</span></span><br><span class="line">    <span class="comment"># enable_tracing will set its own wrapping function at self._inner_hookexec</span></span><br><span class="line">    <span class="keyword">return</span> self._inner_hookexec(hook, methods, kwargs)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>真正的逻辑是 <code>PluginManger</code>构造时候封装的 <code>_multicall</code>函数，这个具体我们下次再分析它是如何实现的</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">self._inner_hookexec = <span class="keyword">lambda</span> hook, methods, kwargs: hook.multicall(</span><br><span class="line">            methods,</span><br><span class="line">            kwargs,</span><br><span class="line">            firstresult=hook.spec.opts.get(<span class="string">"firstresult"</span>) <span class="keyword">if</span> hook.spec <span class="keyword">else</span> <span class="literal">False</span>,</span><br><span class="line">        )</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到这里我们把<code>pluggy</code>主要的设计思路都介绍完了，后面会对于几个核心类的实现做进一步的分析，欢迎有兴趣的同学和我留言</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">代码结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">核心设计理念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pluggy-%E6%98%AF%E6%80%8E%E4%B9%88%E7%9F%A5%E9%81%93-Spec-%E9%87%8C%E9%9D%A2%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95%E6%98%AF%E5%AE%9A%E4%B9%89%E7%9A%84-hook-%EF%BC%9F"><span class="toc-number">2.1.</span> <span class="toc-text">pluggy 是怎么知道 Spec 里面哪些方法是定义的 hook ？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pluggy-%E6%98%AF%E6%80%8E%E4%B9%88%E6%8A%8A-Plugin-%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%92%8C-hook-%E5%81%9A%E5%85%B3%E8%81%94%E7%9A%84"><span class="toc-number">2.2.</span> <span class="toc-text">pluggy 是怎么把 Plugin 的具体实现和 hook 做关联的 ?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E8%B0%83%E7%94%A8%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8Cpm-hook-%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%9C%80%E7%BB%88%E7%9A%84-plugin-%E8%B0%83%E7%94%A8%E7%9A%84"><span class="toc-number">2.3.</span> <span class="toc-text">实际调用的时候，pm.hook 是个什么, 如何实现最终的 plugin 调用的</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;text=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;is_video=false&amp;description=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构&amp;body=Check out this article: http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;title=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;name=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/&amp;t=Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+        var disqus_shortname = 'zaibaba';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>
