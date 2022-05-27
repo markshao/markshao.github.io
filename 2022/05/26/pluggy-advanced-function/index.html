@@ -1,0 +1,373 @@
+<!DOCTYPE html><html lang="zh"><head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="description" content="&amp;#x5176;&amp;#x5B9E;&amp;#x672C;&amp;#x6765;&amp;#x60F3;&amp;#x4ECB;&amp;#x7ECD;&amp;#x4E0B; tryfirst , trylast  &amp;#x8FD9;&amp;#x51E0;&amp;#x4E2A;&amp;#x7279;&amp;#x6027;&amp;#x548C;&amp;#x5B9E;&amp;#x73B0;&amp;#x7684;&amp;#xFF0C;&amp;#x4E0D;&amp;#x8FC7;&amp;#x4ED4;&amp;#x7EC6;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytest 源码解读 [6] - pluggy 的插件执行顺序">
+<meta property="og:url" content="http://markshao.github.io/2022/05/26/pluggy-advanced-function/index.html">
+<meta property="og:site_name" content="小法@兵工厂">
+<meta property="og:description" content="&amp;#x5176;&amp;#x5B9E;&amp;#x672C;&amp;#x6765;&amp;#x60F3;&amp;#x4ECB;&amp;#x7ECD;&amp;#x4E0B; tryfirst , trylast  &amp;#x8FD9;&amp;#x51E0;&amp;#x4E2A;&amp;#x7279;&amp;#x6027;&amp;#x548C;&amp;#x5B9E;&amp;#x73B0;&amp;#x7684;&amp;#xFF0C;&amp;#x4E0D;&amp;#x8FC7;&amp;#x4ED4;&amp;#x7EC6;&amp;#x">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://markshao.github.io/2022/05/26/pluggy-advanced-function/sequence-drawio.png">
+<meta property="article:published_time" content="2022-05-26T13:35:47.000Z">
+<meta property="article:modified_time" content="2022-05-27T15:04:33.744Z">
+<meta property="article:author" content="妞爸爸">
+<meta property="article:tag" content="pytest">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://markshao.github.io/2022/05/26/pluggy-advanced-function/sequence-drawio.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Pytest 源码解读 [6] - pluggy 的插件执行顺序</title>
+    <!-- styles -->
+    
+
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/enable" title="小法@兵工厂" type="application/atom+xml">
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --><script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/07/05/leaky-bucket/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2022/05/26/pluggy-advanced-function/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;text=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;is_video=false&amp;description=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pytest 源码解读 [6] - pluggy 的插件执行顺序&amp;body=Check out this article: http://markshao.github.io/2022/05/26/pluggy-advanced-function/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;name=Pytest 源码解读 [6] - pluggy 的插件执行顺序&amp;description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;t=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-wrapper-%E7%B1%BB%E5%9E%8B%E7%9A%84-hook"><span class="toc-number">1.</span> <span class="toc-text">什么是 wrapper 类型的 hook</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">实现方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-historical-%E7%B1%BB%E5%9E%8B%E7%9A%84hook"><span class="toc-number">2.</span> <span class="toc-text">什么是 historical 类型的hook</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F-1"><span class="toc-number">2.1.</span> <span class="toc-text">实现方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E6%9D%A5%E7%9C%8B%E4%B8%8B-hook-%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">最后来看下 hook 执行顺序</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Pytest 源码解读 [6] - pluggy 的插件执行顺序
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">妞爸爸</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-05-26T13:35:47.000Z" itemprop="datePublished">2022-05-26</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">pytest 源码解读</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/pytest/" rel="tag">pytest</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>其实本来想介绍下 <code>tryfirst</code> , <code>trylast</code>  这几个特性和实现的，不过仔细看了下实现，发现 <code>pytest</code> 在插件的执行顺序上还有挺多巧妙的设计可以讲的。为了更好理解插件存储的顺序，我主要想介绍下下面几个部分</p>
+<ul>
+<li>什么是 wrapper 类型的 hook</li>
+<li>什么是 historical 类型的hook</li>
+<li>最后来看下 hook 执行顺序</li>
+</ul>
+<h2 id="什么是-wrapper-类型的-hook"><a href="#什么是-wrapper-类型的-hook" class="headerlink" title="什么是 wrapper 类型的 hook"></a>什么是 wrapper 类型的 hook</h2><p><code>hookwrapper=True</code>  的时候，就是申明了一个 <code>wrapper</code> 类型的 hook ，看这个例子就明白了</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hookimpl = HookImplMarker(<span class="string">"pluggy"</span>)</span><br><span class="line"></span><br><span class="line">hookimpl(hookwrapper=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hookfunc</span>(<span class="params">**kwargs</span>):</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">"before hook execution"</span>)</span><br><span class="line">	result = <span class="keyword">yield</span> <span class="comment"># get results from other normal hooks </span></span><br><span class="line">	<span class="built_in">print</span>(result.get_result())</span><br></pre></td></tr></tbody></table></figure>
+<p>一个 <code>wrapper</code> 类型的 hook，可以看作是其他类型的 hook的装饰器，它会先执行一段代码，然后通过 yield 切换协程。当其他 hook 都执行完毕后后，重新唤起当前协程，并拿到执行结果再完成剩下的指令。</p>
+<h3 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h3><p>它的实现其实也很简单直白，我们看下<code>_caller.py</code> 中的实现</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># part1</span></span><br><span class="line"><span class="keyword">if</span> hook_impl.hookwrapper:</span><br><span class="line">     <span class="keyword">try</span>:</span><br><span class="line">          <span class="comment"># If this cast is not valid, a type error is raised below,</span></span><br><span class="line">          <span class="comment"># which is the desired response.</span></span><br><span class="line">            res = hook_impl.function(*args)</span><br><span class="line">            gen = cast(Generator[<span class="literal">None</span>, _Result[<span class="built_in">object</span>], <span class="literal">None</span>], res)</span><br><span class="line">            <span class="built_in">next</span>(gen)  <span class="comment"># first yield</span></span><br><span class="line">            teardowns.append(gen)</span><br><span class="line">      <span class="keyword">except</span> StopIteration:</span><br><span class="line">            _raise_wrapfail(gen, <span class="string">"did not yield"</span>)</span><br><span class="line">            </span><br><span class="line">...</span><br><span class="line"><span class="comment"># part2</span></span><br><span class="line"><span class="comment"># run all wrapper post-yield blocks</span></span><br><span class="line">        <span class="keyword">for</span> gen <span class="keyword">in</span> <span class="built_in">reversed</span>(teardowns):</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                gen.send(outcome)</span><br><span class="line">                _raise_wrapfail(gen, <span class="string">"has second yield"</span>)</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> outcome.get_result()</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<p>先看 part1，本质就是先判断下这个 hook 是不是 wrapper 类型。如果是话就先通过 <code>.function</code> 创建一个协程，这个时候返回值 <code>res</code> 实际是一个协程，第二行的 <code>cast</code> 只是一个 <code>typing</code> 的语法，把这个对象专程一个协程类型的对象 <code>gen</code> 。所有只有在执行 <code>next(gen)</code> 的时候，我们才执行了 <code>wrapper</code> hook 中 yield 语句之前的那部分代码。再把这个协程放到一个 tearndown 的 list 里面去</p>
+<p>再看 part2 ，当我们执行完了所有的其他普通 hook 后，我们再通过遍历这个 teardown ，通过 <code>send</code> 语句，唤醒之前的协程，并把结果传递过去。我们看后面 <code>_raise_wrapfail</code> , 其实就是规定这个协程唤醒后就应该结束了 <code>raise StopIteration</code> ，所以如果执行到了这行代码，就会 raise expcetion</p>
+<h2 id="什么是-historical-类型的hook"><a href="#什么是-historical-类型的hook" class="headerlink" title="什么是 historical 类型的hook"></a>什么是 historical 类型的hook</h2><p><code>historical=True</code> 是 <code>HookspecMarker</code> 上的一个属性，所以它其实会影响到和这个 <code>hook</code> 相关的所有的 <code>HookImpl</code> 上。当我们通过特定的 <code>call_historic</code> 来进行 hook 调用的时候，它带记忆能力，会记录下这次执行的历史。当下次有新的 <code>HookImpl</code> 注册的时候，它会自动回放过去的调用记录。</p>
+<h3 id="实现方式-1"><a href="#实现方式-1" class="headerlink" title="实现方式"></a>实现方式</h3><p>它的实现也是比较简单的，我们先看下 <code>_hooks.py</code> 的 <code>call_historic</code> 实现</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self._call_history.append((kwargs, result_callback))</span><br></pre></td></tr></tbody></table></figure>
+<p>它其实是记录了当时调用 hook 的参数，这样就可以用于后续的回放了。我们再来看 <code>_manager.py</code> 当我们注册新的 <code>HookImpl</code> 的时候会尝试去回放过去的<code>call_historic</code> 记录，为什么要用 maybe 呢，因为我也不确定之前有没有记录呀0</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hook._maybe_apply_history(hookimpl)</span><br></pre></td></tr></tbody></table></figure>
+<p>再看具体的实现, 就是把历史记录取出来，一一执行</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_maybe_apply_history</span>(<span class="params">self, method: <span class="string">"HookImpl"</span></span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="string">"""Apply call history to a new hookimpl if it is marked as historic."""</span></span><br><span class="line">    <span class="keyword">if</span> self.is_historic():</span><br><span class="line">        <span class="keyword">assert</span> self._call_history <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">for</span> kwargs, result_callback <span class="keyword">in</span> self._call_history:</span><br><span class="line">            res = self._hookexec(self.name, [method], kwargs, <span class="literal">False</span>)</span><br><span class="line">            <span class="keyword">if</span> res <span class="keyword">and</span> result_callback <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                <span class="comment"># <span class="doctag">XXX:</span> remember firstresult isn't compat with historic</span></span><br><span class="line">                <span class="keyword">assert</span> <span class="built_in">isinstance</span>(res, <span class="built_in">list</span>)</span><br><span class="line">                result_callback(res[<span class="number">0</span>])</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="最后来看下-hook-执行顺序"><a href="#最后来看下-hook-执行顺序" class="headerlink" title="最后来看下 hook 执行顺序"></a>最后来看下 hook 执行顺序</h2><p>前面介绍了2个不同的 hook 类型，一个是 historical ，另外一个是 wrapper，其实 historical 会特殊些，它需要通过特定的函数来触发。其实在 <code>HookImplMarker</code> 的实现中还有2个 option ，分别是 <code>tryfirst</code> 和 <code>trylast</code> ，分别用来控制执行的顺序在前还是在后 。 我们知道 pluggy 的 hook 实现本质是在内部实现了一个 <code>1:N</code> 的关系，但因为这些特殊的 hook 属性，实际上在我们通过 register 插入 hook 的时候，pluggy 会帮我们维持一个特定的顺序。我们先看下 <code>_hooks.py</code> 中 <code>_add_hookimpl</code> 的实现</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_add_hookimpl</span>(<span class="params">self, hookimpl: <span class="string">"HookImpl"</span></span>) -&gt; <span class="literal">None</span>:</span><br><span class="line">    <span class="string">"""Add an implementation to the callback chain."""</span></span><br><span class="line">    <span class="keyword">for</span> i, method <span class="keyword">in</span> <span class="built_in">enumerate</span>(self._hookimpls):</span><br><span class="line">        <span class="keyword">if</span> method.hookwrapper:</span><br><span class="line">            splitpoint = i</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        splitpoint = <span class="built_in">len</span>(self._hookimpls)</span><br><span class="line">    <span class="keyword">if</span> hookimpl.hookwrapper:</span><br><span class="line">        start, end = splitpoint, <span class="built_in">len</span>(self._hookimpls)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        start, end = <span class="number">0</span>, splitpoint</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> hookimpl.trylast:</span><br><span class="line">        self._hookimpls.insert(start, hookimpl)</span><br><span class="line">    <span class="keyword">elif</span> hookimpl.tryfirst:</span><br><span class="line">        self._hookimpls.insert(end, hookimpl)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># find last non-tryfirst method</span></span><br><span class="line">        i = end - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> i &gt;= start <span class="keyword">and</span> self._hookimpls[i].tryfirst:</span><br><span class="line">            i -= <span class="number">1</span></span><br><span class="line">        self._hookimpls.insert(i + <span class="number">1</span>, hookimpl)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>它的最终效果就是如图，无论你用什么样的顺序插入，最后都会变成类似这样</p>
+<p><img src="/2022/05/26/pluggy-advanced-function/sequence-drawio.png"></p>
+<p>前面说过，<code>hookwrapper</code> 会先于其他的 <code>hook</code> 先执行，所以放在整个 list 一边是很合理的，但为啥感觉顺序有点怪怪呢？你看到 <code>_callers.py</code> 的这里就豁然开朗了, 哈哈，人家直接用了一个 <code>reversed</code></p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_multicall</span>(<span class="params"></span></span><br><span class="line"><span class="params">    hook_name: <span class="built_in">str</span>,</span></span><br><span class="line"><span class="params">    hook_impls: <span class="type">Sequence</span>[<span class="string">"HookImpl"</span>],</span></span><br><span class="line"><span class="params">    caller_kwargs: Mapping[<span class="built_in">str</span>, <span class="built_in">object</span>],</span></span><br><span class="line"><span class="params">    firstresult: <span class="built_in">bool</span>,</span></span><br><span class="line"><span class="params"></span>) -&gt; <span class="type">Union</span>[<span class="built_in">object</span>, <span class="type">List</span>[<span class="built_in">object</span>]]:</span><br><span class="line">    <span class="string">"""Execute a call into multiple python functions/methods and return the</span></span><br><span class="line"><span class="string">    result(s).</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    ``caller_kwargs`` comes from _HookCaller.__call__().</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    __tracebackhide__ = <span class="literal">True</span></span><br><span class="line">    results: <span class="type">List</span>[<span class="built_in">object</span>] = []</span><br><span class="line">    excinfo = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">try</span>:  <span class="comment"># run impl and wrapper setup functions in a loop</span></span><br><span class="line">        teardowns = []</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">for</span> hook_impl <span class="keyword">in</span> <span class="built_in">reversed</span>(hook_impls):</span><br></pre></td></tr></tbody></table></figure>
+
+<p>好了，关于 <code>pluggy</code> 整体的介绍就到这里了，本来还想介绍下 <code>tracing</code> 但看了下意义不大，后面就重点开始 <code>pytest</code> 实现的分析了</p>
+
+  </div>
+</article>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<div id="vcomments"></div>
+    <script>
+        new Valine({
+            el: '#vcomments',
+            appId: 'w0t9aXGQs14nHgvoj3BsuKaw-gzGzoHsz',
+            appKey: 'KPQqimAyUYPM0wSBJySvAW7F'
+        })
+    </script>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-wrapper-%E7%B1%BB%E5%9E%8B%E7%9A%84-hook"><span class="toc-number">1.</span> <span class="toc-text">什么是 wrapper 类型的 hook</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">实现方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-historical-%E7%B1%BB%E5%9E%8B%E7%9A%84hook"><span class="toc-number">2.</span> <span class="toc-text">什么是 historical 类型的hook</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F-1"><span class="toc-number">2.1.</span> <span class="toc-text">实现方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E6%9D%A5%E7%9C%8B%E4%B8%8B-hook-%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">最后来看下 hook 执行顺序</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://markshao.github.io/2022/05/26/pluggy-advanced-function/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;text=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;is_video=false&amp;description=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pytest 源码解读 [6] - pluggy 的插件执行顺序&amp;body=Check out this article: http://markshao.github.io/2022/05/26/pluggy-advanced-function/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;title=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;name=Pytest 源码解读 [6] - pluggy 的插件执行顺序&amp;description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://markshao.github.io/2022/05/26/pluggy-advanced-function/&amp;t=Pytest 源码解读 [6] - pluggy 的插件执行顺序"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright ©
+    
+    
+    2013-2022
+    妞爸爸
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+  
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments --><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+<script type="text/javascript" src="{{ src }}">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?816b888dc28ee1eeda0dc5b6b8624c6c";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        ;
+
+  MathJax.Hub.Config({{ JSON.stringify(config) }});
+;
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script></body></html>
