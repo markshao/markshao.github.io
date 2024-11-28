@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>小法@兵工厂</title>
+  
+  <subtitle>记录工作生活中的点滴思考</subtitle>
+  <link href="http://markshao.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://markshao.github.io/"/>
+  <updated>2024-11-27T14:47:15.182Z</updated>
+  <id>http://markshao.github.io/</id>
+  
+  <author>
+    <name>妞爸爸</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Pytest 源码解读 [7] - PyTest on pluggy</title>
+    <link href="http://markshao.github.io/2022/06/04/pytest-hook-logic/"/>
+    <id>http://markshao.github.io/2022/06/04/pytest-hook-logic/</id>
+    <published>2022-06-04T13:47:28.000Z</published>
+    <updated>2024-11-27T14:47:15.182Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;之前花了很多篇幅来介绍 &lt;code&gt;pluggy&lt;/code&gt; 这个插件框架。核心原因就是因为其实 &lt;code&gt;pytest&lt;/code&gt; 是一个完全基于 &lt;code&gt;pluggy&lt;/code&gt; 开发的测试框架，这个也可以解释为什么说</summary>
+        
+      
+    
+    
+    
+    <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+    <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [6] - pluggy 的插件执行顺序</title>
+    <link href="http://markshao.github.io/2022/05/26/pluggy-advanced-function/"/>
+    <id>http://markshao.github.io/2022/05/26/pluggy-advanced-function/</id>
+    <published>2022-05-26T13:35:47.000Z</published>
+    <updated>2024-11-27T14:47:15.181Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;其实本来想介绍下 &lt;code&gt;tryfirst&lt;/code&gt; , &lt;code&gt;trylast&lt;/code&gt;  这几个特性和实现的，不过仔细看了下实现，发现 &lt;code&gt;pytest&lt;/code&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+    <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>分析一个 rate-limiter 漏桶算法的实现机制</title>
+    <link href="http://markshao.github.io/2021/07/05/leaky-bucket/"/>
+    <id>http://markshao.github.io/2021/07/05/leaky-bucket/</id>
+    <published>2021-07-05T14:15:11.000Z</published>
+    <updated>2024-11-27T14:47:15.180Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;服务治理的面试中常被问到，面对突发流量如何应对，通常都是回答限流或则降级。再追问一句限流算法有哪些，通常都是会说令牌桶或者漏桶算法。原理说说容易，但到了实现层面，大多是找一个现成的开源实现，例如 &lt;a</summary>
+        
+      
+    
+    
+    
+    
+    <category term="服务治理" scheme="http://markshao.github.io/tags/%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解 LSM 树: 用于多写场景下的数据库实现</title>
+    <link href="http://markshao.github.io/2021/06/25/lsm-tree/"/>
+    <id>http://markshao.github.io/2021/06/25/lsm-tree/</id>
+    <published>2021-06-25T14:32:00.000Z</published>
+    <updated>2024-11-27T14:47:15.175Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本文翻译自 “&lt;a href=&quot;https://yetanotherdevblog.com/dense-vs-sparse-indexes/&quot;&gt;What are sparse and dense indexes?</summary>
+        
+      
+    
+    
+    
+    <category term="存储小白" scheme="http://markshao.github.io/categories/%E5%AD%98%E5%82%A8%E5%B0%8F%E7%99%BD/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [5] - pytest 是如何测试 pytest 的</title>
+    <link href="http://markshao.github.io/2021/06/05/pytester/"/>
+    <id>http://markshao.github.io/2021/06/05/pytester/</id>
+    <published>2021-06-05T07:18:11.000Z</published>
+    <updated>2024-11-27T14:47:15.175Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;什么叫用 pytest 来测试 pytest 呢？其实就是构建一个 mini 的 pytest 集成测试环境。我们要对一个测试框架做端到端的测试，最基本的就是写一些测试用例，然后用测试框架来执行它们看是否符合预期。另外 pytest</summary>
+        
+      
+    
+    
+    
+    <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+    <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Blog 重生记</title>
+    <link href="http://markshao.github.io/2021/05/29/blog-renew-log/"/>
+    <id>http://markshao.github.io/2021/05/29/blog-renew-log/</id>
+    <published>2021-05-29T15:04:41.000Z</published>
+    <updated>2024-11-27T14:47:15.173Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;​	19年算是博客最高产的一年了，有些东西其实之前一直想写但是因为各种原因没有去落地 。19年因为出差比较多，每次回到酒店没啥事情干，就会拿出电脑写一点，日积月累也有几十篇内容了。有些工作算是完成了结尾，有些只是开了个头。没想到20年伴随着疫情一起的，我的懒癌又上身了</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [4] - pluggy &quot;_HookCall&quot; 调用链分析</title>
+    <link href="http://markshao.github.io/2019/10/05/hook-caller-logic/"/>
+    <id>http://markshao.github.io/2019/10/05/hook-caller-logic/</id>
+    <published>2019-10-05T09:13:32.000Z</published>
+    <updated>2024-11-27T14:47:15.173Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;我们知道&lt;code&gt;pm.hook.xxx(**kwargs)&lt;/code&gt;　，最后实际是调用了绑定的 &lt;code&gt;_HookCaller&lt;/code&gt;对象的&lt;code&gt;__call__&lt;/code&gt;方法，那么今天我们来看一下这个方法的逻辑是什么样的，废话少说，先上代码,</summary>
+        
+      
+    
+    
+    
+    <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+    <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [3] - [pluggy] plugin 注册逻辑分析</title>
+    <link href="http://markshao.github.io/2019/10/03/register-pluggy/"/>
+    <id>http://markshao.github.io/2019/10/03/register-pluggy/</id>
+    <published>2019-10-03T01:41:56.000Z</published>
+    <updated>2024-11-27T14:47:15.173Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天我们再仔细分析一下 &lt;code&gt;plugin&lt;/code&gt; 的注册逻辑，这里面包含了&lt;code&gt;pluggy&lt;/code&gt; 框架中的一些核心设计元素。代码在</summary>
+        
+      
+    
+    
+    
+    <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+    <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [2] - [pluggy] 核心设计理念和代码结构</title>
+    <link href="http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/"/>
+    <id>http://markshao.github.io/2019/10/02/pytest-core-design-and-code-structure/</id>
+    <published>2019-10-02T02:04:28.000Z</published>
+    <updated>2024-11-27T14:47:15.173Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;代码结构&quot;&gt;&lt;a href=&quot;#代码结构&quot; class=&quot;headerlink&quot; title=&quot;代码结构&quot;&gt;&lt;/a&gt;代码结构&lt;/h1&gt;&lt;p&gt;&lt;code&gt;pluggy&lt;/code&gt; 的核心代码非常简介，把 &lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+    <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [1] - [pluggy] 插件框架介绍</title>
+    <link href="http://markshao.github.io/2019/10/01/pluggy-guideline/"/>
+    <id>http://markshao.github.io/2019/10/01/pluggy-guideline/</id>
+    <published>2019-10-01T09:15:25.000Z</published>
+    <updated>2024-11-27T14:47:15.173Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+    <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pytest 源码解读 [0] - Kickoff 篇</title>
+    <link href="http://markshao.github.io/2019/08/10/pytest-source-analysis/"/>
+    <id>http://markshao.github.io/2019/08/10/pytest-source-analysis/</id>
+    <published>2019-08-10T13:31:41.000Z</published>
+    <updated>2024-11-27T14:47:15.173Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;Pytest-源码解读&quot;&gt;&lt;a href=&quot;#Pytest-源码解读&quot; class=&quot;headerlink&quot; title=&quot;Pytest 源码解读&quot;&gt;&lt;/a&gt;Pytest 源码解读&lt;/h3&gt;&lt;p&gt;之前定的目标，2019 年要完成</summary>
+        
+      
+    
+    
+    
+    <category term="pytest 源码解读" scheme="http://markshao.github.io/categories/pytest-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+    <category term="pytest" scheme="http://markshao.github.io/tags/pytest/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>愚人节澳门游记</title>
+    <link href="http://markshao.github.io/2019/04/07/yurenjie-macau-youji/"/>
+    <id>http://markshao.github.io/2019/04/07/yurenjie-macau-youji/</id>
+    <published>2019-04-07T12:52:01.000Z</published>
+    <updated>2024-11-27T14:47:15.171Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;借着媳妇儿给老丈人庆祝生日的机会，我也有幸跟着去了一次澳门，也算完成了港澳台观光计划的最后一块拼图。在这里要感谢媳妇儿的辛劳，在繁忙的工作之余还要负责整个旅行攻略的安排。这次的旅行主要是舒适游，毕竟是带着两位老人，所以也没有安排什么一大早的观光，基本就是在酒店吃吃喝喝，当然</summary>
+        
+      
+    
+    
+    
+    <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>第一次用 Golang 出面试题小记</title>
+    <link href="http://markshao.github.io/2019/03/21/golang-interview-problem-1/"/>
+    <id>http://markshao.github.io/2019/03/21/golang-interview-problem-1/</id>
+    <published>2019-03-21T06:38:06.000Z</published>
+    <updated>2024-11-27T14:47:15.171Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;最近一直在学习 &lt;code&gt;Golang&lt;/code&gt; ,正好今天遇到一个七牛的候选人，就顺带出了一个多线程的题目让他用 &lt;code&gt;Golang&lt;/code&gt; 写，在他写的过程中我担心自己没法给他 review code</summary>
+        
+      
+    
+    
+    
+    <category term="golang" scheme="http://markshao.github.io/categories/golang/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>golang channel 使用不当导致的 deadlock</title>
+    <link href="http://markshao.github.io/2019/03/17/golang-channel-deadlock/"/>
+    <id>http://markshao.github.io/2019/03/17/golang-channel-deadlock/</id>
+    <published>2019-03-17T13:57:40.000Z</published>
+    <updated>2024-11-27T14:47:15.171Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;最近开启了19年第二个重要任务，&lt;code&gt;Go Lang&lt;/code&gt;的学习，如果之前只是因为个人爱好的话，现在是因为&lt;code&gt;chaos monkey&lt;/code&gt;很多都是用&lt;code&gt;Go</summary>
+        
+      
+    
+    
+    
+    <category term="golang" scheme="http://markshao.github.io/categories/golang/"/>
+    
+    
+    <category term="goroutine" scheme="http://markshao.github.io/tags/goroutine/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JMeter 源码解读 [10] - 分布式核心类</title>
+    <link href="http://markshao.github.io/2019/03/12/distributed-code-analysis/"/>
+    <id>http://markshao.github.io/2019/03/12/distributed-code-analysis/</id>
+    <published>2019-03-12T14:11:38.000Z</published>
+    <updated>2024-11-27T14:47:15.171Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上次我们已经分析了一下&lt;code&gt;JMeter&lt;/code&gt;的分布式架构，今天我们来看一下其中相关的核心类是怎么工作的，我们还是先从Master 开始，Master 是用来接收用户控制的&lt;code&gt;JMeter&lt;/code&gt; Engine， 它接收 GUI 和</summary>
+        
+      
+    
+    
+    
+    <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JMeter 源码解读 [9] - 分布式架构</title>
+    <link href="http://markshao.github.io/2019/03/12/distributed-architecture/"/>
+    <id>http://markshao.github.io/2019/03/12/distributed-architecture/</id>
+    <published>2019-03-12T13:47:04.000Z</published>
+    <updated>2024-11-27T14:47:15.170Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;JMeter-分布式模式&quot;&gt;&lt;a href=&quot;#JMeter-分布式模式&quot; class=&quot;headerlink&quot; title=&quot;JMeter 分布式模式&quot;&gt;&lt;/a&gt;JMeter 分布式模式&lt;/h3&gt;&lt;p&gt;JMeter 除了单机模式外，还支持分布式的模式 (&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>macOS Mojave 上安装 python mysql module 遇到小坑</title>
+    <link href="http://markshao.github.io/2019/03/11/install-mysqldb/"/>
+    <id>http://markshao.github.io/2019/03/11/install-mysqldb/</id>
+    <published>2019-03-11T13:16:37.000Z</published>
+    <updated>2024-11-27T14:47:15.170Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;公司的一个项目需要安装&lt;code&gt;mysqlclient==1.3.12&lt;/code&gt;的模块，很久写&lt;code&gt;MySQL&lt;/code&gt; base 的应用了，而且之前2年基本都是在&lt;code&gt;ubuntu</summary>
+        
+      
+    
+    
+    
+    <category term="技术大杂烩" scheme="http://markshao.github.io/categories/%E6%8A%80%E6%9C%AF%E5%A4%A7%E6%9D%82%E7%83%A9/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JMeter 源码解读 [8] - BeanShell Server</title>
+    <link href="http://markshao.github.io/2019/03/10/beanshell-server/"/>
+    <id>http://markshao.github.io/2019/03/10/beanshell-server/</id>
+    <published>2019-03-10T13:33:17.000Z</published>
+    <updated>2024-11-27T14:47:15.170Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上一次在分析 JMeter 核心类的时候 (&lt;a href=&quot;http://markshao.github.io/2019/03/07/jmeter/&quot;&gt;http://markshao.github.io/2019/03/07/jmeter/&lt;/a&gt;)</summary>
+        
+      
+    
+    
+    
+    <category term="JMeter 源码解读" scheme="http://markshao.github.io/categories/JMeter-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>&lt;绿皮书&gt; 观后小感</title>
+    <link href="http://markshao.github.io/2019/03/09/green-cover-book/"/>
+    <id>http://markshao.github.io/2019/03/09/green-cover-book/</id>
+    <published>2019-03-09T09:26:10.000Z</published>
+    <updated>2024-11-27T14:47:15.170Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;很久没有看文艺片了，在我这个平时很少看电影人的心里，没有打打杀杀的就可以称之为文艺片了。趁着奥斯卡的余温还在，抓紧时间去家里附近的电影院追了一下&amp;lt;绿皮书&amp;gt;，很多朋友说最后雪利在酒吧里谈钢琴的时候他们都流泪了，我虽然没有像当年看&amp;lt;集结号&amp;gt;那样感动到哭，</summary>
+        
+      
+    
+    
+    
+    <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
+    
+    
+    <category term="电影" scheme="http://markshao.github.io/tags/%E7%94%B5%E5%BD%B1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019 生活 OKR</title>
+    <link href="http://markshao.github.io/2019/03/08/2019-objectives/"/>
+    <id>http://markshao.github.io/2019/03/08/2019-objectives/</id>
+    <published>2019-03-08T14:11:42.000Z</published>
+    <updated>2024-11-27T14:47:15.166Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这周在北京和老板对齐了接下来双月的 okr ，突然发现 2019年已经过去了快1&amp;#x2F;4了。第一次尝试给自己全年的工作和生活定一个目标，记录在博客也是希望可以鞭策和督促自己，等年底的时候再来看看完成的怎么样。&lt;/p&gt;
+&lt;h3 id=&quot;技术&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="生活杂谈" scheme="http://markshao.github.io/categories/%E7%94%9F%E6%B4%BB%E6%9D%82%E8%B0%88/"/>
+    
+    
+  </entry>
+  
+</feed>
